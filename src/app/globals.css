@@ -1,26 +1,124 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #151C2D;
+  --foreground-dark: #212838;
+  --background: #F5F7FA;
+  --main-background: #F9F9FF;
+  --main-green: #94A3B8;
+  --green: #15803D;
+  --off-green: #12D800;
+  --light-green: #E6FAE5;
+  --dark-green: #10B981;
+  --main-black: #141B2C;
+  --main-gray: #565E74;
+  --gray: #64748B;
+  --light-gray: #F1F5F9;
+  --orange: #FF6A00;
+  --light-orange: #FFEDD5;
+  --main-orange: #F97316;
+  --red: #FF0000;
+  --main-red: #DC2626;
+  --off-white: #E2E8F0;
+  --light-white: #F9FAFB;
+  --dark-white: #F8FAFC;
+  --blue: #2563EB;
+  --light-blue: #DBEAFE;
+  --yellow: #FFBB00;
+  --light-yellow: #FFF8E5;
+  --border-white: #EEF2F6;
+  --siderbar-background: #01709C;
 }
 
 @theme inline {
-  --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-foreground-dark: var(--foreground-dark);
+  --color-background: var(--background);
+  --color-main-background: var(--main-background);
+  --color-green: var(--green);
+  --color-off-green: var(--off-green);
+  --color-main-green: var(--main-green);
+  --color-light-green: var(--light-green);
+  --color-dark-green: var(--dark-green);
+  --color-main-black: var(--main-black);
+  --color-main-gray: var(--main-gray);
+  --color-gray: var(--gray);
+  --color-light-gray: var(--light-gray);
+  --color-orange: var(--orange);
+  --color-light-orange: var(--light-orange);
+  --color-main-orange: var(--main-orange);
+  --color-red: var(--red);
+  --color-main-red: var(--main-red);
+  --color-off-white: var(--off-white);
+  --color-light-white: var(--light-white);
+  --color-dark-white: var(--dark-white);
+  --color-blue: var(--blue);
+  --color-light-blue: var(--light-blue);
+  --color-yellow: var(--yellow);
+  --color-light-yellow: var(--light-yellow);
+  --color-border-white: var(--border-white);
+  --color-siderbar-background: var(--siderbar-background);
+
+  --color-primary: var(--main-black);
+  --color-secondary: #ffffff;
+  --color-accent: var(--yellow);
+  --color-cta: var(--orange);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+
+  .bg-custom-orange-gradient {
+    background: linear-gradient(90deg,
+        #FF7C00 0%,
+        #FF5100 100%);
+  }
+
+  .text-orange-gradient {
+    background: linear-gradient(90deg, #FF7C00 0%, #FF5100 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-custom-orange-gradient:hover {
+    background: linear-gradient(90deg,
+        #ed9c05 100%,
+        #F97316 80%,
+        #c83f00 0%);
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  transition: background-color 9999s ease-in-out 0s !important;
+}
+
+.overflow_none::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--siderbar-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--main-orange);
+  border-radius: 10px;
+  border: 2px solid var(--siderbar-background);
+  background-clip: padding-box;
 }
