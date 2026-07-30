@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { CartItem } from "@/components/cart/types";
-import { ALL_ASSIGNMENTS } from "@/components/assignments/data";
 
 interface ToastState {
   show: boolean;
@@ -35,19 +34,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Safe fallback
       }
     } else {
-      // Prepopulate with 3 items if empty initially
-      const defaultProducts: CartItem[] = ALL_ASSIGNMENTS.slice(0, 3).map((item) => ({
-        id: item.id,
-        title: item.title,
-        category: item.category,
-        price: item.price,
-        oldPrice: item.oldPrice,
-        image: item.image,
-        code: item.code || item.id.split("-")[0].toUpperCase(),
-        quantity: 1,
-      }));
-      setCartItems(defaultProducts);
-      localStorage.setItem("ignou_cart_items", JSON.stringify(defaultProducts));
+      setCartItems([]);
     }
     setIsHydrated(true);
   }, []);

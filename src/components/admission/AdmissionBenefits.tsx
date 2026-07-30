@@ -17,7 +17,7 @@ export default function AdmissionBenefits() {
             Our Benefits
           </Badge>
           <Heading level={2} bold mainblack className="text-2xl md:text-3xl tracking-tight">
-            Why Apply Through IGNOU Helping?
+            Why Apply Through IGNOU Power?
           </Heading>
           <Paragraph sm gray className="max-w-lg leading-relaxed">
             Applying to distance education programs can be complex with digital signatures, regional centers, and study code allocations. We take care of everything.

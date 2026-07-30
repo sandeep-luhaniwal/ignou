@@ -9,9 +9,9 @@ const Footer = () => {
         {/* Company Info */}
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-2">
-            <div className="bg-white text-primary p-2 rounded-xl font-bold text-2xl">IH</div>
+            <div className="bg-white text-primary p-2 rounded-xl font-bold text-2xl">IP</div>
             <div className="flex flex-col leading-tight">
-              <span className="font-heading font-bold text-xl tracking-tight">IGNOU HELPING</span>
+              <span className="font-heading font-bold text-xl tracking-tight">IGNOU POWER</span>
               <span className="text-[10px] text-accent font-bold tracking-widest uppercase">Student Support</span>
             </div>
           </div>
@@ -75,7 +75,7 @@ const Footer = () => {
       <hr className="border-white/10 my-12 max-w-[1200px] mx-auto" />
 
       <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-white/60 text-sm">
-        <p>© 2026 IGNOU Helping Platform. All Rights Reserved.</p>
+        <p>© 2026 IGNOU Power Platform. All Rights Reserved.</p>
         <div className="flex items-center gap-2">
           <span>Developed with ❤️ for IGNOU Students</span>
         </div>

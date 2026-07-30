@@ -19,7 +19,7 @@ export const UploadBox: React.FC<UploadBoxProps> = ({ label, subtext, accept = "
   return (
     <div className="flex flex-col gap-2 w-full text-left">
       <label className="text-sm font-bold" style={{ color: "var(--main-black, #141B2C)" }}>{label}</label>
-      <div 
+      <div
         onClick={handleClick}
         className="border-2 border-dashed cursor-pointer rounded-lg p-6 flex flex-col items-center justify-center gap-2 hover:bg-[#F8FAFC]/50 transition-all duration-300 min-h-[110px]"
         style={{ borderColor: "rgba(226, 232, 240, 0.8)", backgroundColor: "var(--background, #F5F7FA)" }}

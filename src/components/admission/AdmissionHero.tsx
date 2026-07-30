@@ -9,6 +9,8 @@ import InputWithLabel from "@/components/ui/InputWithLabel";
 import DropDownMenu from "@/components/ui/DropDownMenu";
 import MainButton from "@/components/ui/MainButton";
 import { CheckCircle, Sparkles, User, Phone } from "lucide-react";
+import { useAppDispatch } from "@/store";
+import { submitQueryRequest } from "@/store/slices/queriesSlice";
 
 const courseOptions = [
   { label: "BCA (Computer Applications)", value: "BCA" },
@@ -22,6 +24,7 @@ const courseOptions = [
 ];
 
 export default function AdmissionHero() {
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -41,10 +44,21 @@ export default function AdmissionHero() {
       alert("Please fill in Name and WhatsApp Number.");
       return;
     }
+
+    dispatch(
+      submitQueryRequest({
+        name: formData.name,
+        phone: formData.phone,
+        email: "admission.lead@ignou.ac.in", // Placeholder email as not gathered by UI
+        type: "admission",
+        message: `Target Course: ${formData.course}\nMessage: ${formData.message || "N/A"}`,
+      })
+    );
+
     setSuccess(true);
     setTimeout(() => {
       const text = encodeURIComponent(
-        `Hello IGNOU HELPING, I want to inquire about IGNOU Admissions 2026:\n` +
+        `Hello IGNOU POWER, I want to inquire about IGNOU Admissions 2026:\n` +
         `- Name: ${formData.name}\n` +
         `- Phone: ${formData.phone}\n` +
         `- Target Course: ${formData.course}\n` +
@@ -100,7 +114,7 @@ export default function AdmissionHero() {
 
         {/* Right Column (Form Card) */}
         <div className="lg:col-span-5 w-full">
-          <Card border className="p-8 md:p-10 bg-white shadow-xl !rounded-[2rem] relative overflow-hidden">
+          <Card border className="p-8 md:p-10 bg-white shadow-xl !rounded-[2rem] relative">
             {success ? (
               <div className="text-center py-12 flex flex-col items-center justify-center">
                 <div className="w-16 h-16 bg-[#E6FAE5] text-green rounded-full flex items-center justify-center mb-6">
@@ -148,7 +162,7 @@ export default function AdmissionHero() {
                   icon={<Phone size={18} />}
                 />
 
-                <div>
+                <div className="w-full">
                   <label className="text-xs font-bold text-main-black block mb-2 uppercase tracking-wide">
                     Target Course Program *
                   </label>

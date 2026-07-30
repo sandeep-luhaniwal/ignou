@@ -8,14 +8,36 @@ import DeliverySelector from "@/components/cart/DeliverySelector";
 import OrderSummary from "@/components/cart/OrderSummary";
 import CheckoutSuccess from "@/components/cart/CheckoutSuccess";
 import { useCart } from "@/context/CartContext";
+import { loadRazorpayScript } from "@/lib/razorpay";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { createOrderRequest, resetOrderState } from "@/store/slices/ordersSlice";
 
 const ShoppingCartPage = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
   const [deliveryType, setDeliveryType] = useState<"PDF" | "Handwritten">("PDF");
   const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const { success: orderSuccess, error: orderError } = useAppSelector((state) => state.orders);
+
+  useEffect(() => {
+    if (orderSuccess) {
+      setCheckoutSuccess(true);
+      clearCart();
+      localStorage.removeItem("ignou_cart_promo");
+      dispatch(resetOrderState());
+    }
+  }, [orderSuccess, clearCart, dispatch]);
+
+  useEffect(() => {
+    if (orderError) {
+      alert(orderError);
+      dispatch(resetOrderState());
+    }
+  }, [orderError, dispatch]);
 
   // Sync state from localStorage on mount
   useEffect(() => {
@@ -57,7 +79,7 @@ const ShoppingCartPage = () => {
     return false;
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     // If not logged in, redirect to the sign-in page
     if (!isLoggedIn) {
       const destination = deliveryType === "Handwritten" ? "/cart/address" : "/cart";
@@ -70,9 +92,56 @@ const ShoppingCartPage = () => {
       return;
     }
 
-    setCheckoutSuccess(true);
-    clearCart();
-    localStorage.removeItem("ignou_cart_promo");
+    // Load Razorpay SDK
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      alert("Failed to load Razorpay Payment gateway SDK. Please check your internet connection.");
+      return;
+    }
+
+    const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_demo12345";
+    const userEmail = localStorage.getItem("ignou_user_email") || "";
+    const userName = localStorage.getItem("ignou_user_name") || "";
+
+    const options = {
+      key: keyId,
+      amount: grandTotal * 100, // paise
+      currency: "INR",
+      name: "IGNOU Solved Assignments",
+      description: `Purchase of ${cartItems.length} solved assignment(s)`,
+      handler: function (response: any) {
+        dispatch(
+          createOrderRequest({
+            items: cartItems.map((item) => ({
+              id: item.id,
+              code: item.code,
+              price: item.price,
+              quantity: item.quantity,
+            })),
+            deliveryType,
+            subtotal,
+            shippingFee,
+            discount,
+            grandTotal,
+          })
+        );
+      },
+      prefill: {
+        name: userName,
+        email: userEmail,
+      },
+      theme: {
+        color: "#F97316", // orange
+      },
+      modal: {
+        ondismiss: function () {
+          console.log("Razorpay payment modal closed by user");
+        }
+      }
+    };
+
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
   };
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);

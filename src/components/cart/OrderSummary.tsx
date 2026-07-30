@@ -97,7 +97,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
           <div className="p-3 bg-green/5 border border-green/20 rounded-2xl flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-green/15 text-green flex items-center justify-center">
-                <Check size={11} className="stroke-[3]" />
+                <Check size={11} className="stroke-3" />
               </div>
               <span className="text-xs font-bold text-green uppercase tracking-wide">
                 {appliedPromo} Active

@@ -44,7 +44,7 @@ export default function ProjectOrderForm() {
     setOrdered(true);
     setTimeout(() => {
       const text = encodeURIComponent(
-        `Hello IGNOU HELPING, I want to request Project Help:\n` +
+        `Hello IGNOU POWER, I want to request Project Help:\n` +
         `- Name: ${formData.name}\n` +
         `- Phone: ${formData.phone}\n` +
         `- Email: ${formData.email || "N/A"}\n` +

@@ -1,14 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Heading from "@/components/ui/Heading";
 import Paragraph from "@/components/ui/Paragraph";
 import InputWithLabel from "@/components/ui/InputWithLabel";
 import MainButton from "@/components/ui/MainButton";
 import Card from "@/components/ui/Card";
 import { CheckCircle, Send, User, Phone, Mail, BookOpen } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { submitQueryRequest, resetQueryState } from "@/store/slices/queriesSlice";
 
 export default function ContactForm() {
+  const dispatch = useAppDispatch();
+  const { loading, success } = useAppSelector((state) => state.queries);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetQueryState());
+    };
+  }, [dispatch]);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,8 +27,6 @@ export default function ContactForm() {
     subject: "",
     message: ""
   });
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,12 +35,15 @@ export default function ContactForm() {
       return;
     }
 
-    setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      setSuccess(true);
-    }, 1000);
+    dispatch(
+      submitQueryRequest({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        type: "contact",
+        message: `Subject: ${formData.subject || "General Contact Inquiry"}\n\n${formData.message}`,
+      })
+    );
   };
 
   const handleReset = () => {
@@ -42,7 +54,7 @@ export default function ContactForm() {
       subject: "",
       message: ""
     });
-    setSuccess(false);
+    dispatch(resetQueryState());
   };
 
   return (

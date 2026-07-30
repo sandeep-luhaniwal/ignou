@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useMemo } from "react";
+import React, { use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { HelpCircle } from "lucide-react";
 import Heading from "@/components/ui/Heading";
@@ -11,7 +11,8 @@ import Breadcrumbs from "@/components/assignment-detail/Breadcrumbs";
 import ProductSpecs from "@/components/assignment-detail/ProductSpecs";
 import ProductInfo from "@/components/assignment-detail/ProductInfo";
 import RecommendedSection from "@/components/assignment-detail/RecommendedSection";
-import { ALL_ASSIGNMENTS } from "@/components/assignments/data";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { fetchAssignmentDetailRequest, fetchAssignmentsRequest } from "@/store/slices/assignmentsSlice";
 import { useCart } from "@/context/CartContext";
 
 interface PageProps {
@@ -23,24 +24,40 @@ export default function AssignmentDetailPage({ params }: PageProps) {
   const { id } = use(params);
   const { addToCart } = useCart();
 
-  // Find assignment product
-  const product = useMemo(() => {
-    return ALL_ASSIGNMENTS.find((item) => item.id === id);
-  }, [id]);
+  const dispatch = useAppDispatch();
+  const { detail: product, list: allProducts, loading, error } = useAppSelector((state) => state.assignments);
 
-  // Recommended assignments (same category, excluding current product)
-  const recommendations = useMemo(() => {
-    if (!product) return [];
-    let list = ALL_ASSIGNMENTS.filter((item) => item.category === product.category && item.id !== product.id);
-    // If not enough recommendations in same category, fill with others
-    if (list.length < 3) {
-      const extra = ALL_ASSIGNMENTS.filter((item) => item.id !== product.id && !list.includes(item));
-      list = [...list, ...extra];
+  // Fetch product detail on mount/id change
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchAssignmentDetailRequest(id));
     }
-    return list.slice(0, 3);
-  }, [product]);
+  }, [id, dispatch]);
 
-  if (!product) {
+  // Fetch recommendations once product is loaded
+  useEffect(() => {
+    if (product?.category) {
+      dispatch(fetchAssignmentsRequest({ category: [product.category] }));
+    }
+  }, [product?.category, dispatch]);
+
+  // Filter recommendations: items in the same category, excluding current product
+  const recommendations = allProducts
+    .filter((item: any) => item.id !== product?.id && item.code !== product?.code)
+    .slice(0, 3);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#FAFBFD]">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-orange border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-sm font-bold text-gray">Loading assignment details...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
     return (
       <main className="flex-grow flex items-center justify-center p-6 bg-[#FAFBFD] min-h-screen">
         <Card border className="max-w-md text-center p-8 shadow-lg">
@@ -51,7 +68,7 @@ export default function AssignmentDetailPage({ params }: PageProps) {
             Assignment Not Found
           </Heading>
           <Paragraph gray sm center className="mb-6">
-            The assignment link you followed could be broken or has been removed.
+            {error || "The assignment link you followed could be broken or has been removed."}
           </Paragraph>
           <MainButton url="/assignments" className="w-full justify-center">
             Browse Assignments

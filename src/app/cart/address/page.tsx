@@ -10,15 +10,39 @@ import CheckoutSuccess from "@/components/cart/CheckoutSuccess";
 import { ArrowLeft, AlertCircle } from "lucide-react";
 import Heading from "@/components/ui/Heading";
 import Paragraph from "@/components/ui/Paragraph";
+import { useCart } from "@/context/CartContext";
+import { loadRazorpayScript } from "@/lib/razorpay";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { createOrderRequest, resetOrderState } from "@/store/slices/ordersSlice";
 
 const AddressPage = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { clearCart } = useCart();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [deliveryType, setDeliveryType] = useState<"PDF" | "Handwritten">("Handwritten");
   const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
   const [shipping, setShipping] = useState({ name: "", phone: "", address: "", pincode: "" });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const { success: orderSuccess, error: orderError } = useAppSelector((state) => state.orders);
+
+  useEffect(() => {
+    if (orderSuccess) {
+      setCheckoutSuccess(true);
+      clearCart();
+      localStorage.removeItem("ignou_cart_promo");
+      dispatch(resetOrderState());
+    }
+  }, [orderSuccess, clearCart, dispatch]);
+
+  useEffect(() => {
+    if (orderError) {
+      setErrorMessage(orderError);
+      dispatch(resetOrderState());
+    }
+  }, [orderError, dispatch]);
 
   // Sync state from localStorage on mount
   useEffect(() => {
@@ -70,7 +94,7 @@ const AddressPage = () => {
     localStorage.removeItem("ignou_cart_promo");
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     setErrorMessage(null);
     
     if (!shipping.name.trim() || !shipping.phone.trim() || !shipping.address.trim() || !shipping.pincode.trim()) {
@@ -88,10 +112,63 @@ const AddressPage = () => {
       return;
     }
 
-    // Success flow
-    setCheckoutSuccess(true);
-    localStorage.removeItem("ignou_cart_items");
-    localStorage.removeItem("ignou_cart_promo");
+    // Load Razorpay SDK
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      setErrorMessage("Failed to load Razorpay Payment gateway SDK. Please check your internet connection.");
+      return;
+    }
+
+    const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_demo12345";
+    const userEmail = localStorage.getItem("ignou_user_email") || "";
+    const userName = localStorage.getItem("ignou_user_name") || "";
+
+    const options = {
+      key: keyId,
+      amount: grandTotal * 100, // paise
+      currency: "INR",
+      name: "IGNOU Solved Assignments",
+      description: `Purchase of ${cartItems.length} solved assignment(s) (Handwritten delivery)`,
+      handler: function (response: any) {
+        dispatch(
+          createOrderRequest({
+            items: cartItems.map((item) => ({
+              id: item.id,
+              code: item.code,
+              price: item.price,
+              quantity: item.quantity,
+            })),
+            deliveryType,
+            shippingAddress: {
+              name: shipping.name,
+              phone: shipping.phone,
+              address: shipping.address,
+              pincode: shipping.pincode,
+            },
+            subtotal,
+            shippingFee,
+            discount,
+            grandTotal,
+          })
+        );
+      },
+      prefill: {
+        name: userName,
+        email: userEmail,
+        contact: shipping.phone,
+      },
+      theme: {
+        color: "#F97316", // orange
+      },
+      modal: {
+        ondismiss: function () {
+          console.log("Razorpay payment modal closed by user");
+        }
+      }
+    };
+
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
   };
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);

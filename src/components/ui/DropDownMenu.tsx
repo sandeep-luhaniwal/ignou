@@ -72,7 +72,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({ options = [], value, label,
     }, []);
 
     return (
-        <div className={`max-w-max flex flex-col gap-0.5 ${containerClassName}`}>
+        <div className={`flex flex-col gap-0.5 ${containerClassName || "max-w-max"}`}>
             {label && (
                 <label className={`${xs ? 'text-xs' : base ? 'text-sm md:text-base' : "text-sm"} capitalize font-medium text-main-black pb-2 ${labelClassName}`}>
                     {label}
@@ -80,7 +80,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({ options = [], value, label,
                 </label>
             )}
 
-            <div ref={dropdownRef} className="relative">
+            <div ref={dropdownRef} className="relative w-full">
                 <button ref={buttonRef} type="button" onClick={() => {
                     if (buttonRef.current) {
                         const rect = buttonRef.current.getBoundingClientRect();
@@ -106,7 +106,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({ options = [], value, label,
                 </button>
                 <div
                     className={`absolute ${openUpward ? "bottom-[calc(100%+6px)]" : "top-[calc(100%+6px)]"} ${positionright ? "right-0" : "left-0"
-                        } w-full min-w-30 border border-off-white rounded-lg overflow-hidden z-50 transition-all duration-300 ${lightwhite ? "bg-light-white" : "bg-dark-white"
+                        } w-full min-w-30 border border-off-white rounded-lg max-h-60 overflow-y-auto z-50 transition-all duration-300 ${lightwhite ? "bg-light-white" : "bg-dark-white"
                         } ${open
                             ? "opacity-100 visible translate-y-0"
                             : "opacity-0 invisible -translate-y-2"

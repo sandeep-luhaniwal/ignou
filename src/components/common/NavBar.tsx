@@ -1,14 +1,36 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ShoppingCart, User, Menu, X, MessageCircle, Phone, Mail, ChevronRight } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { ShoppingCart, User, Menu, X, MessageCircle, Phone, Mail, ChevronRight, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { logout } from "@/store/slices/authSlice";
 
 const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const { cartItems } = useCart();
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -62,11 +84,11 @@ const NavBar = () => {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-1.5 md:gap-2 group shrink-0">
               <div className="bg-cta text-white p-2 rounded-xl font-black text-lg md:text-xl shadow-md shadow-cta/15 transition-transform group-hover:scale-105 duration-300">
-                IH
+                IP
               </div>
               <div className="flex flex-col leading-tight">
                 <span className="font-heading font-black text-base md:text-lg text-primary tracking-tight">
-                  IGNOU <span className="text-cta">HELPING</span>
+                  IGNOU <span className="text-cta">POWER</span>
                 </span>
                 <span className="text-[8px] md:text-[9px] text-gray font-bold tracking-widest uppercase">
                   Academic Partner
@@ -75,7 +97,7 @@ const NavBar = () => {
             </Link>
 
             {/* Desktop Nav Links */}
-            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <div className="hidden lg:flex items-center gap-3.5 xl:gap-8">
               {navLinks.map((item) => {
                 const isActive = pathname === item.href;
                 return (
@@ -97,14 +119,74 @@ const NavBar = () => {
 
             {/* Action Buttons */}
             <div className="flex items-center gap-2 md:gap-3 shrink-0">
-              {/* User Profile */}
-              <Link
-                href="/dashboard"
-                className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-150 flex items-center justify-center text-main-gray hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
-                title="Dashboard"
-              >
-                <User size={16} className="md:size-[18px]" />
-              </Link>
+              {/* User Profile / Login Dropdown */}
+              {user ? (
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-custom-orange-gradient text-white font-black text-sm flex items-center justify-center cursor-pointer shadow-md hover:scale-105 active:scale-95 transition-all duration-200"
+                    title="User Profile Menu"
+                  >
+                    {user.name ? user.name.charAt(0).toUpperCase() : "S"}
+                  </button>
+
+                  {/* Dropdown Menu with animation */}
+                  <div
+                    className={`absolute right-0 mt-2.5 w-64 bg-white border border-gray-100 rounded-2xl shadow-xl z-50 p-4 transition-all duration-200 transform origin-top-right
+                      ${dropdownOpen 
+                        ? "opacity-100 scale-100 translate-y-0" 
+                        : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                      }
+                    `}
+                  >
+                    {/* User Info Header */}
+                    <div className="flex items-center gap-3 pb-3 border-b border-gray-100">
+                      <div className="w-10 h-10 rounded-full bg-cta/10 text-cta flex items-center justify-center font-black text-sm shrink-0">
+                        {user.name ? user.name.charAt(0).toUpperCase() : "S"}
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-heading font-black text-sm text-primary truncate leading-tight">
+                          {user.name || "Student"}
+                        </span>
+                        <span className="text-[11px] text-gray truncate mt-0.5">
+                          {user.email || ""}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Actions List */}
+                    <div className="flex flex-col gap-1 mt-3">
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-bold text-main-gray hover:bg-gray-50 hover:text-cta transition-all"
+                      >
+                        <User size={15} className="shrink-0 text-gray" />
+                        <span>Student Dashboard</span>
+                      </Link>
+                      <button
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          dispatch(logout());
+                          router.push("/auth/sign-in");
+                        }}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-bold text-main-red hover:bg-red/5 hover:text-red transition-all cursor-pointer text-left w-full"
+                      >
+                        <LogOut size={15} className="shrink-0 text-main-red" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  href="/auth/sign-in"
+                  className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-150 flex items-center justify-center text-main-gray hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+                  title="Sign In"
+                >
+                  <User size={16} className="md:size-[18px]" />
+                </Link>
+              )}
 
               {/* Cart Icon */}
               <Link
@@ -158,9 +240,9 @@ const NavBar = () => {
         {/* Drawer Header */}
         <div className="flex items-center justify-between pb-5 border-b border-gray-100 mb-6">
           <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-            <div className="bg-cta text-white p-2 rounded-xl font-black text-lg">IH</div>
+            <div className="bg-cta text-white p-2 rounded-xl font-black text-lg">IP</div>
             <div className="flex flex-col leading-tight">
-              <span className="font-heading font-black text-base text-primary">IGNOU HELPING</span>
+              <span className="font-heading font-black text-base text-primary">IGNOU POWER</span>
               <span className="text-[8px] text-gray font-bold tracking-widest uppercase">Student Desk</span>
             </div>
           </Link>
@@ -174,6 +256,13 @@ const NavBar = () => {
 
         {/* Drawer Navigation Links */}
         <div className="flex flex-col gap-1.5 flex-1 overflow-y-auto pr-1">
+          {user && (
+            <div className="px-4 py-3 bg-light-orange/30 border border-cta/10 rounded-2xl mb-2">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-cta block mb-0.5">Logged In As</span>
+              <div className="font-heading font-black text-sm text-primary truncate">{user.name}</div>
+              <div className="text-[11px] text-gray truncate">{user.email}</div>
+            </div>
+          )}
           {navLinks.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -193,6 +282,28 @@ const NavBar = () => {
               </Link>
             );
           })}
+          {user ? (
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                dispatch(logout());
+                router.push("/auth/sign-in");
+              }}
+              className="flex items-center justify-between w-full px-4 py-3 mt-2 rounded-2xl text-sm font-bold text-main-red hover:bg-red/5 transition-all duration-200 cursor-pointer"
+            >
+              <span>Logout</span>
+              <LogOut size={16} />
+            </button>
+          ) : (
+            <Link
+              href="/auth/sign-in"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-between px-4 py-3 mt-2 rounded-2xl text-sm font-bold text-cta hover:bg-cta/5 transition-all duration-200"
+            >
+              <span>Sign In</span>
+              <ChevronRight size={16} className="text-cta" />
+            </Link>
+          )}
         </div>
 
         {/* Drawer Footer Contact Section */}

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import SearchInput from "@/components/ui/SearchInput";
 import { SlidersHorizontal, ArrowUpDown, RotateCcw } from "lucide-react";
-import { ALL_ASSIGNMENTS } from "./data";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { fetchAssignmentsRequest } from "@/store/slices/assignmentsSlice";
 import FilterContent from "./FilterContent";
 import MobileFilterDrawer from "./MobileFilterDrawer";
 import AssignmentsGrid from "./AssignmentsGrid";
@@ -12,6 +13,9 @@ import DropDownMenu from "@/components/ui/DropDownMenu";
 import ActiveFiltersList from "./ActiveFiltersList";
 
 export const SolvedAssignments: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { list: products, loading, error } = useAppSelector((state) => state.assignments);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -48,43 +52,31 @@ export const SolvedAssignments: React.FC = () => {
     [searchQuery, selectedYears, selectedCategories, pricePreset, minPrice, maxPrice]
   );
 
-  const filteredProducts = useMemo(() => {
-    let list = [...ALL_ASSIGNMENTS];
-    if (searchQuery) {
-      list = list.filter(
-        (item) =>
-          item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.code.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    if (selectedYears.length) {
-      list = list.filter((item) => selectedYears.includes(item.year));
-    }
-    if (selectedCategories.length) {
-      list = list.filter((item) => selectedCategories.includes(item.category));
-    }
+  useEffect(() => {
+    let min = minPrice;
+    let max = maxPrice;
     if (pricePreset === "under100") {
-      list = list.filter((item) => item.price < 100);
+      min = "";
+      max = "99";
     } else if (pricePreset === "100to150") {
-      list = list.filter((item) => item.price >= 100 && item.price <= 150);
+      min = "100";
+      max = "150";
     } else if (pricePreset === "over150") {
-      list = list.filter((item) => item.price > 150);
-    } else if (pricePreset === "custom") {
-      const min = parseFloat(minPrice);
-      const max = parseFloat(maxPrice);
-      list = list.filter((i) => (isNaN(min) || i.price >= min) && (isNaN(max) || i.price <= max));
+      min = "151";
+      max = "";
     }
-    list.sort((a, b) =>
-      sortBy === "price-low-high"
-        ? a.price - b.price
-        : sortBy === "price-high-low"
-        ? b.price - a.price
-        : sortBy === "rating"
-        ? b.rating - a.rating || b.reviews - a.reviews
-        : 0
+
+    dispatch(
+      fetchAssignmentsRequest({
+        search: searchQuery,
+        category: selectedCategories,
+        year: selectedYears,
+        minPrice: min,
+        maxPrice: max,
+        sortBy: sortBy,
+      })
     );
-    return list;
-  }, [searchQuery, selectedYears, selectedCategories, pricePreset, minPrice, maxPrice, sortBy]);
+  }, [searchQuery, selectedCategories, selectedYears, pricePreset, minPrice, maxPrice, sortBy, dispatch]);
 
   const filterProps = {
     searchQuery,
@@ -194,7 +186,18 @@ export const SolvedAssignments: React.FC = () => {
               isAnyFilterActive={isAnyFilterActive}
               handleResetFilters={handleResetFilters}
             />
-            <AssignmentsGrid products={filteredProducts} handleResetFilters={handleResetFilters} />
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-20 bg-white border border-gray-100 rounded-2xl shadow-sm">
+                <div className="w-8 h-8 border-3 border-orange border-t-transparent rounded-full animate-spin mb-3"></div>
+                <p className="text-sm font-bold text-gray">Fetching solved assignments...</p>
+              </div>
+            ) : error ? (
+              <div className="p-6 bg-red/5 border border-red/10 rounded-2xl text-center text-red font-semibold">
+                {error}
+              </div>
+            ) : (
+              <AssignmentsGrid products={products} handleResetFilters={handleResetFilters} />
+            )}
           </div>
         </div>
       </section>

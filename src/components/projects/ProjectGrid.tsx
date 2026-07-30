@@ -109,7 +109,7 @@ export default function ProjectGrid() {
 
   const handleInquiry = (project: ProjectItem) => {
     const text = encodeURIComponent(
-      `Hello IGNOU HELPING, I want to order the Project Guide/Synopsis for:\n` +
+      `Hello IGNOU POWER, I want to order the Project Guide/Synopsis for:\n` +
       `- Course Code: ${project.code}\n` +
       `- Title: ${project.title}\n` +
       `- Price: ${project.price}`
