@@ -19,7 +19,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-5 bg-white border border-gray-100 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:border-gray-150 transition-all gap-4">
       {/* Product Image & Details */}
       <div className="flex items-center gap-4 flex-1">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-gray-50 border border-gray-100 shrink-0">
           <img
             src={item.image || "/next.svg"}
             alt={item.title}
@@ -75,7 +75,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
               </span>
             )}
           </div>
-          
+
           <button
             type="button"
             onClick={() => onRemove(item.id)}

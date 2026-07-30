@@ -74,7 +74,7 @@ const AddressPage = () => {
     if (savedDelivery) {
       setDeliveryType(savedDelivery as "PDF" | "Handwritten");
     }
-    
+
     if (savedPromo) {
       setAppliedPromo(savedPromo);
     }
@@ -96,7 +96,7 @@ const AddressPage = () => {
 
   const handleCheckout = async () => {
     setErrorMessage(null);
-    
+
     if (!shipping.name.trim() || !shipping.phone.trim() || !shipping.address.trim() || !shipping.pincode.trim()) {
       setErrorMessage("Please fill in all the shipping details to proceed.");
       return;
@@ -206,11 +206,11 @@ const AddressPage = () => {
               <div className="lg:col-span-8 flex flex-col gap-6">
                 {errorMessage && (
                   <div className="flex items-center gap-2.5 text-xs text-red font-semibold bg-red/5 p-3.5 rounded-2xl border border-red/10 text-left">
-                    <AlertCircle size={16} className="flex-shrink-0" />
+                    <AlertCircle size={16} className="shrink-0" />
                     <span>{errorMessage}</span>
                   </div>
                 )}
-                
+
                 <ShippingForm
                   name={shipping.name}
                   phone={shipping.phone}

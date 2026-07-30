@@ -103,6 +103,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
                 {appliedPromo} Active
               </span>
             </div>
+
             <button
               type="button"
               onClick={() => {
@@ -135,14 +136,14 @@ export const OrderSummary: React.FC<SummaryProps> = ({
         {/* Alerts */}
         {promoError && (
           <div className="mt-2.5 flex items-center gap-2 text-xs text-red font-semibold bg-red/5 p-2 rounded-xl border border-red/10">
-            <AlertCircle size={14} className="flex-shrink-0" />
+            <AlertCircle size={14} className="shrink-0" />
             <span>{promoError}</span>
           </div>
         )}
 
         {promoSuccess && (
           <div className="mt-2.5 flex items-center gap-2 text-xs text-green font-semibold bg-green/5 p-2 rounded-xl border border-green/10">
-            <Check size={14} className="flex-shrink-0" />
+            <Check size={14} className="shrink-0" />
             <span>{promoSuccess}</span>
           </div>
         )}
