@@ -48,7 +48,7 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
             </Paragraph>
           </div>
         </div>
-        
+
         <span className="bg-gray-100 text-main-black text-[10px] font-black px-3 py-1.5 rounded-xl border border-gray-200">
           {orders.length} Transactions
         </span>
@@ -71,7 +71,7 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
                 className="p-5 border border-gray-150 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-5 hover:border-gray-300 transition-all bg-white"
               >
                 {/* Left side: Order info */}
-                <div className="flex-grow flex flex-col gap-2">
+                <div className="grow flex flex-col gap-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-[10px] text-gray font-bold font-mono bg-gray-50 border border-gray-150 px-2 py-0.5 rounded-md">
                       Ref: #{order._id.substring(order._id.length - 8).toUpperCase()}

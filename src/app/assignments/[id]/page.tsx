@@ -59,7 +59,7 @@ export default function AssignmentDetailPage({ params }: PageProps) {
 
   if (error || !product) {
     return (
-      <main className="flex-grow flex items-center justify-center p-6 bg-[#FAFBFD] min-h-screen">
+      <main className="grow flex items-center justify-center p-6 bg-[#FAFBFD] min-h-screen">
         <Card border className="max-w-md text-center p-8 shadow-lg">
           <div className="w-16 h-16 bg-red/10 text-red rounded-full flex items-center justify-center mx-auto mb-6">
             <HelpCircle size={32} />
@@ -98,36 +98,36 @@ export default function AssignmentDetailPage({ params }: PageProps) {
   };
 
   return (
-    <main className="flex-grow pt-24 pb-16 bg-[#FAFBFD]">
-      
+    <main className="grow pt-24 pb-16 bg-[#FAFBFD]">
+
       {/* Breadcrumb section */}
       <Breadcrumbs code={product.code} />
 
       {/* Product Details Section */}
       <div className="max-w-[1200px] mx-auto px-4 xl:px-0 grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
+
         {/* Left Column: Image & Specifications */}
         <div className="lg:col-span-5">
-          <ProductSpecs 
-            image={product.image} 
-            title={product.title} 
-            category={product.category} 
-            year={product.year} 
-            discount={discount} 
+          <ProductSpecs
+            image={product.image}
+            title={product.title}
+            category={product.category}
+            year={product.year}
+            discount={discount}
           />
         </div>
 
         {/* Right Column: Title, Prices, Add to Cart & Description Tabs */}
         <div className="lg:col-span-7">
-          <ProductInfo 
-            code={product.code} 
-            title={product.title} 
-            rating={product.rating} 
-            reviews={product.reviews} 
-            price={product.price} 
-            oldPrice={product.oldPrice} 
-            onBuyNow={handleBuyNow} 
-            onAddToCart={handleAddToCart} 
+          <ProductInfo
+            code={product.code}
+            title={product.title}
+            rating={product.rating}
+            reviews={product.reviews}
+            price={product.price}
+            oldPrice={product.oldPrice}
+            onBuyNow={handleBuyNow}
+            onAddToCart={handleAddToCart}
           />
         </div>
 

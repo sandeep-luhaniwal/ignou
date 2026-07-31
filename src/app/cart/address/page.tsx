@@ -179,7 +179,7 @@ const AddressPage = () => {
   return (
     <div className="bg-[#FAFBFD] min-h-screen flex flex-col relative overflow-hidden">
       <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-orange/5 rounded-full blur-[150px] pointer-events-none" />
-      <main className="flex-grow max-w-[1200px] mx-auto w-full px-4 xl:px-0 py-10 lg:py-16 relative z-10">
+      <main className="grow max-w-[1200px] mx-auto w-full px-4 xl:px-0 py-10 lg:py-16 relative z-10">
         {checkoutSuccess ? (
           <CheckoutSuccess />
         ) : (
@@ -206,7 +206,7 @@ const AddressPage = () => {
               <div className="lg:col-span-8 flex flex-col gap-6">
                 {errorMessage && (
                   <div className="flex items-center gap-2.5 text-xs text-red font-semibold bg-red/5 p-3.5 rounded-2xl border border-red/10 text-left">
-                    <AlertCircle size={16} className="shrink-0" />
+                    <AlertCircle size={16} />
                     <span>{errorMessage}</span>
                   </div>
                 )}

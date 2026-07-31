@@ -152,7 +152,7 @@ const ShoppingCartPage = () => {
   return (
     <div className="bg-[#FAFBFD] min-h-screen flex flex-col relative overflow-hidden">
       <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-orange/5 rounded-full blur-[150px] pointer-events-none" />
-      <main className="flex-grow max-w-[1200px] mx-auto w-full px-4 xl:px-0 py-10 lg:py-16 relative z-10 flex flex-col justify-center items-center">
+      <main className="grow max-w-[1200px] mx-auto w-full px-4 xl:px-0 py-10 lg:py-16 relative z-10 flex flex-col justify-center items-center">
         {checkoutSuccess ? (
           <div className="w-full max-w-md">
             <CheckoutSuccess />

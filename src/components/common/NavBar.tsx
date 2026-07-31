@@ -132,7 +132,7 @@ const NavBar = () => {
 
                   {/* Dropdown Menu with animation */}
                   <div
-                    className={`absolute right-0 mt-2.5 w-64 bg-white border border-gray-100 rounded-2xl shadow-xl z-50 p-4 transition-all duration-200 transform origin-top-right
+                    className={`absolute right-[-80px] md:right-0 mt-2.5 w-64 bg-white border border-gray-100 rounded-2xl shadow-xl z-50 p-4 transition-all duration-200 transform origin-top-right
                       ${dropdownOpen 
                         ? "opacity-100 scale-100 translate-y-0" 
                         : "opacity-0 scale-95 -translate-y-2 pointer-events-none"

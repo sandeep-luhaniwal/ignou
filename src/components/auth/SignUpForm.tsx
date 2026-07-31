@@ -36,6 +36,40 @@ export const SignUpForm: React.FC = () => {
 
   const otpInputsRef = useRef<HTMLInputElement[]>([]);
 
+  const checkClipboardAndPaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      const cleaned = text.trim().replace(/\D/g, "");
+      if (cleaned.length === 6) {
+        setOtp(cleaned.split(""));
+        otpInputsRef.current[5]?.focus();
+      }
+    } catch (err) {
+      // Fail silently if clipboard API is not permitted or supported
+    }
+  };
+
+  useEffect(() => {
+    if (showOtpModal) {
+      // Focus the first OTP input automatically when the modal is shown
+      setTimeout(() => {
+        otpInputsRef.current[0]?.focus();
+      }, 50);
+
+      // Check clipboard immediately when modal is shown
+      checkClipboardAndPaste();
+
+      // Check clipboard when window gains focus (e.g., returning after copying OTP)
+      const handleWindowFocus = () => {
+        checkClipboardAndPaste();
+      };
+      window.addEventListener("focus", handleWindowFocus);
+      return () => {
+        window.removeEventListener("focus", handleWindowFocus);
+      };
+    }
+  }, [showOtpModal]);
+
   useEffect(() => {
     if (token) {
       router.push(redirectPath);
@@ -112,8 +146,8 @@ export const SignUpForm: React.FC = () => {
 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const pastedData = e.clipboardData.getData("text").trim();
-    if (pastedData.length === 6 && /^\d+$/.test(pastedData)) {
+    const pastedData = e.clipboardData.getData("text").replace(/\D/g, "");
+    if (pastedData.length === 6) {
       const newOtp = pastedData.split("");
       setOtp(newOtp);
       otpInputsRef.current[5]?.focus();

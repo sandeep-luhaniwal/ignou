@@ -122,7 +122,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
               placeholder="Enter Code (e.g. IGNOU10)"
               value={promoInput}
               onChange={(e) => setPromoInput(e.target.value)}
-              className="flex-grow px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-bold uppercase tracking-wide bg-[#F8FAFC] focus:outline-none focus:border-orange focus:bg-white text-main-black transition-all"
+              className="grow px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-bold uppercase tracking-wide bg-[#F8FAFC] focus:outline-none focus:border-orange focus:bg-white text-main-black transition-all"
             />
             <button
               type="submit"
@@ -136,14 +136,14 @@ export const OrderSummary: React.FC<SummaryProps> = ({
         {/* Alerts */}
         {promoError && (
           <div className="mt-2.5 flex items-center gap-2 text-xs text-red font-semibold bg-red/5 p-2 rounded-xl border border-red/10">
-            <AlertCircle size={14} className="shrink-0" />
+            <AlertCircle size={14} />
             <span>{promoError}</span>
           </div>
         )}
 
         {promoSuccess && (
           <div className="mt-2.5 flex items-center gap-2 text-xs text-green font-semibold bg-green/5 p-2 rounded-xl border border-green/10">
-            <Check size={14} className="shrink-0" />
+            <Check size={14} />
             <span>{promoSuccess}</span>
           </div>
         )}

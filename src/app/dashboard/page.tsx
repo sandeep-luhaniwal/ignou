@@ -47,12 +47,12 @@ export default function DashboardPage() {
 
   const profile = authUser
     ? {
-        name: authUser.name,
-        email: authUser.email,
-        enrolmentNo: authUser.enrolmentNo || "260984321",
-        program: authUser.program || "BCA (Bachelor of Computer Applications)",
-        session: authUser.session || "July 2025 Session",
-      }
+      name: authUser.name,
+      email: authUser.email,
+      enrolmentNo: authUser.enrolmentNo || "260984321",
+      program: authUser.program || "BCA (Bachelor of Computer Applications)",
+      session: authUser.session || "July 2025 Session",
+    }
     : null;
 
   const purchasedAssignments = orders.flatMap((order: any) =>
@@ -82,74 +82,72 @@ export default function DashboardPage() {
   }
 
   return (
-      <main className="flex-grow pt-24 pb-16 max-w-[1200px] mx-auto px-4 xl:px-0 w-full">
-        
-        {/* Hero Section Banner */}
-        <StudentHero 
-          name={profile.name} 
-          enrolmentNo={profile.enrolmentNo} 
-          onLogout={handleLogout} 
-        />
+    <main className="grow pt-24 pb-16 max-w-[1200px] mx-auto px-4 xl:px-0 w-full">
 
-        {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Column: Student Profile Details & Progress */}
-          <div className="lg:col-span-4 flex flex-col gap-6 w-full">
-            <AcademicDetails 
-              program={profile.program} 
-              email={profile.email} 
-              session={profile.session} 
-            />
-            <CourseProgress />
-            <WhatsAppSupport />
-          </div>
+      {/* Hero Section Banner */}
+      <StudentHero
+        name={profile.name}
+        enrolmentNo={profile.enrolmentNo}
+        onLogout={handleLogout}
+      />
 
-          {/* Right Column: Download Centre, Payment History & Recent Activities */}
-          <div className="lg:col-span-8 flex flex-col gap-6 w-full">
-            {/* Tab Selection */}
-            <div className="flex gap-4 border-b border-gray-200 pb-1">
-              <button
-                type="button"
-                onClick={() => setActiveTab("downloads")}
-                className={`pb-2.5 px-2 text-sm font-bold transition-all relative cursor-pointer ${
-                  activeTab === "downloads"
-                    ? "text-orange font-black"
-                    : "text-gray hover:text-main-black"
-                }`}
-              >
-                Download Center
-                {activeTab === "downloads" && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange rounded-full animate-pulse" />
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab("payments")}
-                className={`pb-2.5 px-2 text-sm font-bold transition-all relative cursor-pointer ${
-                  activeTab === "payments"
-                    ? "text-orange font-black"
-                    : "text-gray hover:text-main-black"
-                }`}
-              >
-                Payment History
-                {activeTab === "payments" && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange rounded-full animate-pulse" />
-                )}
-              </button>
-            </div>
+      {/* Dashboard Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-            {activeTab === "downloads" ? (
-              <DownloadCenter purchasedAssignments={purchasedAssignments} />
-            ) : (
-              <PaymentHistory orders={orders} />
-            )}
-            
-            <QuickMetrics />
-          </div>
-
+        {/* Left Column: Student Profile Details & Progress */}
+        <div className="lg:col-span-4 flex flex-col gap-6 w-full">
+          <AcademicDetails
+            program={profile.program}
+            email={profile.email}
+            session={profile.session}
+          />
+          <CourseProgress />
+          <WhatsAppSupport />
         </div>
 
-      </main>
+        {/* Right Column: Download Centre, Payment History & Recent Activities */}
+        <div className="lg:col-span-8 flex flex-col gap-6 w-full">
+          {/* Tab Selection */}
+          <div className="flex gap-4 border-b border-gray-200 pb-1">
+            <button
+              type="button"
+              onClick={() => setActiveTab("downloads")}
+              className={`pb-2.5 px-2 text-sm font-bold transition-all relative cursor-pointer ${activeTab === "downloads"
+                  ? "text-orange font-black"
+                  : "text-gray hover:text-main-black"
+                }`}
+            >
+              Download Center
+              {activeTab === "downloads" && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange rounded-full animate-pulse" />
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab("payments")}
+              className={`pb-2.5 px-2 text-sm font-bold transition-all relative cursor-pointer ${activeTab === "payments"
+                  ? "text-orange font-black"
+                  : "text-gray hover:text-main-black"
+                }`}
+            >
+              Payment History
+              {activeTab === "payments" && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange rounded-full animate-pulse" />
+              )}
+            </button>
+          </div>
+
+          {activeTab === "downloads" ? (
+            <DownloadCenter purchasedAssignments={purchasedAssignments} />
+          ) : (
+            <PaymentHistory orders={orders} />
+          )}
+
+          <QuickMetrics />
+        </div>
+
+      </div>
+
+    </main>
   );
 }
