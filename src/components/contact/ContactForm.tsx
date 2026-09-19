@@ -4,11 +4,18 @@ import React, { useState, useEffect } from "react";
 import Heading from "@/components/ui/Heading";
 import Paragraph from "@/components/ui/Paragraph";
 import InputWithLabel from "@/components/ui/InputWithLabel";
-import MainButton from "@/components/ui/MainButton";
 import Card from "@/components/ui/Card";
-import { CheckCircle, Send, User, Phone, Mail, BookOpen } from "lucide-react";
+import { Send, User, Phone, Mail, BookOpen, Sparkles } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { submitQueryRequest, resetQueryState } from "@/store/slices/queriesSlice";
+import { toast } from "react-hot-toast";
+
+const SuccessCheckIcon = () => (
+  <svg className="w-8 h-8 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+    <polyline points="22 4 12 14.01 9 11.01" />
+  </svg>
+);
 
 export default function ContactForm() {
   const dispatch = useAppDispatch();
@@ -30,8 +37,8 @@ export default function ContactForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
-      alert("Please fill in all required fields.");
+    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.message.trim()) {
+      toast.error("Please fill in all required fields.");
       return;
     }
 
@@ -58,35 +65,45 @@ export default function ContactForm() {
   };
 
   return (
-    <Card border className="relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-24 h-24 bg-cta/5 rounded-full blur-xl pointer-events-none" />
+    <Card border className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-white shadow-xl shadow-slate-100 border-border-white">
+      {/* Decorative Gradient Blob */}
+      <div className="absolute top-0 right-0 w-48 h-48 bg-orange/5 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-40 h-40 bg-blue/5 rounded-full blur-2xl pointer-events-none" />
       
       {success ? (
-        <div className="text-center py-12 flex flex-col items-center justify-center">
-          <div className="w-16 h-16 bg-light-green text-green rounded-full flex items-center justify-center mb-6 shadow-xs animate-bounce">
-            <CheckCircle size={32} />
+        <div className="text-center py-12 flex flex-col items-center justify-center relative z-10">
+          <div className="w-16 h-16 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-emerald-100 animate-bounce">
+            <SuccessCheckIcon />
           </div>
-          <Heading level={3} bold mainblack className="mb-4 text-2xl tracking-tight">
+          <Heading level={3} bold mainblack className="mb-3 text-2xl tracking-tight">
             Message Sent Successfully!
           </Heading>
           <Paragraph sm gray className="leading-relaxed mb-8 max-w-md mx-auto text-center">
-            Thank you for reaching out, <span className="font-semibold text-main-black">{formData.name}</span>. We have received your message and our academic coordinator will reply to you at <span className="font-semibold text-main-black">{formData.email}</span> shortly.
+            Thank you for reaching out, <span className="font-bold text-main-black">{formData.name}</span>. We have received your inquiry and our counseling coordinator will get in touch at <span className="font-bold text-main-black">{formData.email}</span> shortly.
           </Paragraph>
-          <MainButton className="w-full sm:w-auto px-8 py-3 justify-center" onClick={handleReset}>
+          <button
+            onClick={handleReset}
+            className="px-8 py-3.5 bg-orange text-white font-bold rounded-xl shadow-md hover:bg-orange/90 active:scale-98 transition-all cursor-pointer text-sm border-none"
+          >
             Send Another Message
-          </MainButton>
+          </button>
         </div>
       ) : (
-        <>
-          <Heading level={3} bold mainblack className="mb-2 text-2xl tracking-tight">
-            Send Us a Message
-          </Heading>
-          <Paragraph sm gray className="mb-8 leading-relaxed">
-            Please fill out this form to connect with our support team.
+        <div className="relative z-10">
+          <div className="flex items-center justify-between mb-2">
+            <Heading level={3} bold mainblack className="text-xl sm:text-2xl tracking-tight">
+              Send Us a Message
+            </Heading>
+            <span className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-orange bg-orange/10 px-3 py-1 rounded-full">
+              <Sparkles size={12} /> Direct Desk
+            </span>
+          </div>
+          <Paragraph sm gray className="mb-7 leading-relaxed text-xs sm:text-sm">
+            Fill in your course details below and our team will get back to you with custom guidance.
           </Paragraph>
           
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <InputWithLabel
                 label="Full Name *"
                 placeholder="e.g. Amit Kumar"
@@ -98,7 +115,7 @@ export default function ContactForm() {
                 icon={<User size={16} className="text-main-gray" />}
               />
               <InputWithLabel
-                label="Phone Number *"
+                label="Phone / WhatsApp Number *"
                 placeholder="e.g. 9876543210"
                 type="tel"
                 value={formData.phone}
@@ -110,7 +127,7 @@ export default function ContactForm() {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <InputWithLabel
                 label="Email Address *"
                 placeholder="e.g. amit@example.com"
@@ -123,8 +140,8 @@ export default function ContactForm() {
                 icon={<Mail size={16} className="text-main-gray" />}
               />
               <InputWithLabel
-                label="Subject / Topic"
-                placeholder="e.g. Solved Assignment BCA"
+                label="Subject / Program Topic"
+                placeholder="e.g. Solved Assignment BCA / MCA Project"
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 labelmedium
@@ -134,8 +151,8 @@ export default function ContactForm() {
             </div>
 
             <InputWithLabel
-              label="Your Message *"
-              placeholder="Write your query details here (e.g. semester, course code, special requests)..."
+              label="Your Message / Requirement *"
+              placeholder="Please specify your course code, semester, session (e.g. July 2024 - Jan 2025), or questions..."
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               required
@@ -145,19 +162,25 @@ export default function ContactForm() {
               lightwhite
             />
 
-            <MainButton
+            <button
               type="submit"
               disabled={loading}
-              className="w-full justify-center py-3.5 text-base shadow-md font-bold hover:shadow-lg transition-all"
+              className="w-full flex items-center justify-center gap-2.5 py-4 px-6 rounded-xl font-bold text-sm sm:text-base text-white bg-orange hover:bg-orange/90 active:scale-98 transition-all shadow-lg shadow-orange/20 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed border-none mt-2"
             >
-              {loading ? "Sending Message..." : (
-                <span className="flex items-center gap-2">
-                  <Send size={16} /> Send Message
-                </span>
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Submitting Inquiry...</span>
+                </>
+              ) : (
+                <>
+                  <Send size={16} />
+                  <span>Submit Inquiry</span>
+                </>
               )}
-            </MainButton>
+            </button>
           </form>
-        </>
+        </div>
       )}
     </Card>
   );

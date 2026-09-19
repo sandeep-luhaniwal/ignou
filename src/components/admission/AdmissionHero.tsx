@@ -69,9 +69,9 @@ export default function AdmissionHero() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-[#FDFCFA] to-[#F1F5F9] border-b border-border-white py-16 md:py-20 px-6 relative overflow-hidden">
+    <section className="bg-linear-to-b from-slate-50 to-slate-100 border-b border-border-white py-16 md:py-20 px-6 relative overflow-hidden">
       {/* Background Accents */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#F97316_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+      <div className="absolute inset-0 opacity-5 bg-orange/5 pointer-events-none" />
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-cta/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -114,10 +114,10 @@ export default function AdmissionHero() {
 
         {/* Right Column (Form Card) */}
         <div className="lg:col-span-5 w-full">
-          <Card border className="p-8 md:p-10 bg-white shadow-xl !rounded-[2rem] relative">
+          <Card border className="p-8 md:p-10 bg-white shadow-xl rounded-4xl! relative">
             {success ? (
               <div className="text-center py-12 flex flex-col items-center justify-center">
-                <div className="w-16 h-16 bg-[#E6FAE5] text-green rounded-full flex items-center justify-center mb-6">
+                <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mb-6">
                   <CheckCircle size={32} />
                 </div>
                 <Heading level={3} bold mainblack className="mb-4 text-2xl tracking-tight">

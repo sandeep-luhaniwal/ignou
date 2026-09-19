@@ -11,17 +11,17 @@ const AboutUs = () => {
   return (
     <section id="about" className="py-20 bg-light-gray relative overflow-hidden">
       {/* Decorative Glow Elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-yellow/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-125 h-125 bg-orange/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-100 h-100 bg-yellow/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-[1200px] mx-auto px-4 xl:px-0 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 xl:px-0 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
           {/* Left Column: Visual Grid of Trust Indicators (Cards) */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
             
             {/* Box 1 */}
-            <div className="p-6 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/[0.01] hover:shadow-md transition-all duration-300 group">
+            <div className="p-6 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/5 hover:shadow-md transition-all duration-300 group">
               <div className="w-12 h-12 rounded-xl bg-orange/10 text-orange group-hover:bg-orange group-hover:text-white transition-all duration-300 flex items-center justify-center mb-4">
                 <Award className="w-6 h-6" />
               </div>
@@ -34,7 +34,7 @@ const AboutUs = () => {
             </div>
 
             {/* Box 2 */}
-            <div className="p-6 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/[0.01] hover:shadow-md transition-all duration-300 group mt-0 sm:mt-6">
+            <div className="p-6 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/5 hover:shadow-md transition-all duration-300 group mt-0 sm:mt-6">
               <div className="w-12 h-12 rounded-xl bg-yellow/10 text-yellow group-hover:bg-yellow group-hover:text-black transition-all duration-300 flex items-center justify-center mb-4">
                 <ShieldCheck className="w-6 h-6" />
               </div>
@@ -47,7 +47,7 @@ const AboutUs = () => {
             </div>
 
             {/* Box 3 */}
-            <div className="p-6 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/[0.01] hover:shadow-md transition-all duration-300 group">
+            <div className="p-6 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/5 hover:shadow-md transition-all duration-300 group">
               <div className="w-12 h-12 rounded-xl bg-blue/10 text-blue group-hover:bg-blue group-hover:text-white transition-all duration-300 flex items-center justify-center mb-4">
                 <BookOpen className="w-6 h-6" />
               </div>
@@ -60,7 +60,7 @@ const AboutUs = () => {
             </div>
 
             {/* Box 4 */}
-            <div className="p-6 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/[0.01] hover:shadow-md transition-all duration-300 group mt-0 sm:mt-6">
+            <div className="p-6 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/5 hover:shadow-md transition-all duration-300 group mt-0 sm:mt-6">
               <div className="w-12 h-12 rounded-xl bg-green-500/10 text-dark-green group-hover:bg-dark-green group-hover:text-white transition-all duration-300 flex items-center justify-center mb-4" style={{ backgroundColor: "rgba(16, 185, 129, 0.1)", color: "var(--dark-green, #10B981)" }}>
                 <CheckCircle2 className="w-6 h-6" />
               </div>

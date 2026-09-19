@@ -23,18 +23,18 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-6">
-      <Card border className="!p-0 overflow-hidden shadow-md">
+      <Card border className="p-0! overflow-hidden shadow-md">
         <div className="relative aspect-video w-full overflow-hidden bg-gray-100 border-b border-gray-100">
           <img
             src={image}
             alt={title}
             className="w-full h-full object-cover"
           />
-          <span className="absolute top-4 left-4 bg-main-black text-white text-[10px] font-black px-3 py-1 rounded-lg tracking-wider">
+          <span className="absolute top-4 left-4 bg-main-black text-white text-2xs font-black px-3 py-1 rounded-lg tracking-wider">
             {category}
           </span>
           {discount > 0 && (
-            <span className="absolute top-4 right-4 bg-red text-white text-[10px] font-black px-3 py-1 rounded-lg tracking-wider animate-pulse">
+            <span className="absolute top-4 right-4 bg-red text-white text-2xs font-black px-3 py-1 rounded-lg tracking-wider animate-pulse">
               {discount}% OFF
             </span>
           )}
@@ -62,7 +62,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
             </div>
             <div className="flex flex-col gap-1">
               <Paragraph gray xs bold className="uppercase tracking-wider">Quality Status</Paragraph>
-              <Paragraph xs green bold className="bg-[#10B981]/10 px-2.5 py-0.5 rounded-lg w-fit border border-[#10B981]/10 flex items-center gap-1 mt-0.5">
+              <Paragraph xs green bold className="bg-emerald-500/10 px-2.5 py-0.5 rounded-lg w-fit border border-emerald-500/20 flex items-center gap-1 mt-0.5">
                 <CheckCircle2 size={10} /> Verified Solution
               </Paragraph>
             </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import SearchInput from "@/components/ui/SearchInput";
-import { SlidersHorizontal, ArrowUpDown, RotateCcw } from "lucide-react";
+import { SlidersHorizontal, ArrowUpDown, RotateCcw, ChevronDown, CheckCircle2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { fetchAssignmentsRequest } from "@/store/slices/assignmentsSlice";
 import FilterContent from "./FilterContent";
@@ -14,7 +14,7 @@ import ActiveFiltersList from "./ActiveFiltersList";
 
 export const SolvedAssignments: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { list: products, loading, error } = useAppSelector((state) => state.assignments);
+  const { list: products, pagination, loading, loadingMore, error } = useAppSelector((state) => state.assignments);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
@@ -23,13 +23,17 @@ export const SolvedAssignments: React.FC = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sortBy, setSortBy] = useState("default");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit] = useState(9);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleCategoryToggle = (c: string) =>
+  const handleCategoryToggle = (c: string) => {
     setSelectedCategories((p) => (p.includes(c) ? p.filter((x) => x !== c) : [...p, c]));
+  };
 
-  const handleYearToggle = (y: string) =>
+  const handleYearToggle = (y: string) => {
     setSelectedYears((p) => (p.includes(y) ? p.filter((x) => x !== y) : [...p, y]));
+  };
 
   const handleResetFilters = () => {
     setSearchQuery("");
@@ -39,7 +43,13 @@ export const SolvedAssignments: React.FC = () => {
     setMinPrice("");
     setMaxPrice("");
     setSortBy("default");
+    setCurrentPage(1);
   };
+
+  // Reset to page 1 whenever any filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategories, selectedYears, pricePreset, minPrice, maxPrice, sortBy]);
 
   const isAnyFilterActive = useMemo(
     () =>
@@ -69,14 +79,17 @@ export const SolvedAssignments: React.FC = () => {
     dispatch(
       fetchAssignmentsRequest({
         search: searchQuery,
+        program: selectedCategories,
         category: selectedCategories,
         year: selectedYears,
         minPrice: min,
         maxPrice: max,
         sortBy: sortBy,
+        page: currentPage,
+        limit: limit,
       })
     );
-  }, [searchQuery, selectedCategories, selectedYears, pricePreset, minPrice, maxPrice, sortBy, dispatch]);
+  }, [searchQuery, selectedCategories, selectedYears, pricePreset, minPrice, maxPrice, sortBy, currentPage, limit, dispatch]);
 
   const filterProps = {
     searchQuery,
@@ -93,10 +106,12 @@ export const SolvedAssignments: React.FC = () => {
     setMaxPrice,
   };
 
+  const hasMore = pagination && (pagination.page < pagination.totalPages || products.length < pagination.total);
+
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
       <AssignmentHero />
-      <section className="max-w-[1200px] mx-auto w-full px-4 xl:px-0 py-10 flex-1">
+      <section className="max-w-7xl mx-auto w-full px-4 xl:px-0 py-10 flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <aside
             className="hidden lg:flex lg:col-span-3 flex-col p-6 rounded-lg border sticky top-28 shadow-sm"
@@ -186,7 +201,7 @@ export const SolvedAssignments: React.FC = () => {
               isAnyFilterActive={isAnyFilterActive}
               handleResetFilters={handleResetFilters}
             />
-            {loading ? (
+            {loading && products.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 bg-white border border-gray-100 rounded-2xl shadow-sm">
                 <div className="w-8 h-8 border-3 border-orange border-t-transparent rounded-full animate-spin mb-3"></div>
                 <p className="text-sm font-bold text-gray">Fetching solved assignments...</p>
@@ -196,7 +211,56 @@ export const SolvedAssignments: React.FC = () => {
                 {error}
               </div>
             ) : (
-              <AssignmentsGrid products={products} handleResetFilters={handleResetFilters} />
+              <>
+                <AssignmentsGrid products={products} handleResetFilters={handleResetFilters} />
+                
+                {/* Load More Section */}
+                {products.length > 0 && (
+                  <div className="flex flex-col items-center justify-center pt-8 pb-4 gap-3">
+                    {pagination?.total > 0 && (
+                      <div className="flex flex-col items-center gap-1.5 text-xs text-gray-500 font-medium">
+                        <span>
+                          Showing <strong className="text-main-black">{products.length}</strong> of{" "}
+                          <strong className="text-main-black">{pagination.total}</strong> assignments
+                        </span>
+                        <div className="w-48 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-orange transition-all duration-500 rounded-full"
+                            style={{
+                              width: `${Math.min(100, Math.round((products.length / pagination.total) * 100))}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {hasMore ? (
+                      <button
+                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                        disabled={loadingMore}
+                        className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl font-bold text-sm text-white bg-orange hover:bg-orange/90 active:scale-98 transition-all shadow-md shadow-orange/20 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed border-none mt-2"
+                      >
+                        {loadingMore ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            <span>Loading More Assignments...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Load More Assignments</span>
+                            <ChevronDown size={16} className="transition-transform group-hover:translate-y-0.5" />
+                          </>
+                        )}
+                      </button>
+                    ) : pagination && pagination.total > 0 && products.length >= pagination.total ? (
+                      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-600 text-xs font-semibold mt-2">
+                        <CheckCircle2 size={14} className="text-emerald-500" />
+                        <span>All {pagination.total} assignments loaded</span>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

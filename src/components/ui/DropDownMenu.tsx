@@ -105,7 +105,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({ options = [], value, label,
                     </span>
                 </button>
                 <div
-                    className={`absolute ${openUpward ? "bottom-[calc(100%+6px)]" : "top-[calc(100%+6px)]"} ${positionright ? "right-0" : "left-0"
+                    className={`absolute ${openUpward ? "bottom-full mb-1.5" : "top-full mt-1.5"} ${positionright ? "right-0" : "left-0"
                         } w-full min-w-30 border border-off-white rounded-lg max-h-60 overflow-y-auto z-50 transition-all duration-300 ${lightwhite ? "bg-light-white" : "bg-dark-white"
                         } ${open
                             ? "opacity-100 visible translate-y-0"

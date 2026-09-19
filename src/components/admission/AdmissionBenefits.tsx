@@ -13,7 +13,7 @@ export default function AdmissionBenefits() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Side */}
         <div className="lg:col-span-7 space-y-6">
-          <Badge orange roundedfull className="px-3 py-1 font-bold uppercase tracking-wider text-[10px] w-fit">
+          <Badge orange roundedfull className="px-3 py-1 font-bold uppercase tracking-wider text-2xs w-fit">
             Our Benefits
           </Badge>
           <Heading level={2} bold mainblack className="text-2xl md:text-3xl tracking-tight">
@@ -41,7 +41,7 @@ export default function AdmissionBenefits() {
 
         {/* Right Side (WhatsApp support card) */}
         <div className="lg:col-span-5 w-full">
-          <Card border className="p-8 md:p-10 bg-white hover:shadow-lg transition-all duration-300 rounded-[2rem] border-border-white flex flex-col justify-between min-h-[350px]">
+          <Card border className="p-8 md:p-10 bg-white hover:shadow-lg transition-all duration-300 rounded-4xl border-border-white flex flex-col justify-between min-h-88">
             <div>
               <div className="w-14 h-14 bg-light-orange text-cta rounded-xl flex items-center justify-center mb-6">
                 <Award size={24} />
@@ -70,7 +70,7 @@ export default function AdmissionBenefits() {
 
 const BenefitItem = ({ title, desc }: { title: string; desc: string }) => (
   <div className="flex gap-4 items-start">
-    <div className="w-6 h-6 rounded-full bg-[#E6FAE5] text-green flex items-center justify-center shrink-0 mt-0.5">
+    <div className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
       <CheckCircle size={14} />
     </div>
     <div>

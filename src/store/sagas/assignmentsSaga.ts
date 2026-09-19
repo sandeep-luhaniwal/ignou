@@ -13,7 +13,12 @@ import { toast } from "react-hot-toast";
 function* handleFetchAssignments(action: any): Generator<any, void, any> {
   try {
     const data = yield call(api.assignments.list, action.payload);
-    yield put(fetchAssignmentsSuccess(data));
+    yield put(
+      fetchAssignmentsSuccess({
+        ...data,
+        requestedPage: action.payload?.page,
+      })
+    );
   } catch (error: any) {
     const errorMsg = error.message || "Failed to load solved assignments.";
     yield put(fetchAssignmentsFailure(errorMsg));

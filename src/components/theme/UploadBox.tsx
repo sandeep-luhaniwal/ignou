@@ -21,14 +21,14 @@ export const UploadBox: React.FC<UploadBoxProps> = ({ label, subtext, accept = "
       <label className="text-sm font-bold" style={{ color: "var(--main-black, #141B2C)" }}>{label}</label>
       <div
         onClick={handleClick}
-        className="border-2 border-dashed cursor-pointer rounded-lg p-6 flex flex-col items-center justify-center gap-2 hover:bg-[#F8FAFC]/50 transition-all duration-300 min-h-[110px]"
+        className="border-2 border-dashed cursor-pointer rounded-lg p-6 flex flex-col items-center justify-center gap-2 hover:bg-slate-50/50 transition-all duration-300 min-h-28"
         style={{ borderColor: "rgba(226, 232, 240, 0.8)", backgroundColor: "var(--background, #F5F7FA)" }}
       >
         <input type="file" ref={fileInputRef} onChange={handleChange} accept={accept} className="hidden" />
         {fileName ? (
           <div className="flex flex-col items-center gap-1">
-            <span className="text-xs font-bold text-center truncate max-w-[200px]" style={{ color: "var(--orange)" }}>{fileName}</span>
-            <span className="text-[10px]" style={{ color: "var(--gray)" }}>Click to replace</span>
+            <span className="text-xs font-bold text-center truncate max-w-50" style={{ color: "var(--orange)" }}>{fileName}</span>
+            <span className="text-2xs" style={{ color: "var(--gray)" }}>Click to replace</span>
           </div>
         ) : (
           <>

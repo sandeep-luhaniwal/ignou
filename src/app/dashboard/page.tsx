@@ -72,17 +72,17 @@ export default function DashboardPage() {
 
   if (loading || !profile) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAFBFD]">
+      <div className="min-h-screen flex items-center justify-center bg-dark-white">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-orange border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-sm font-bold text-gray">Loading student portal...</span>
+          <div className="w-8 h-8 border-4 border-orange border-t-transparent rounded-full animate-spin" />
+          <span className="text-xs font-bold text-gray">Loading student portal...</span>
         </div>
       </div>
     );
   }
 
   return (
-    <main className="grow pt-24 pb-16 max-w-[1200px] mx-auto px-4 xl:px-0 w-full">
+    <main className="grow pt-24 pb-16 max-w-300 mx-auto px-4 xl:px-0 w-full">
 
       {/* Hero Section Banner */}
       <StudentHero

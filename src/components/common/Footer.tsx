@@ -5,14 +5,14 @@ import { Phone, Mail, MapPin, MessageCircle, Camera, Share2, Video } from "lucid
 const Footer = () => {
   return (
     <footer className="bg-primary text-white pt-20 pb-10 px-6">
-      <div className="max-w-[1200px] mx-auto px-4 xl:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto px-4 xl:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Company Info */}
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-2">
             <div className="bg-white text-primary p-2 rounded-xl font-bold text-2xl">IP</div>
             <div className="flex flex-col leading-tight">
               <span className="font-heading font-bold text-xl tracking-tight">IGNOU POWER</span>
-              <span className="text-[10px] text-accent font-bold tracking-widest uppercase">Student Support</span>
+              <span className="text-2xs text-accent font-bold tracking-widest uppercase">Student Support</span>
             </div>
           </div>
           <p className="text-white/80 leading-relaxed text-sm">
@@ -30,10 +30,10 @@ const Footer = () => {
         <div>
           <h3 className="font-heading font-bold text-lg mb-8 border-l-4 border-accent pl-4 uppercase tracking-wider text-white">Quick Links</h3>
           <ul className="flex flex-col gap-4 text-white/75 text-sm">
-            <li><Link href="/study-store" className="hover:text-accent transition-colors">Study Material Store</Link></li>
             <li><Link href="/assignments" className="hover:text-accent transition-colors">Solved Assignments</Link></li>
             <li><Link href="/projects" className="hover:text-accent transition-colors">Project Work Help</Link></li>
             <li><Link href="/admission" className="hover:text-accent transition-colors">Admission Guidance</Link></li>
+            <li><Link href="/contact" className="hover:text-accent transition-colors">Contact Us</Link></li>
             <li><Link href="/previous-papers" className="hover:text-accent transition-colors">Previous Year Papers</Link></li>
             <li><Link href="/practical-files" className="hover:text-accent transition-colors">Practical Files</Link></li>
           </ul>
@@ -72,9 +72,9 @@ const Footer = () => {
         </div>
       </div>
 
-      <hr className="border-white/10 my-12 max-w-[1200px] mx-auto" />
+      <hr className="border-white/10 my-12 max-w-7xl mx-auto" />
 
-      <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-white/60 text-sm">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-white/60 text-sm">
         <p>© 2026 IGNOU Power Platform. All Rights Reserved.</p>
         <div className="flex items-center gap-2">
           <span>Developed with ❤️ for IGNOU Students</span>

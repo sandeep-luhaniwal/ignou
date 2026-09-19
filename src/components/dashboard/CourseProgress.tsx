@@ -9,7 +9,7 @@ export const CourseProgress: React.FC = () => {
   return (
     <Card
       border
-      className="!border-gray-100 shadow-[0_4px_25px_rgba(0,0,0,0.015)] text-left flex flex-col gap-5 hover:shadow-xl hover:!border-gray-150 transition-all duration-300"
+      className="border-gray-100! shadow-sm text-left flex flex-col gap-5 hover:shadow-xl hover:border-gray-150! transition-all duration-300"
     >
       <div className="flex items-center justify-between pb-3 border-b border-gray-100">
         <div className="flex items-center gap-2">

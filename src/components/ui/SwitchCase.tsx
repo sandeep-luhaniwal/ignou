@@ -32,19 +32,19 @@ const SwitchCase = ({
   const switchSizes = {
     sm: {
       wrapper: "w-10 h-5",
-      circle: "w-[14px] h-[14px]",
+      circle: "w-3.5 h-3.5",
       active: "translate-x-5",
     },
 
     md: {
       wrapper: "w-11 h-6",
-      circle: "w-[16px] h-[16px]",
-      active: "translate-x-[22px]",
+      circle: "w-4 h-4",
+      active: "translate-x-5.5",
     },
 
     lg: {
       wrapper: "w-12 h-6",
-      circle: "w-[16px] h-[16px]",
+      circle: "w-4 h-4",
       active: "translate-x-6",
     },
   };

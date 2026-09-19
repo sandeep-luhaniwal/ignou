@@ -16,7 +16,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
   onRemove,
 }) => {
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-5 bg-white border border-gray-100 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:border-gray-150 transition-all gap-4">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-5 bg-white border border-gray-100 rounded-2xl shadow-xs hover:border-gray-150 transition-all gap-4">
       {/* Product Image & Details */}
       <div className="flex items-center gap-4 flex-1">
         <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-gray-50 border border-gray-100 shrink-0">
@@ -27,7 +27,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
           />
         </div>
         <div className="flex-1 min-w-0 text-left">
-          <span className="inline-block text-[10px] font-bold text-orange bg-orange/5 px-2 py-0.5 rounded-md uppercase tracking-wider mb-1.5">
+          <span className="inline-block text-2xs font-bold text-orange bg-orange/5 px-2 py-0.5 rounded-md uppercase tracking-wider mb-1.5">
             {item.code}
           </span>
           <h4 className="text-sm sm:text-base font-bold text-main-black line-clamp-2 leading-snug">
@@ -65,7 +65,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
 
         {/* Price & Delete */}
         <div className="flex items-center gap-4">
-          <div className="text-right flex flex-col justify-center min-w-[70px]">
+          <div className="text-right flex flex-col justify-center min-w-18">
             <span className="text-base font-black text-orange">
               ₹{item.price * item.quantity}
             </span>

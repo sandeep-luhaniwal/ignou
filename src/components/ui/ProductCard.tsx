@@ -7,11 +7,40 @@ import Paragraph from "./Paragraph";
 import Heading from "./Heading";
 import { useCart } from "@/context/CartContext";
 
-interface ProductCardProps { id: string; title: string; category: string; price: number; oldPrice?: number; image: string; rating?: number; reviews?: number; }
+interface ProductCardProps {
+  id: string;
+  title: string;
+  category: string;
+  price: number;
+  oldPrice?: number;
+  image: string;
+  rating?: number;
+  reviews?: number;
+  slug?: string;
+}
 
-const ProductCard: React.FC<ProductCardProps> = ({ id, title, category, price, oldPrice, image, rating = 5, reviews = 0 }) => {
+const toSlug = (text: string) =>
+  String(text || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  id,
+  title,
+  category,
+  price,
+  oldPrice,
+  image,
+  rating = 5,
+  reviews = 0,
+  slug,
+}) => {
   const { addToCart } = useCart();
   const discount = oldPrice ? Math.round(((oldPrice - price) / oldPrice) * 100) : 0;
+  const productSlug = slug || toSlug(title) || id;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -42,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, title, category, price, o
         />
         {/* Category Badge */}
         <span 
-          className="absolute top-4 left-4 backdrop-blur-md text-[10px] font-bold px-3 py-1 rounded-lg uppercase tracking-wider"
+          className="absolute top-4 left-4 backdrop-blur-md text-2xs font-bold px-3 py-1 rounded-lg uppercase tracking-wider"
           style={{ backgroundColor: "rgba(20, 27, 44, 0.8)", color: "#ffffff" }}
         >
           {category}
@@ -50,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, title, category, price, o
         {/* Discount Badge */}
         {discount > 0 && (
           <span 
-            className="absolute top-4 right-4 text-[10px] font-bold px-3 py-1 rounded-lg uppercase tracking-wider"
+            className="absolute top-4 right-4 text-2xs font-bold px-3 py-1 rounded-lg uppercase tracking-wider"
             style={{ backgroundColor: "var(--red, #FF0000)", color: "#ffffff" }}
           >
             {discount}% OFF
@@ -78,9 +107,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, title, category, price, o
         </div>
 
         {/* Title */}
-        <Link href={`/assignments/${id}`} className="block flex-1 transition-colors hover:opacity-80">
+        <Link href={`/assignments/${productSlug}`} className="block flex-1 transition-colors hover:opacity-80">
           <h4 
-            className="text-base font-bold line-clamp-2 mb-4 min-h-[44px]"
+            className="text-base font-bold line-clamp-2 mb-4 min-h-11"
             style={{ color: "var(--main-black, #141B2C)" }}
           >
             {title}

@@ -10,6 +10,8 @@ import MainButton from "@/components/ui/MainButton";
 import Badge from "@/components/ui/Badge";
 import InputWithLabel from "@/components/ui/InputWithLabel";
 import { User, Phone, Mail, FileText, Check, Sparkles } from "lucide-react";
+import { useAppDispatch } from "@/store";
+import { submitQueryRequest } from "@/store/slices/queriesSlice";
 
 const programOptions = [
   { label: "BCA Computer Project (BCSP-064)", value: "BCA" },
@@ -19,6 +21,7 @@ const programOptions = [
 ];
 
 export default function ProjectOrderForm() {
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -41,6 +44,17 @@ export default function ProjectOrderForm() {
       alert("Please fill in your Name and WhatsApp Number.");
       return;
     }
+
+    dispatch(
+      submitQueryRequest({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email || "project.lead@ignou.ac.in",
+        type: "project",
+        message: `Program: ${formData.program}\nUnique Synopsis: ${uniqueSynopsis ? "Yes" : "No"}\nSource Code: ${includeSourceCode ? "Yes" : "No"}\nViva Prep: ${includeViva ? "Yes" : "No"}`,
+      })
+    );
+
     setOrdered(true);
     setTimeout(() => {
       const text = encodeURIComponent(
@@ -58,12 +72,12 @@ export default function ProjectOrderForm() {
   };
 
   return (
-    <Card border className="p-6 md:p-8 bg-white shadow-xl !rounded-[2rem] relative overflow-hidden h-full flex flex-col">
+    <Card border className="p-6 md:p-8 bg-white shadow-xl rounded-4xl! relative overflow-hidden h-full flex flex-col">
       <div className="absolute top-0 right-0 w-32 h-32 bg-cta/5 rounded-full blur-2xl pointer-events-none" />
 
       {ordered ? (
         <div className="text-center py-12 flex flex-col items-center justify-center my-auto">
-          <div className="w-16 h-16 bg-[#E6FAE5] text-green rounded-full flex items-center justify-center mb-6 animate-bounce">
+          <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mb-6 animate-bounce">
             <Check size={32} />
           </div>
           <Heading level={3} bold mainblack className="mb-4 text-2xl tracking-tight">
@@ -139,7 +153,7 @@ export default function ProjectOrderForm() {
               <div className="flex items-center justify-between p-3 bg-light-white rounded-xl border border-border-white">
                 <div>
                   <h5 className="text-xs font-bold text-main-black">Unique Synopsis Guarantee</h5>
-                  <p className="text-[11px] text-gray">Avoids duplicate topic rejections</p>
+                  <p className="text-xs text-gray">Avoids duplicate topic rejections</p>
                 </div>
                 <SwitchCase value={uniqueSynopsis} onChange={setUniqueSynopsis} size="md" />
               </div>
@@ -147,7 +161,7 @@ export default function ProjectOrderForm() {
               <div className="flex items-center justify-between p-3 bg-light-white rounded-xl border border-border-white">
                 <div>
                   <h5 className="text-xs font-bold text-main-black">Include Source Code & DB</h5>
-                  <p className="text-[11px] text-gray">Full project software files</p>
+                  <p className="text-xs text-gray">Full project software files</p>
                 </div>
                 <SwitchCase value={includeSourceCode} onChange={setIncludeSourceCode} size="md" />
               </div>
@@ -156,9 +170,9 @@ export default function ProjectOrderForm() {
                 <div className="flex flex-col gap-0.5">
                   <div className="flex items-center gap-1.5">
                     <h5 className="text-xs font-bold text-main-black">Viva-Voce Questions Guide</h5>
-                    <Badge xs className="font-extrabold text-[8px] tracking-wider uppercase">Free</Badge>
+                    <Badge xs className="font-extrabold text-2xs tracking-wider uppercase">Free</Badge>
                   </div>
-                  <p className="text-[11px] text-gray">Comprehensive viva prep booklet</p>
+                  <p className="text-xs text-gray">Comprehensive viva prep booklet</p>
                 </div>
                 <SwitchCase value={includeViva} onChange={setIncludeViva} size="md" />
               </div>

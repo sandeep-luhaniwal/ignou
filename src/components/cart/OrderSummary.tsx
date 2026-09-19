@@ -52,7 +52,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
   };
 
   return (
-    <Card border className=" !border-gray-100 shadow-[0_4px_25px_rgba(0,0,0,0.02)] text-left flex flex-col gap-6">
+    <Card border className="border-gray-100! shadow-sm text-left flex flex-col gap-6">
       <Heading small mainblack bold>
         Order Summary
       </Heading>
@@ -86,7 +86,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
       <div className="flex justify-between items-center">
         <div>
           <span className="text-base font-bold text-main-black block">Total Amount</span>
-          <span className="text-[10px] text-gray uppercase font-bold tracking-wider">Inclusive of taxes</span>
+          <span className="text-2xs text-gray uppercase font-bold tracking-wider">Inclusive of taxes</span>
         </div>
         <span className="text-2xl font-black text-orange tracking-tight">₹{grandTotal}</span>
       </div>
@@ -110,7 +110,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
                 onRemovePromo();
                 setPromoSuccess(null);
               }}
-              className="text-[10px] text-red hover:underline font-bold uppercase tracking-wider cursor-pointer"
+              className="text-2xs text-red hover:underline font-bold uppercase tracking-wider cursor-pointer"
             >
               Remove
             </button>
@@ -122,7 +122,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
               placeholder="Enter Code (e.g. IGNOU10)"
               value={promoInput}
               onChange={(e) => setPromoInput(e.target.value)}
-              className="grow px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-bold uppercase tracking-wide bg-[#F8FAFC] focus:outline-none focus:border-orange focus:bg-white text-main-black transition-all"
+              className="grow px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-bold uppercase tracking-wide bg-slate-50 focus:outline-none focus:border-orange focus:bg-white text-main-black transition-all"
             />
             <button
               type="submit"
@@ -153,7 +153,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
       <button
         type="button"
         onClick={onCheckout}
-        className="w-full py-4 rounded-2xl bg-custom-orange-gradient text-white font-bold text-sm shadow-md shadow-orange/15 flex items-center justify-center gap-2 hover:opacity-95 transition-opacity cursor-pointer active:scale-[0.99] duration-200"
+        className="w-full py-4 rounded-2xl bg-custom-orange-gradient text-white font-bold text-sm shadow-md shadow-orange/15 flex items-center justify-center gap-2 hover:opacity-95 transition-opacity cursor-pointer active:scale-98 duration-200"
       >
         <span>Place Your Order</span>
         <ArrowRight size={16} />

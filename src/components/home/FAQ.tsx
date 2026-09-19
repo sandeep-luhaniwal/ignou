@@ -59,9 +59,9 @@ const FAQ = () => {
 
   return (
     <section className="py-20 bg-white relative">
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-yellow/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-125 h-125 bg-orange/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-[1200px] mx-auto px-4 xl:px-0 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <div className="max-w-300 mx-auto px-4 xl:px-0 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-16">
         
         {/* Left Column: Sticky Title */}
         <div className="lg:col-span-5 lg:sticky lg:top-32 self-start text-left">
@@ -106,7 +106,7 @@ const FAQ = () => {
                   {/* Icon Button Container */}
                   <div
                     className={`relative h-9 w-9 min-w-9 rounded-full flex justify-center items-center overflow-hidden duration-300 ${
-                      isActive ? "border-0" : "border-[2px] border-orange/40 group-hover:border-transparent"
+                      isActive ? "border-0" : "border-2 border-orange/40 group-hover:border-transparent"
                     }`}
                   >
                     <div

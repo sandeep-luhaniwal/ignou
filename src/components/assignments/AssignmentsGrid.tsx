@@ -11,9 +11,11 @@ interface GridProps {
 }
 
 export const AssignmentsGrid: React.FC<GridProps> = ({ products, handleResetFilters }) => {
-  if (products.length === 0) {
+  const safeProducts = Array.isArray(products) ? products : [];
+
+  if (safeProducts.length === 0) {
     return (
-      <Card border className=" !border-gray-150 py-16 px-6 text-center flex flex-col items-center justify-center shadow-sm">
+      <Card border className="border-gray-150! py-16 px-6 text-center flex flex-col items-center justify-center shadow-sm">
         <div className="w-16 h-16 bg-orange/10 text-orange rounded-full flex items-center justify-center mb-5">
           <AlertCircle size={28} />
         </div>
@@ -27,13 +29,13 @@ export const AssignmentsGrid: React.FC<GridProps> = ({ products, handleResetFilt
   }
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-      {products.map((product) => (
-        <div key={product.id} className="relative group">
-          <div className="absolute top-12 left-4 z-10 bg-yellow text-primary font-bold text-[9px] px-2 py-0.5 rounded-md shadow-sm">
+      {safeProducts.map((product) => (
+        <div key={product.id || (product as any)._id} className="relative group">
+          <div className="absolute top-12 left-4 z-10 bg-yellow text-primary font-bold text-2xs px-2 py-0.5 rounded-md shadow-sm">
             {product.year}
           </div>
           <ProductCard
-            id={product.id}
+            id={product.id || (product as any)._id}
             title={product.title}
             category={product.category}
             price={product.price}
@@ -41,6 +43,7 @@ export const AssignmentsGrid: React.FC<GridProps> = ({ products, handleResetFilt
             image={product.image}
             rating={product.rating}
             reviews={product.reviews}
+            slug={(product as any).slug}
           />
         </div>
       ))}

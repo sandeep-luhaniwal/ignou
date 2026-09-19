@@ -1,31 +1,59 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Heading from "@/components/ui/Heading";
 import Paragraph from "@/components/ui/Paragraph";
 import MainButton from "@/components/ui/MainButton";
 import ProductCard from "@/components/ui/ProductCard";
-import Badge from "@/components/ui/Badge";
 import { ALL_ASSIGNMENTS } from "@/components/assignments/data";
 import { ArrowRight } from "lucide-react";
+import { api } from "@/lib/api";
+import { normalizeProduct } from "@/store/slices/assignmentsSlice";
 
 const FeaturedAssignments = () => {
-  // Get top 3 or 4 assignments to feature on home page
-  const featuredList = ALL_ASSIGNMENTS.slice(0, 3);
+  const [featuredList, setFeaturedList] = useState<any[]>(ALL_ASSIGNMENTS.slice(0, 3));
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadFeatured = async () => {
+      try {
+        const res = await api.assignments.featured();
+        const list = Array.isArray(res)
+          ? res
+          : res?.data && Array.isArray(res.data)
+          ? res.data
+          : [];
+
+        if (isMounted && list.length > 0) {
+          setFeaturedList(list.map(normalizeProduct).filter(Boolean).slice(0, 3));
+        }
+      } catch (err) {
+        // Fallback to default catalog on error or empty
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    loadFeatured();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <section className="py-20 bg-white relative">
       {/* Decorative gradients */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-orange/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-125 h-125 bg-orange/5 rounded-full blur-3xl pointer-events-none" />
       
-      <div className="max-w-[1200px] mx-auto px-4 xl:px-0 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 xl:px-0 relative z-10">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div className="max-w-2xl text-left">
-            <Badge orange sm className="mb-3 w-fit uppercase tracking-wider">
+            <span className="mb-3 inline-block uppercase tracking-wider text-xs font-bold text-orange bg-orange/10 px-3 py-1 rounded-full">
               Premium Solutions
-            </Badge>
+            </span>
             <Heading mainblack bold className="mb-4">
               Popular IGNOU Solved Assignments
             </Heading>
@@ -47,7 +75,7 @@ const FeaturedAssignments = () => {
           {featuredList.map((product) => (
             <div key={product.id} className="relative group">
               {/* Year Badge */}
-              <div className="absolute top-4 left-4 z-20 bg-yellow text-main-black font-bold text-[10px] px-2.5 py-1 rounded-lg shadow-md">
+              <div className="absolute top-4 left-4 z-20 bg-yellow text-main-black font-bold text-xs px-2.5 py-1 rounded-lg shadow-md">
                 Session {product.year}
               </div>
               <ProductCard
@@ -59,6 +87,7 @@ const FeaturedAssignments = () => {
                 image={product.image}
                 rating={product.rating}
                 reviews={product.reviews}
+                slug={product.slug}
               />
             </div>
           ))}

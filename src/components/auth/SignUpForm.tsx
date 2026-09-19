@@ -191,7 +191,7 @@ export const SignUpForm: React.FC = () => {
 
   if (token) {
     return (
-      <Card border className="w-full max-w-md p-8 shadow-[0_4px_25px_rgba(0,0,0,0.03)] text-center py-16">
+      <Card border className="w-full max-w-md p-8 shadow-sm text-center py-16">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-4 border-orange border-t-transparent rounded-full animate-spin"></div>
           <span className="text-xs font-bold text-gray">Redirecting to portal...</span>
@@ -202,7 +202,7 @@ export const SignUpForm: React.FC = () => {
 
   return (
     <>
-      <Card border className="w-full max-w-md p-8 shadow-[0_4px_25px_rgba(0,0,0,0.03)] text-left">
+      <Card border className="w-full max-w-md p-8 shadow-sm text-left">
         <div className="mb-6">
           <Heading small mainblack bold className="mb-1.5">
             Create Account
@@ -286,7 +286,7 @@ export const SignUpForm: React.FC = () => {
       {/* Modern High-End OTP Verification Modal */}
       {showOtpModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md transition-all duration-300">
-          <div className="w-full max-w-md p-8 bg-white border border-border-white rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.15)] text-left animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-full max-w-md p-8 bg-white border border-border-white rounded-2xl shadow-2xl text-left animate-in fade-in zoom-in-95 duration-200">
             <div className="text-center mb-6">
               <div className="w-12 h-12 bg-orange/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-6 h-6 text-orange animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">

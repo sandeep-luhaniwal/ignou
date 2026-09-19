@@ -44,7 +44,7 @@ const Paragraph: React.FC<ParagraphProps> = ({ children, italic, light, xs, cent
     const isXs = xs || size === "xs";
 
     return (
-        <p className={`${isSm ? 'text-sm' : isBase ? 'text-sm md:text-base' : isXs ? 'text-xs' : isLg ? 'text-[15px] md:text-base lg:text-lg' : isXl ? 'text-base md:text-lg lg:text-xl' : "text-lg md:text-xl lg:text-[22px]"}
+        <p className={`${isSm ? 'text-sm' : isBase ? 'text-sm md:text-base' : isXs ? 'text-xs' : isLg ? 'text-base lg:text-lg' : isXl ? 'text-base md:text-lg lg:text-xl' : "text-lg md:text-xl lg:text-2xl"}
         ${medium ? "font-medium" : light ? "font-light" : semibold ? "font-semibold" : bold ? "font-bold" : extrabold ? "font-extrabold" : "font-normal"}
         ${center ? "mx-auto text-center" : right ? "text-right ms-auto" : "text-left"} ${italic ? "italic" : ""} 
          duration-300 ${className} ${sora ? "font-sora" : ""}

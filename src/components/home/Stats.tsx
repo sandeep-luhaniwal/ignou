@@ -48,15 +48,15 @@ const Stats = () => {
   return (
     <section className="relative py-16 bg-main-background overflow-hidden">
       {/* Background Decorative Rings */}
-      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-orange/5 rounded-full blur-[100px] -translate-y-1/2 pointer-events-none" />
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-yellow/5 rounded-full blur-[100px] -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-100 h-100 bg-orange/5 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-1/2 right-0 w-100 h-100 bg-yellow/5 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
 
-      <div className="max-w-[1200px] mx-auto px-4 xl:px-0 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 xl:px-0 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {statsData.map((stat, idx) => (
             <div
               key={idx}
-              className={`group flex flex-col p-6 md:p-8 rounded-3xl border bg-gradient-to-br ${stat.colorClass} shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300`}
+              className={`group flex flex-col p-6 md:p-8 rounded-3xl border bg-linear-to-br ${stat.colorClass} shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300`}
             >
               {/* Icon Container with Glow */}
               <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-md mb-6 group-hover:scale-110 transition-transform duration-300">

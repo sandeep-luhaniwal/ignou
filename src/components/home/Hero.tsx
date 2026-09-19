@@ -25,11 +25,11 @@ const Hero = () => {
       className="relative py-10 min-h-[calc(100vh-108px)] flex items-center overflow-hidden bg-main-black text-white"
     >
       {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-main-black to-main-black/95" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange/10 rounded-full blur-[130px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-yellow/5 rounded-full blur-[110px] translate-y-1/2 -translate-x-1/4 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full bg-linear-to-b from-main-black to-main-black/95" />
+      <div className="absolute top-0 right-0 w-150 h-150 bg-orange/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-125 h-125 bg-yellow/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4 pointer-events-none" />
 
-      <div className="max-w-[1200px] mx-auto px-4 xl:px-0 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 xl:px-0 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 
           {/* Left Column: Heading, Description, and Buttons */}
@@ -59,9 +59,9 @@ const Hero = () => {
           {/* Right Column: Premium Study Related Slider */}
           <div className="lg:col-span-6 relative flex items-center justify-center">
             {/* Glowing Backdrop */}
-            <div className="absolute w-[280px] h-[280px] bg-orange/20 rounded-full blur-[80px] pointer-events-none" />
+            <div className="absolute w-70 h-70 bg-orange/20 rounded-full blur-2xl pointer-events-none" />
 
-            <div className="relative rounded-[2rem] overflow-hidden border-2 border-white/10 shadow-2xl w-full aspect-[4/3] max-w-[500px] bg-white/5 [--swiper-theme-color:#FF6A00] [--swiper-pagination-bullet-inactive-color:#fff] [--swiper-pagination-bullet-inactive-opacity:0.3]">
+            <div className="relative rounded-4xl overflow-hidden border-2 border-white/10 shadow-2xl w-full aspect-4/3 max-w-125 bg-white/5 [--swiper-theme-color:#FF6A00] [--swiper-pagination-bullet-inactive-color:#fff] [--swiper-pagination-bullet-inactive-opacity:0.3]">
               <Swiper
                 modules={[Autoplay, Pagination, EffectFade]}
                 effect="fade"

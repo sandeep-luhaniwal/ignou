@@ -22,9 +22,17 @@ const ordersSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    fetchOrdersSuccess: (state, action: PayloadAction<any[]>) => {
+    fetchOrdersSuccess: (state, action: PayloadAction<any>) => {
       state.loading = false;
-      state.list = action.payload;
+      if (Array.isArray(action.payload)) {
+        state.list = action.payload;
+      } else if (action.payload && Array.isArray(action.payload.orders)) {
+        state.list = action.payload.orders;
+      } else if (action.payload && Array.isArray(action.payload.data)) {
+        state.list = action.payload.data;
+      } else {
+        state.list = [];
+      }
     },
     fetchOrdersFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;

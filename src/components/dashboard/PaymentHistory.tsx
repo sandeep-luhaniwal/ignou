@@ -32,7 +32,7 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
   return (
     <Card
       border
-      className="!border-gray-200 shadow-[0_4px_25px_rgba(0,0,0,0.01)] text-left transition-all duration-300"
+      className="border-gray-200! shadow-xs text-left transition-all duration-300"
     >
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-gray-200">
         <div className="flex items-center gap-2.5">
@@ -49,7 +49,7 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
           </div>
         </div>
 
-        <span className="bg-gray-100 text-main-black text-[10px] font-black px-3 py-1.5 rounded-xl border border-gray-200">
+        <span className="bg-gray-100 text-main-black text-2xs font-black px-3 py-1.5 rounded-xl border border-gray-200">
           {orders.length} Transactions
         </span>
       </div>
@@ -73,19 +73,19 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
                 {/* Left side: Order info */}
                 <div className="grow flex flex-col gap-2">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[10px] text-gray font-bold font-mono bg-gray-50 border border-gray-150 px-2 py-0.5 rounded-md">
+                    <span className="text-2xs text-gray font-bold font-mono bg-gray-50 border border-gray-150 px-2 py-0.5 rounded-md">
                       Ref: #{order._id.substring(order._id.length - 8).toUpperCase()}
                     </span>
-                    <span className="flex items-center gap-1 text-[10px] text-gray font-medium">
+                    <span className="flex items-center gap-1 text-2xs text-gray font-medium">
                       <Calendar size={11} />
                       {orderDate}
                     </span>
                     {order.deliveryType === "PDF" ? (
-                      <span className="text-[9px] bg-orange/10 text-orange font-bold px-2 py-0.5 rounded-md flex items-center gap-0.5">
+                      <span className="text-2xs bg-orange/10 text-orange font-bold px-2 py-0.5 rounded-md flex items-center gap-0.5">
                         <FileText size={10} /> Instant PDF
                       </span>
                     ) : (
-                      <span className="text-[9px] bg-blue/10 text-blue font-bold px-2 py-0.5 rounded-md flex items-center gap-0.5">
+                      <span className="text-2xs bg-blue/10 text-blue font-bold px-2 py-0.5 rounded-md flex items-center gap-0.5">
                         <Package size={10} /> Handwritten Delivery
                       </span>
                     )}
@@ -96,7 +96,7 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
                     <Paragraph mainblack bold sm>
                       {order.items.map((item) => `${item.code} (${item.quantity}x)`).join(", ")}
                     </Paragraph>
-                    <Paragraph gray xs className="mt-0.5 leading-relaxed text-[11px]">
+                    <Paragraph gray xs className="mt-0.5 leading-relaxed text-xs">
                       {order.items.map((item) => item.title).join(", ")}
                     </Paragraph>
                   </div>
@@ -106,10 +106,10 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
                 <div className="flex md:flex-col items-center md:items-end justify-between md:justify-center gap-2 shrink-0 md:pl-4 md:border-l md:border-gray-100">
                   <div className="text-left md:text-right">
                     <span className="text-lg font-black text-orange">₹{order.grandTotal}</span>
-                    <span className="text-[9px] text-gray block">Inclusive of GST</span>
+                    <span className="text-2xs text-gray block">Inclusive of GST</span>
                   </div>
 
-                  <span className="bg-[#E6FAE5] text-green border border-green/20 text-[9px] font-black px-2.5 py-1 rounded-xl flex items-center gap-1">
+                  <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-2xs font-black px-2.5 py-1 rounded-xl flex items-center gap-1">
                     <CheckCircle2 size={11} className="stroke-2.5" />
                     PAID
                   </span>

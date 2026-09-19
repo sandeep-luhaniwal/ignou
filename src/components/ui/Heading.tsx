@@ -23,7 +23,7 @@ const Heading: React.FC<HeadingProps> = ({ children, center, right, small, big, 
 
     return (
         <Tag className={`
-        ${className} ${small ? "text-[22px] md:text-2xl" : big ? "text-4xl md:text-[40px] lg:text-5xl" : "text-[26px] md:text-3xl"}
+        ${className} ${small ? "text-xl md:text-2xl" : big ? "text-4xl md:text-5xl" : "text-2xl md:text-3xl"}
         ${mainblack ? "text-main-black" : white ? "text-white" : "text-black"}
         ${medium ? "font-medium" : semibold ? "font-semibold" : bold ? "font-bold" : extrabold ? "font-extrabold" : "font-normal"}
         ${center ? "mx-auto text-center" : right ? "text-right ms-auto" : "text-left"} ${sora ? "font-sora" : ""}

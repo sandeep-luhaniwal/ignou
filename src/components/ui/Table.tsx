@@ -70,7 +70,7 @@ const Table: React.FC<TableProps> = ({
 
           <table className="min-w-full">
 
-            <thead className="bg-[#F8FAFC] py-2.5">
+            <thead className="bg-slate-50 py-2.5">
 
               <tr>
                 {columns.map((column, index) => (
@@ -166,7 +166,7 @@ const Table: React.FC<TableProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-5 py-4 border-t border-border-white bg-[#F8FAFC]">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-5 py-4 border-t border-border-white bg-slate-50">
 
         <Paragraph sm gray>
           Showing{" "}

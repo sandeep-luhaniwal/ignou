@@ -12,7 +12,7 @@ interface SelectorProps {
 
 export const DeliverySelector: React.FC<SelectorProps> = ({ deliveryType, onChange }) => {
   return (
-    <Card border className=" !border-gray-100 shadow-[0_4px_25px_rgba(0,0,0,0.02)] text-left flex flex-col gap-4">
+    <Card border className="border-gray-100! shadow-sm text-left flex flex-col gap-4">
       <Heading small mainblack bold>
         Delivery Options
       </Heading>

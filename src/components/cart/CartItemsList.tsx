@@ -23,7 +23,7 @@ export const CartItemsList: React.FC<CartItemsListProps> = ({
 }) => {
   if (items.length === 0) {
     return (
-      <Card border className="w-full max-w-xl  !border-gray-100 p-8 sm:p-12 text-center shadow-[0_4px_25px_rgba(0,0,0,0.02)] flex flex-col items-center justify-center">
+      <Card border className="w-full max-w-xl border-gray-100! p-8 sm:p-12 text-center shadow-sm flex flex-col items-center justify-center">
         <div className="w-16 h-16 bg-orange/10 text-orange rounded-full flex items-center justify-center mb-6">
           <ShoppingBag size={28} />
         </div>

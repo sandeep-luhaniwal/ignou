@@ -21,7 +21,7 @@ export const ShippingForm: React.FC<ShippingProps> = ({
   onChange,
 }) => {
   return (
-    <Card border className=" !border-gray-100 shadow-[0_4px_25px_rgba(0,0,0,0.02)] text-left flex flex-col gap-4 animate-fade-in">
+    <Card border className="border-gray-100! shadow-sm text-left flex flex-col gap-4 animate-fade-in">
       <Heading small mainblack bold>
         Shipping & Delivery Address
       </Heading>
@@ -78,7 +78,7 @@ export const ShippingForm: React.FC<ShippingProps> = ({
           labelxs
           labelbold
           labelClassName=""
-          inputClassName=" !resize-none"
+          inputClassName="resize-none!"
         />
       </div>
     </Card>

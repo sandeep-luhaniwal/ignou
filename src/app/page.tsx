@@ -10,7 +10,7 @@ import FAQ from "@/components/home/FAQ";
 
 export default function Home() {
   return (
-    <main className="grow bg-[#FAFBFD]">
+    <main className="grow bg-dark-white">
       <Hero />
       <Features />
       <Stats />

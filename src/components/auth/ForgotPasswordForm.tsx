@@ -94,7 +94,7 @@ export const ForgotPasswordForm: React.FC = () => {
   };
 
   return (
-    <Card border className="w-full max-w-md p-8 shadow-[0_4px_25px_rgba(0,0,0,0.03)] text-left">
+    <Card border className="w-full max-w-md p-8 shadow-sm text-left">
       <div className="mb-6">
         <Heading small mainblack bold className="mb-1.5">
           {showOtp ? "Reset Password" : "Forgot Password"}

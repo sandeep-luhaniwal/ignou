@@ -21,7 +21,7 @@ export const DownloadCenter: React.FC<DownloadCenterProps> = ({ purchasedAssignm
   return (
     <Card
       border
-      className="!border-gray-200 shadow-[0_4px_25px_rgba(0,0,0,0.01)] text-left transition-all duration-300"
+      className="border-gray-200! shadow-xs text-left transition-all duration-300"
     >
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-gray-200">
         <div className="flex items-center gap-2.5">
@@ -38,7 +38,7 @@ export const DownloadCenter: React.FC<DownloadCenterProps> = ({ purchasedAssignm
           </div>
         </div>
         
-        <span className="bg-gray-100 text-main-black text-[10px] font-black px-3 py-1.5 rounded-xl border border-gray-200">
+        <span className="bg-gray-100 text-main-black text-2xs font-black px-3 py-1.5 rounded-xl border border-gray-200">
           {purchasedAssignments.length} Assignments purchased
         </span>
       </div>
@@ -52,10 +52,10 @@ export const DownloadCenter: React.FC<DownloadCenterProps> = ({ purchasedAssignm
             >
               <div className="flex flex-col text-left">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] bg-gray-100 text-main-black font-black px-2.5 py-1 rounded-lg border border-gray-200">
+                  <span className="text-2xs bg-gray-100 text-main-black font-black px-2.5 py-1 rounded-lg border border-gray-200">
                     {assignment.code}
                   </span>
-                  <span className="text-[10px] text-gray font-semibold">Purchased on {assignment.purchaseDate}</span>
+                  <span className="text-2xs text-gray font-semibold">Purchased on {assignment.purchaseDate}</span>
                 </div>
                 <Paragraph mainblack bold sm className="mt-3 leading-relaxed">
                   {assignment.title}

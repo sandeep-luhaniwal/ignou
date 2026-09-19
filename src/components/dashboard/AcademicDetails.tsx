@@ -15,7 +15,7 @@ export const AcademicDetails: React.FC<AcademicDetailsProps> = ({ program, email
   return (
     <Card
       border
-      className="!border-gray-100 shadow-[0_4px_25px_rgba(0,0,0,0.015)] text-left flex flex-col gap-6 hover:shadow-xl hover:!border-gray-150 transition-all duration-300"
+      className="border-gray-100! shadow-sm text-left flex flex-col gap-6 hover:shadow-xl hover:border-gray-150! transition-all duration-300"
     >
       <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
         <span className="w-2.5 h-2.5 rounded-full bg-orange" />
@@ -56,7 +56,7 @@ export const AcademicDetails: React.FC<AcademicDetailsProps> = ({ program, email
           <Paragraph gray xs bold className="uppercase tracking-wider">
             University Status
           </Paragraph>
-          <span className="text-xs font-bold text-[#10B981] bg-[#10B981]/10 px-2.5 py-1 rounded-lg w-fit border border-[#10B981]/10 flex items-center gap-1.5 mt-0.5">
+          <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg w-fit border border-emerald-500/10 flex items-center gap-1.5 mt-0.5">
             <CheckCircle2 size={12} /> Active Student
           </span>
         </div>

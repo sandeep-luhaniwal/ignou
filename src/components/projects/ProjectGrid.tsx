@@ -175,10 +175,10 @@ export default function ProjectGrid() {
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="text-[10px] font-bold text-cta uppercase bg-light-orange/30 px-2 py-0.5 rounded-md">
+                    <span className="text-2xs font-bold text-cta uppercase bg-light-orange/30 px-2 py-0.5 rounded-md">
                       {project.category}
                     </span>
-                    <Badge orange roundedfull className="font-extrabold text-[9px] px-2 py-0.5 shadow-xs">
+                    <Badge orange roundedfull className="font-extrabold text-2xs px-2 py-0.5 shadow-xs">
                       {project.approvalRate} Approval
                     </Badge>
                   </div>
@@ -193,7 +193,7 @@ export default function ProjectGrid() {
                   {/* Feature Checklist */}
                   <ul className="space-y-2 mb-6 border-t border-border-white pt-4">
                     {project.features.map((feat, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-[11px] text-main-gray font-medium">
+                      <li key={idx} className="flex items-start gap-2 text-xs text-main-gray font-medium">
                         <Check size={12} className="text-green shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </li>
@@ -203,7 +203,7 @@ export default function ProjectGrid() {
 
                 <div className="flex items-center justify-between border-t border-border-white pt-4 mt-auto">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-gray block">Start Price</span>
+                    <span className="text-2xs uppercase font-bold text-gray block">Start Price</span>
                     <span className="text-lg font-black text-main-black">{project.price}</span>
                   </div>
                   <MainButton

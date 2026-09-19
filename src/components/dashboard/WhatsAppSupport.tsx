@@ -7,10 +7,10 @@ import Paragraph from "@/components/ui/Paragraph";
 export const WhatsAppSupport: React.FC = () => {
   return (
     <Card
-      className="shadow-[0_4px_30px_rgba(34,197,94,0.08)] text-left flex flex-col gap-4 relative overflow-hidden text-white bg-gradient-to-br from-[#10B981] to-[#059669]"
+      className="shadow-lg text-left flex flex-col gap-4 relative overflow-hidden text-white bg-linear-to-br from-emerald-500 to-emerald-600"
     >
-      <div className="absolute right-[-10%] bottom-[-10%] w-[120px] h-[120px] bg-white/10 rounded-full blur-[40px] pointer-events-none" />
-      <div className="absolute left-0 top-0 w-full h-full bg-grid-white/[0.03] pointer-events-none" />
+      <div className="absolute -right-4 -bottom-4 w-30 h-30 bg-white/10 rounded-full blur-xl pointer-events-none" />
+      <div className="absolute left-0 top-0 w-full h-full bg-white/5 pointer-events-none" />
 
       <Paragraph white xs bold className="uppercase tracking-widest opacity-80 bg-white/20 border border-white/20 px-2.5 py-0.5 rounded-lg w-fit">
         Instant Chat Help
@@ -28,7 +28,7 @@ export const WhatsAppSupport: React.FC = () => {
         href="https://wa.me/919999999999"
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-white text-[#059669] hover:bg-gray-50 py-3.5 rounded-2xl text-xs font-black text-center shadow-lg transition-transform hover:-translate-y-0.5 active:scale-95 duration-200"
+        className="bg-white text-emerald-700 hover:bg-gray-50 py-3.5 rounded-2xl text-xs font-black text-center shadow-lg transition-transform hover:-translate-y-0.5 active:scale-95 duration-200"
       >
         Chat on WhatsApp
       </a>

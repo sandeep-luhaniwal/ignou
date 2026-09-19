@@ -14,6 +14,7 @@ import RecommendedSection from "@/components/assignment-detail/RecommendedSectio
 import { useAppDispatch, useAppSelector } from "@/store";
 import { fetchAssignmentDetailRequest, fetchAssignmentsRequest } from "@/store/slices/assignmentsSlice";
 import { useCart } from "@/context/CartContext";
+import { ALL_ASSIGNMENTS } from "@/components/assignments/data";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -25,7 +26,7 @@ export default function AssignmentDetailPage({ params }: PageProps) {
   const { addToCart } = useCart();
 
   const dispatch = useAppDispatch();
-  const { detail: product, list: allProducts, loading, error } = useAppSelector((state) => state.assignments);
+  const { detail: fetchedProduct, list: allProducts, loading: reduxLoading, error: reduxError } = useAppSelector((state) => state.assignments);
 
   // Fetch product detail on mount/id change
   useEffect(() => {
@@ -33,6 +34,23 @@ export default function AssignmentDetailPage({ params }: PageProps) {
       dispatch(fetchAssignmentDetailRequest(id));
     }
   }, [id, dispatch]);
+
+  const fallbackProduct = ALL_ASSIGNMENTS.find(
+    (item) => item.id === id || item.code?.toLowerCase() === id?.toLowerCase()
+  );
+
+  const product = fetchedProduct || fallbackProduct;
+
+  // Sync browser URL to friendly slug if an ID was used
+  useEffect(() => {
+    if (product?.slug && typeof window !== "undefined") {
+      const currentPath = window.location.pathname;
+      const expectedPath = `/assignments/${product.slug}`;
+      if (currentPath !== expectedPath && (/^[0-9a-fA-F]{24}$/.test(id) || id === product.id)) {
+        window.history.replaceState(null, "", expectedPath);
+      }
+    }
+  }, [product?.slug, id]);
 
   // Fetch recommendations once product is loaded
   useEffect(() => {
@@ -42,13 +60,16 @@ export default function AssignmentDetailPage({ params }: PageProps) {
   }, [product?.category, dispatch]);
 
   // Filter recommendations: items in the same category, excluding current product
-  const recommendations = allProducts
-    .filter((item: any) => item.id !== product?.id && item.code !== product?.code)
+  const safeProducts = Array.isArray(allProducts) && allProducts.length > 0 ? allProducts : ALL_ASSIGNMENTS;
+  const recommendations = safeProducts
+    .filter((item: any) => item?.id !== product?.id && item?.code !== product?.code)
     .slice(0, 3);
+
+  const loading = reduxLoading && !fallbackProduct;
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAFBFD]">
+      <div className="min-h-screen flex items-center justify-center bg-dark-white">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-orange border-t-transparent rounded-full animate-spin"></div>
           <span className="text-sm font-bold text-gray">Loading assignment details...</span>
@@ -57,9 +78,9 @@ export default function AssignmentDetailPage({ params }: PageProps) {
     );
   }
 
-  if (error || !product) {
+  if (!product) {
     return (
-      <main className="grow flex items-center justify-center p-6 bg-[#FAFBFD] min-h-screen">
+      <main className="grow flex items-center justify-center p-6 bg-dark-white min-h-screen">
         <Card border className="max-w-md text-center p-8 shadow-lg">
           <div className="w-16 h-16 bg-red/10 text-red rounded-full flex items-center justify-center mx-auto mb-6">
             <HelpCircle size={32} />
@@ -68,7 +89,7 @@ export default function AssignmentDetailPage({ params }: PageProps) {
             Assignment Not Found
           </Heading>
           <Paragraph gray sm center className="mb-6">
-            {error || "The assignment link you followed could be broken or has been removed."}
+            {reduxError || "The assignment link you followed could be broken or has been removed."}
           </Paragraph>
           <MainButton url="/assignments" className="w-full justify-center">
             Browse Assignments
@@ -98,13 +119,13 @@ export default function AssignmentDetailPage({ params }: PageProps) {
   };
 
   return (
-    <main className="grow pt-24 pb-16 bg-[#FAFBFD]">
+    <main className="grow pt-24 pb-16 bg-dark-white">
 
       {/* Breadcrumb section */}
       <Breadcrumbs code={product.code} />
 
       {/* Product Details Section */}
-      <div className="max-w-[1200px] mx-auto px-4 xl:px-0 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="max-w-7xl mx-auto px-4 xl:px-0 grid grid-cols-1 lg:grid-cols-12 gap-8">
 
         {/* Left Column: Image & Specifications */}
         <div className="lg:col-span-5">

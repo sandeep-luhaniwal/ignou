@@ -9,7 +9,7 @@ interface BreadcrumbsProps {
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ code }) => {
   return (
-    <div className="max-w-[1200px] mx-auto px-4 xl:px-0 mb-6">
+    <div className="max-w-300 mx-auto px-4 xl:px-0 mb-6">
       <div className="flex items-center gap-2 text-xs font-bold text-gray">
         <Link href="/" className="hover:text-orange transition-colors">Home</Link>
         <span>/</span>

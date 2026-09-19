@@ -9,7 +9,7 @@ import ProjectFAQ from "@/components/projects/ProjectFAQ";
 
 export default function ProjectsHelpPage() {
   return (
-    <main className="min-h-screen bg-[#FCFDFE] flex flex-col">
+    <main className="min-h-screen bg-dark-white flex flex-col">
       {/* Premium Dark Theme Hero Header */}
       <ProjectHero />
 

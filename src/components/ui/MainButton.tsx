@@ -36,7 +36,7 @@ const MainButton: React.FC<MainButtonProps> = ({ children, onClick, url, target 
                     className={`border-2 text-nowrap duration-300 rounded-lg group/button cursor-pointer px-2.5 md:px-4 lg:px-5 lg:rounded-xl flex items-center gap-1.5 lg:gap-2
                            ${className} ${ptwo ? "py-2" : "py-2.5"} ${sora ? "font-sora" : ""}
                             ${medium ? "font-medium" : light ? "font-light" : normal ? "font-normal" : bold ? "font-bold" : extrabold ? "font-extrabold" : "font-semibold"}
-                            ${xs ? 'text-xs' : base ? 'text-base' : ten ? "text-[10px]" : 'text-sm'}
+                            ${xs ? 'text-xs' : base ? 'text-base' : ten ? "text-2xs" : 'text-sm'}
                             ${center ? "mx-auto text-center justify-center" : right ? "text-right ms-auto" : "text-left"}
                             ${mainblack ? "border-white text-white hover:text-main-black hover:bg-white" : mainorange ? "border-orange text-orange bg-transparent hover:bg-main-black" : gray ? "bg-light-gray text-gray hover:bg-orange hover:text-white" : "border-transparent text-white bg-custom-orange-gradient"} 
                            `}>
@@ -51,7 +51,7 @@ const MainButton: React.FC<MainButtonProps> = ({ children, onClick, url, target 
                         disabled={disabled} className={`border-2 text-nowrap duration-300 rounded-lg group/button cursor-pointer px-2.5 md:px-4 lg:px-5 lg:rounded-xl flex items-center gap-1.5 lg:gap-2
                            ${className} ${ptwo ? "py-2" : "py-2.5"} ${sora ? "font-sora" : ""}
                             ${medium ? "font-medium" : light ? "font-light" : normal ? "font-normal" : bold ? "font-bold" : extrabold ? "font-extrabold" : "font-semibold"}
-                            ${xs ? 'text-xs' : base ? 'text-base' : ten ? "text-[10px]" : 'text-sm'}
+                            ${xs ? 'text-xs' : base ? 'text-base' : ten ? "text-2xs" : 'text-sm'}
                             ${center ? "mx-auto text-center justify-center" : right ? "text-right ms-auto" : "text-left"}
                                                         ${mainblack ? "border-white text-white hover:text-main-black hover:bg-white" : mainorange ? "border-orange text-orange bg-transparent hover:bg-main-black" : gray ? "bg-light-gray text-gray hover:bg-orange hover:text-white" : "border-transparent text-white bg-custom-orange-gradient"} 
                            ${disabled ? 'opacity-50 cursor-not-allowed' : ''}

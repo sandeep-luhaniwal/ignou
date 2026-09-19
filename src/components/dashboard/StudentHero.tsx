@@ -14,11 +14,11 @@ interface StudentHeroProps {
 export const StudentHero: React.FC<StudentHeroProps> = ({ name, enrolmentNo, onLogout }) => {
   return (
     <div 
-      className="relative rounded-[32px] overflow-hidden bg-orange p-8 md:p-10 text-white flex flex-col md:flex-row md:items-end justify-between gap-6 shadow-xl mb-10"
+      className="relative rounded-4xl overflow-hidden bg-orange p-8 md:p-10 text-white flex flex-col md:flex-row md:items-end justify-between gap-6 shadow-xl mb-10"
     >
       {/* Background Decorative Glows */}
-      <div className="absolute right-[-10%] top-[-20%] w-[300px] h-[300px] bg-white/15 rounded-full blur-[80px] pointer-events-none animate-pulse duration-[8000ms]" />
-      <div className="absolute left-[30%] bottom-[-40%] w-[250px] h-[250px] bg-white/5 rounded-full blur-[70px] pointer-events-none animate-pulse duration-[6000ms]" />
+      <div className="absolute -right-10 -top-10 w-75 h-75 bg-white/15 rounded-full blur-2xl pointer-events-none animate-pulse" />
+      <div className="absolute left-1/3 -bottom-16 w-64 h-64 bg-white/5 rounded-full blur-2xl pointer-events-none animate-pulse" />
       
       {/* Student Details Left */}
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 relative z-10 text-center sm:text-left">

@@ -51,7 +51,7 @@ export default function AdmissionFAQ() {
     <section className="py-20 px-6 bg-white">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <Badge orange roundedfull className="mb-3 px-3 py-1 font-bold uppercase tracking-wider text-[10px]">
+          <Badge orange roundedfull className="mb-3 px-3 py-1 font-bold uppercase tracking-wider text-2xs">
             FAQs
           </Badge>
           <Heading level={2} bold mainblack className="text-2xl md:text-3xl tracking-tight mb-3">

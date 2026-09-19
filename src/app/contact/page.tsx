@@ -7,7 +7,7 @@ import ContactForm from "@/components/contact/ContactForm";
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-[#FCFDFE] flex flex-col">
+    <main className="min-h-screen bg-dark-white flex flex-col">
       {/* Light Theme Hero */}
       <ContactHero />
 

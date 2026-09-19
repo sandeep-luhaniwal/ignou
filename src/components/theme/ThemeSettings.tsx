@@ -47,7 +47,7 @@ export const ThemeSettings: React.FC = () => {
         <div className="flex flex-col gap-2 w-full text-left">
           <label className="text-sm font-bold" style={{ color: "var(--main-black, #141B2C)" }}>Theme Mode</label>
           <div 
-            className="flex p-1 rounded-lg border w-full max-w-[280px]"
+            className="flex p-1 rounded-lg border w-full max-w-70"
             style={{ backgroundColor: "var(--background, #F5F7FA)", borderColor: "var(--border-color, #EEF2F6)" }}
           >
             {["Hotel", "Custom"].map(m => (

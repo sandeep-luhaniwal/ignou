@@ -21,8 +21,8 @@ export const MobileFilterDrawer: React.FC<MobileDrawerProps> = ({
   if (!isOpen) return null;
   return (
     <>
-      <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-[50] lg:hidden cursor-pointer" onClick={onClose} />
-      <div className="fixed top-0 left-0 h-full w-[310px] sm:w-[350px] bg-white z-[60] shadow-2xl lg:hidden flex flex-col p-6 overflow-y-auto">
+      <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 lg:hidden cursor-pointer" onClick={onClose} />
+      <div className="fixed top-0 left-0 h-full w-80 sm:w-90 bg-white z-50 shadow-2xl lg:hidden flex flex-col p-6 overflow-y-auto">
         <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-6">
           <span className="font-heading font-black text-main-black text-base flex items-center gap-2">
             Filters

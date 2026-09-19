@@ -35,7 +35,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
       {/* Header info card */}
       <Card border className="flex flex-col gap-5 shadow-sm">
         <div>
-          <span className="bg-orange/10 text-orange text-[10px] font-black px-2.5 py-1 rounded-lg border border-orange/10 uppercase tracking-wider">
+          <span className="bg-orange/10 text-orange text-2xs font-black px-2.5 py-1 rounded-lg border border-orange/10 uppercase tracking-wider">
             Course Code: {code}
           </span>
           <Heading level={1} mainblack bold small className="mt-3.5 leading-snug">
@@ -70,7 +70,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
             <span className="text-sm line-through text-gray font-medium">₹{oldPrice}</span>
           )}
           {saveAmt > 0 && (
-            <span className="text-xs font-bold text-[#10B981] bg-[#10B981]/10 px-2.5 py-1 rounded-lg border border-[#10B981]/15">
+            <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
               Save ₹{saveAmt} instantly
             </span>
           )}
@@ -101,7 +101,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
         <div className="flex border-b border-gray-100">
           <button
             onClick={() => setActiveTab("description")}
-            className={`pb-3.5 px-2 text-xs font-black uppercase tracking-wider transition-all border-b-2 -mb-[2px] cursor-pointer ${activeTab === "description"
+            className={`pb-3.5 px-2 text-xs font-black uppercase tracking-wider transition-all border-b-2 -mb-0.5 cursor-pointer ${activeTab === "description"
               ? "border-orange text-orange"
               : "border-transparent text-gray hover:text-main-black"
               }`}
@@ -110,7 +110,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
           </button>
           <button
             onClick={() => setActiveTab("guidelines")}
-            className={`pb-3.5 px-4 text-xs font-black uppercase tracking-wider transition-all border-b-2 -mb-[2px] cursor-pointer ${activeTab === "guidelines"
+            className={`pb-3.5 px-4 text-xs font-black uppercase tracking-wider transition-all border-b-2 -mb-0.5 cursor-pointer ${activeTab === "guidelines"
               ? "border-orange text-orange"
               : "border-transparent text-gray hover:text-main-black"
               }`}
@@ -119,7 +119,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
           </button>
           <button
             onClick={() => setActiveTab("faqs")}
-            className={`pb-3.5 px-4 text-xs font-black uppercase tracking-wider transition-all border-b-2 -mb-[2px] cursor-pointer ${activeTab === "faqs"
+            className={`pb-3.5 px-4 text-xs font-black uppercase tracking-wider transition-all border-b-2 -mb-0.5 cursor-pointer ${activeTab === "faqs"
               ? "border-orange text-orange"
               : "border-transparent text-gray hover:text-main-black"
               }`}

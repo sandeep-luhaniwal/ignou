@@ -16,6 +16,7 @@ interface RecommendationItem {
   image: string;
   rating?: number;
   reviews?: number;
+  slug?: string;
 }
 
 interface RecommendedSectionProps {
@@ -23,11 +24,17 @@ interface RecommendedSectionProps {
 }
 
 export const RecommendedSection: React.FC<RecommendedSectionProps> = ({ recommendations }) => {
+  const safeRecommendations = Array.isArray(recommendations) ? recommendations : [];
+
+  if (safeRecommendations.length === 0) {
+    return null;
+  }
+
   return (
-    <div className="max-w-[1200px] mx-auto px-4 xl:px-0 border-t border-gray-200 pt-16 mt-16">
+    <div className="max-w-7xl mx-auto px-4 xl:px-0 border-t border-gray-200 pt-16 mt-16">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div className="text-left">
-          <span className="text-[10px] text-orange uppercase font-bold tracking-wider">Top Study Reference Guides</span>
+          <span className="text-xs text-orange uppercase font-bold tracking-wider">Top Study Reference Guides</span>
           <Heading level={2} mainblack bold small className="mt-1">
             Recommended Assignments
           </Heading>
@@ -42,7 +49,7 @@ export const RecommendedSection: React.FC<RecommendedSectionProps> = ({ recommen
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {recommendations.map((item) => (
+        {safeRecommendations.map((item) => (
           <ProductCard
             key={item.id}
             id={item.id}
@@ -53,6 +60,7 @@ export const RecommendedSection: React.FC<RecommendedSectionProps> = ({ recommen
             image={item.image}
             rating={item.rating}
             reviews={item.reviews}
+            slug={item.slug}
           />
         ))}
       </div>

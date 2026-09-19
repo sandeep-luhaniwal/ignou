@@ -49,9 +49,9 @@ const Features = () => {
   return (
     <section className="py-20 bg-main-background relative overflow-hidden">
       {/* Background grids */}
-      <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-orange/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 w-150 h-150 bg-orange/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
 
-      <div className="max-w-[1200px] mx-auto px-4 xl:px-0 relative z-10">
+      <div className="max-w-300 mx-auto px-4 xl:px-0 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -71,7 +71,7 @@ const Features = () => {
           {featuresData.map((feature, idx) => (
             <div
               key={idx}
-              className="p-8 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/[0.01] hover:shadow-md transition-all duration-300 flex flex-col items-start text-left group"
+              className="p-8 rounded-xl bg-white border border-border-white hover:border-orange hover:bg-orange/5 hover:shadow-md transition-all duration-300 flex flex-col items-start text-left group"
             >
               {/* Icon */}
               <div className="w-12 h-12 rounded-xl bg-orange/10 text-orange group-hover:bg-orange group-hover:text-white transition-all duration-300 flex items-center justify-center mb-6">

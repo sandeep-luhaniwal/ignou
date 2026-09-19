@@ -61,7 +61,7 @@ export const SignInForm: React.FC = () => {
 
   if (token) {
     return (
-      <Card border className="w-full max-w-md p-8 shadow-[0_4px_25px_rgba(0,0,0,0.03)] text-center py-16">
+      <Card border className="w-full max-w-md p-8 shadow-sm text-center py-16">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-4 border-orange border-t-transparent rounded-full animate-spin"></div>
           <span className="text-xs font-bold text-gray">Redirecting to portal...</span>
@@ -71,7 +71,7 @@ export const SignInForm: React.FC = () => {
   }
 
   return (
-    <Card border className="w-full max-w-md p-8 shadow-[0_4px_25px_rgba(0,0,0,0.03)] text-left">
+    <Card border className="w-full max-w-md p-8 shadow-sm text-left">
       <div className="mb-6">
         <Heading small mainblack bold className="mb-1.5">
           Welcome Back
