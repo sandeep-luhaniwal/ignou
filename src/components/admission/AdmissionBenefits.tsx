@@ -13,7 +13,7 @@ export default function AdmissionBenefits() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Side */}
         <div className="lg:col-span-7 space-y-6">
-          <Badge orange roundedfull className="px-3 py-1 font-bold uppercase tracking-wider text-2xs w-fit">
+          <Badge orange roundedfull className="px-3 py-1 font-bold uppercase tracking-wider text-sm w-fit">
             Our Benefits
           </Badge>
           <Heading level={2} bold mainblack className="text-2xl md:text-3xl tracking-tight">

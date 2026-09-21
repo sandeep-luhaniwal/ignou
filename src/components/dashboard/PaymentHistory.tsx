@@ -1,9 +1,7 @@
-"use client";
-
 import React from "react";
 import Card from "@/components/ui/Card";
 import Paragraph from "@/components/ui/Paragraph";
-import { CreditCard, Calendar, CheckCircle2, FileText, Package } from "lucide-react";
+import { CreditCard, Calendar, CheckCircle2, XCircle, Clock, FileText, Package, Hash } from "lucide-react";
 
 interface OrderItem {
   id: string;
@@ -21,6 +19,10 @@ interface Order {
   shippingFee: number;
   discount: number;
   grandTotal: number;
+  paymentStatus?: "Paid" | "Pending" | "Failed" | string;
+  orderStatus?: string;
+  razorpayPaymentId?: string;
+  razorpayOrderId?: string;
   createdAt: string;
 }
 
@@ -49,7 +51,7 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
           </div>
         </div>
 
-        <span className="bg-gray-100 text-main-black text-2xs font-black px-3 py-1.5 rounded-xl border border-gray-200">
+        <span className="bg-gray-100 text-main-black text-sm font-black px-3 py-1.5 rounded-xl border border-gray-200">
           {orders.length} Transactions
         </span>
       </div>
@@ -65,6 +67,11 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
               minute: "2-digit",
             });
 
+            const status = (order.paymentStatus || "Paid").toLowerCase();
+            const isPaid = status === "paid";
+            const isFailed = status === "failed";
+            const isPending = status === "pending";
+
             return (
               <div
                 key={order._id}
@@ -73,19 +80,28 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
                 {/* Left side: Order info */}
                 <div className="grow flex flex-col gap-2">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-2xs text-gray font-bold font-mono bg-gray-50 border border-gray-150 px-2 py-0.5 rounded-md">
+                    <span className="text-sm text-gray font-bold font-mono bg-gray-50 border border-gray-150 px-2 py-0.5 rounded-md flex items-center gap-1">
+                      <Hash size={10} />
                       Ref: #{order._id.substring(order._id.length - 8).toUpperCase()}
                     </span>
-                    <span className="flex items-center gap-1 text-2xs text-gray font-medium">
+
+                    {order.razorpayPaymentId && (
+                      <span className="text-sm text-gray font-medium font-mono bg-gray-50 border border-gray-150 px-2 py-0.5 rounded-md">
+                        Pay ID: {order.razorpayPaymentId}
+                      </span>
+                    )}
+
+                    <span className="flex items-center gap-1 text-sm text-gray font-medium">
                       <Calendar size={11} />
                       {orderDate}
                     </span>
+
                     {order.deliveryType === "PDF" ? (
-                      <span className="text-2xs bg-orange/10 text-orange font-bold px-2 py-0.5 rounded-md flex items-center gap-0.5">
+                      <span className="text-sm bg-orange/10 text-orange font-bold px-2 py-0.5 rounded-md flex items-center gap-0.5">
                         <FileText size={10} /> Instant PDF
                       </span>
                     ) : (
-                      <span className="text-2xs bg-blue/10 text-blue font-bold px-2 py-0.5 rounded-md flex items-center gap-0.5">
+                      <span className="text-sm bg-blue/10 text-blue font-bold px-2 py-0.5 rounded-md flex items-center gap-0.5">
                         <Package size={10} /> Handwritten Delivery
                       </span>
                     )}
@@ -94,25 +110,60 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({ orders }) => {
                   {/* Items summary */}
                   <div className="mt-1">
                     <Paragraph mainblack bold sm>
-                      {order.items.map((item) => `${item.code} (${item.quantity}x)`).join(", ")}
+                      {order.items
+                        .map((item) => {
+                          const isHex = (str?: string) => Boolean(str && /^[0-9a-fA-F]{24}$/i.test(str.trim()));
+                          const code = item.code && !isHex(item.code) ? item.code : "";
+                          const title =
+                            item.title && !isHex(item.title)
+                              ? item.title
+                              : code
+                                ? `${code} Solved Assignment`
+                                : "Solved Assignment";
+                          return `${code || title} (${item.quantity}x)`;
+                        })
+                        .join(", ")}
                     </Paragraph>
                     <Paragraph gray xs className="mt-0.5 leading-relaxed text-xs">
-                      {order.items.map((item) => item.title).join(", ")}
+                      {order.items
+                        .map((item) => {
+                          const isHex = (str?: string) => Boolean(str && /^[0-9a-fA-F]{24}$/i.test(str.trim()));
+                          if (item.title && !isHex(item.title)) return item.title;
+                          if (item.code && !isHex(item.code)) return `${item.code} Solved Assignment PDF`;
+                          return "Solved Assignment PDF";
+                        })
+                        .join(", ")}
                     </Paragraph>
                   </div>
                 </div>
 
-                {/* Right side: Amount and status */}
+                {/* Right side: Amount and dynamic status */}
                 <div className="flex md:flex-col items-center md:items-end justify-between md:justify-center gap-2 shrink-0 md:pl-4 md:border-l md:border-gray-100">
                   <div className="text-left md:text-right">
                     <span className="text-lg font-black text-orange">₹{order.grandTotal}</span>
-                    <span className="text-2xs text-gray block">Inclusive of GST</span>
+                    <span className="text-sm text-gray block">Inclusive of GST</span>
                   </div>
 
-                  <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-2xs font-black px-2.5 py-1 rounded-xl flex items-center gap-1">
-                    <CheckCircle2 size={11} className="stroke-2.5" />
-                    PAID
-                  </span>
+                  {isPaid && (
+                    <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-sm font-black px-2.5 py-1 rounded-xl flex items-center gap-1">
+                      <CheckCircle2 size={11} className="stroke-2.5" />
+                      PAID
+                    </span>
+                  )}
+
+                  {isFailed && (
+                    <span className="bg-red/10 text-red border border-red/20 text-sm font-black px-2.5 py-1 rounded-xl flex items-center gap-1">
+                      <XCircle size={11} className="stroke-2.5" />
+                      FAILED
+                    </span>
+                  )}
+
+                  {isPending && (
+                    <span className="bg-amber-50 text-amber-700 border border-amber-200 text-sm font-black px-2.5 py-1 rounded-xl flex items-center gap-1">
+                      <Clock size={11} className="stroke-2.5" />
+                      PENDING
+                    </span>
+                  )}
                 </div>
               </div>
             );

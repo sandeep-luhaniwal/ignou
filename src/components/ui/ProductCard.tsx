@@ -9,6 +9,7 @@ import { useCart } from "@/context/CartContext";
 
 interface ProductCardProps {
   id: string;
+  code?: string;
   title: string;
   category: string;
   price: number;
@@ -18,6 +19,20 @@ interface ProductCardProps {
   reviews?: number;
   slug?: string;
 }
+
+const isHexId = (str?: string) => Boolean(str && /^[0-9a-fA-F]{24}$/i.test(str.trim()));
+
+const extractCleanCode = (code?: string, id?: string, title?: string): string => {
+  if (code && !isHexId(code)) return code.toUpperCase();
+  if (title) {
+    const match = title.match(/^([A-Za-z]{2,8}[-\s]?[0-9]{2,4}[A-Za-z]?)/);
+    if (match && !isHexId(match[1])) return match[1].replace(/\s+/, "-").toUpperCase();
+  }
+  if (id && !isHexId(id) && id.includes("-")) {
+    return id.split("-")[0].toUpperCase();
+  }
+  return "";
+};
 
 const toSlug = (text: string) =>
   String(text || "")
@@ -29,6 +44,7 @@ const toSlug = (text: string) =>
 
 const ProductCard: React.FC<ProductCardProps> = ({
   id,
+  code,
   title,
   category,
   price,
@@ -40,7 +56,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { addToCart } = useCart();
   const discount = oldPrice ? Math.round(((oldPrice - price) / oldPrice) * 100) : 0;
-  const productSlug = slug || toSlug(title) || id;
+  const safeCode = extractCleanCode(code, id, title);
+  const productSlug = slug || toSlug(safeCode || title) || id;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -52,12 +69,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
       price,
       oldPrice,
       image,
-      code: id.split("-")[0].toUpperCase(),
+      code: safeCode || "IGNOU",
     });
   };
 
   return (
-    <div 
+    <div
       className="group relative rounded-lg overflow-hidden border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full"
       style={{ backgroundColor: "var(--card-bg, #ffffff)", borderColor: "var(--border-color, #EEF2F6)" }}
     >
@@ -70,16 +87,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
           loading="lazy"
         />
         {/* Category Badge */}
-        <span 
-          className="absolute top-4 left-4 backdrop-blur-md text-2xs font-bold px-3 py-1 rounded-lg uppercase tracking-wider"
+        <span
+          className="absolute top-4 left-4 backdrop-blur-md text-sm font-bold px-3 py-1 rounded-lg uppercase tracking-wider"
           style={{ backgroundColor: "rgba(20, 27, 44, 0.8)", color: "#ffffff" }}
         >
           {category}
         </span>
         {/* Discount Badge */}
         {discount > 0 && (
-          <span 
-            className="absolute top-4 right-4 text-2xs font-bold px-3 py-1 rounded-lg uppercase tracking-wider"
+          <span
+            className="absolute top-4 right-4 text-sm font-bold px-3 py-1 rounded-lg uppercase tracking-wider"
             style={{ backgroundColor: "var(--red, #FF0000)", color: "#ffffff" }}
           >
             {discount}% OFF
@@ -108,7 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Title */}
         <Link href={`/assignments/${productSlug}`} className="block flex-1 transition-colors hover:opacity-80">
-          <h4 
+          <h4
             className="text-base font-bold line-clamp-2 mb-4 min-h-11"
             style={{ color: "var(--main-black, #141B2C)" }}
           >
@@ -127,10 +144,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <button
             onClick={handleAddToCart}
             className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 border hover:bg-orange hover:text-white cursor-pointer"
-            style={{ 
-              backgroundColor: "var(--light-white, #F9FAFB)", 
-              borderColor: "var(--border-color, #EEF2F6)", 
-              color: "var(--orange, #FF6A00)" 
+            style={{
+              backgroundColor: "var(--light-white, #F9FAFB)",
+              borderColor: "var(--border-color, #EEF2F6)",
+              color: "var(--orange, #FF6A00)"
             }}
           >
             <ShoppingCart size={18} />

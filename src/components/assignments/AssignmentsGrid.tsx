@@ -31,11 +31,12 @@ export const AssignmentsGrid: React.FC<GridProps> = ({ products, handleResetFilt
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
       {safeProducts.map((product) => (
         <div key={product.id || (product as any)._id} className="relative group">
-          <div className="absolute top-12 left-4 z-10 bg-yellow text-primary font-bold text-2xs px-2 py-0.5 rounded-md shadow-sm">
+          <div className="absolute top-12 left-4 z-10 bg-yellow text-primary font-bold text-sm px-2 py-0.5 rounded-md shadow-sm">
             {product.year}
           </div>
           <ProductCard
             id={product.id || (product as any)._id}
+            code={product.code}
             title={product.title}
             category={product.category}
             price={product.price}

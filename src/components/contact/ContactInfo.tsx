@@ -35,7 +35,7 @@ export default function ContactInfo() {
           </span>
           <span>Academic Support Desk Online</span>
         </div>
-        
+
         <h2 className="text-2xl sm:text-3xl font-heading font-black text-main-black tracking-tight leading-tight">
           Get in Touch <span className="text-orange-gradient">Instantly</span>
         </h2>
@@ -53,7 +53,7 @@ export default function ContactInfo() {
       >
         {/* Glow Accent */}
         <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-        
+
         <div className="relative z-10 flex flex-col h-full">
           <div className="flex items-center justify-between gap-3 mb-4">
             <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300">
@@ -140,7 +140,7 @@ export default function ContactInfo() {
             <h4 className="text-sm font-heading font-bold text-main-black">
               Study Guidance & Support Hub
             </h4>
-            <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-2xs font-bold">
+            <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-sm font-bold">
               HQ Delhi-NCR
             </span>
           </div>

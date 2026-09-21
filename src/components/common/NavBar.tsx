@@ -100,7 +100,7 @@ const NavBar = () => {
                 <span className="font-heading font-black text-base md:text-lg text-primary tracking-tight">
                   IGNOU <span className="text-cta">POWER</span>
                 </span>
-                <span className="text-2xs text-gray font-bold tracking-widest uppercase">
+                <span className="text-sm text-gray font-bold tracking-widest uppercase">
                   Academic Partner
                 </span>
               </div>
@@ -143,8 +143,8 @@ const NavBar = () => {
                   {/* Dropdown Menu with animation */}
                   <div
                     className={`absolute -right-20 md:right-0 mt-2.5 w-64 bg-white border border-gray-100 rounded-2xl shadow-xl z-50 p-4 transition-all duration-200 transform origin-top-right
-                      ${dropdownOpen 
-                        ? "opacity-100 scale-100 translate-y-0" 
+                      ${dropdownOpen
+                        ? "opacity-100 scale-100 translate-y-0"
                         : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
                       }
                     `}
@@ -205,7 +205,7 @@ const NavBar = () => {
                 title="Shopping Cart"
               >
                 <ShoppingCart size={16} className="md:w-4.5 md:h-4.5" />
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 md:w-5 md:h-5 rounded-full bg-cta text-white text-2xs font-black flex items-center justify-center border border-white">
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 md:w-5 md:h-5 rounded-full bg-cta text-white text-sm font-black flex items-center justify-center border border-white">
                   {cartCount}
                 </span>
               </Link>
@@ -253,7 +253,7 @@ const NavBar = () => {
             <div className="bg-cta text-white p-2 rounded-xl font-black text-lg">IP</div>
             <div className="flex flex-col leading-tight">
               <span className="font-heading font-black text-base text-primary">IGNOU POWER</span>
-              <span className="text-2xs text-gray font-bold tracking-widest uppercase">Student Desk</span>
+              <span className="text-sm text-gray font-bold tracking-widest uppercase">Student Desk</span>
             </div>
           </Link>
           <button
@@ -268,7 +268,7 @@ const NavBar = () => {
         <div className="flex flex-col gap-1.5 flex-1 overflow-y-auto pr-1">
           {user && (
             <div className="px-4 py-3 bg-light-orange/30 border border-cta/10 rounded-2xl mb-2">
-              <span className="text-2xs uppercase font-bold tracking-widest text-cta block mb-0.5">Logged In As</span>
+              <span className="text-sm uppercase font-bold tracking-widest text-cta block mb-0.5">Logged In As</span>
               <div className="font-heading font-black text-sm text-primary truncate">{user.name}</div>
               <div className="text-xs text-gray truncate">{user.email}</div>
             </div>
@@ -281,8 +281,8 @@ const NavBar = () => {
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-bold transition-all duration-200
-                  ${isActive 
-                    ? "bg-cta/5 text-cta" 
+                  ${isActive
+                    ? "bg-cta/5 text-cta"
                     : "text-main-gray hover:bg-gray-50 hover:text-primary"
                   }
                 `}

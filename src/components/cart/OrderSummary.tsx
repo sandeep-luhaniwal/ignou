@@ -86,7 +86,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
       <div className="flex justify-between items-center">
         <div>
           <span className="text-base font-bold text-main-black block">Total Amount</span>
-          <span className="text-2xs text-gray uppercase font-bold tracking-wider">Inclusive of taxes</span>
+          <span className="text-sm text-gray uppercase font-bold tracking-wider">Inclusive of taxes</span>
         </div>
         <span className="text-2xl font-black text-orange tracking-tight">₹{grandTotal}</span>
       </div>
@@ -110,7 +110,7 @@ export const OrderSummary: React.FC<SummaryProps> = ({
                 onRemovePromo();
                 setPromoSuccess(null);
               }}
-              className="text-2xs text-red hover:underline font-bold uppercase tracking-wider cursor-pointer"
+              className="text-sm text-red hover:underline font-bold uppercase tracking-wider cursor-pointer"
             >
               Remove
             </button>

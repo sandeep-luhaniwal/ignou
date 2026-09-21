@@ -12,6 +12,7 @@ import Heading from "@/components/ui/Heading";
 import Paragraph from "@/components/ui/Paragraph";
 import { useCart } from "@/context/CartContext";
 import { loadRazorpayScript } from "@/lib/razorpay";
+import { api } from "@/lib/api";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { createOrderRequest, resetOrderState } from "@/store/slices/ordersSlice";
 
@@ -119,56 +120,84 @@ const AddressPage = () => {
       return;
     }
 
-    const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_demo12345";
-    const userEmail = localStorage.getItem("ignou_user_email") || "";
-    const userName = localStorage.getItem("ignou_user_name") || "";
+    try {
+      const orderPayload = {
+        items: cartItems.map((item) => ({
+          id: item.id,
+          code: item.code,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+        deliveryType,
+        shippingAddress: {
+          name: shipping.name.trim(),
+          phone: shipping.phone.trim(),
+          address: shipping.address.trim(),
+          pincode: shipping.pincode.trim(),
+        },
+        subtotal,
+        shippingFee,
+        discount,
+        grandTotal,
+      };
 
-    const options = {
-      key: keyId,
-      amount: grandTotal * 100, // paise
-      currency: "INR",
-      name: "IGNOU Solved Assignments",
-      description: `Purchase of ${cartItems.length} solved assignment(s) (Handwritten delivery)`,
-      handler: function (response: any) {
-        dispatch(
-          createOrderRequest({
-            items: cartItems.map((item) => ({
-              id: item.id,
-              code: item.code,
-              price: item.price,
-              quantity: item.quantity,
-            })),
-            deliveryType,
-            shippingAddress: {
-              name: shipping.name,
-              phone: shipping.phone,
-              address: shipping.address,
-              pincode: shipping.pincode,
-            },
-            subtotal,
-            shippingFee,
-            discount,
-            grandTotal,
-          })
-        );
-      },
-      prefill: {
-        name: userName,
-        email: userEmail,
-        contact: shipping.phone,
-      },
-      theme: {
-        color: "#F97316", // orange
-      },
-      modal: {
-        ondismiss: function () {
-          console.log("Razorpay payment modal closed by user");
-        }
-      }
-    };
+      const orderRes = await api.orders.create(orderPayload);
+      const razorpayOrderId = orderRes?.razorpayOrderId || orderRes?.order?.razorpayOrderId;
 
-    const rzp = new (window as any).Razorpay(options);
-    rzp.open();
+      const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_Tedre00XjhZDpM";
+      const userEmail = localStorage.getItem("ignou_user_email") || "";
+      const userName = localStorage.getItem("ignou_user_name") || shipping.name;
+
+      const options = {
+        key: keyId,
+        amount: grandTotal * 100, // paise
+        currency: "INR",
+        name: "IGNOU Solved Assignments",
+        description: `Purchase of ${cartItems.length} solved assignment(s) (Handwritten delivery)`,
+        order_id: razorpayOrderId,
+        handler: async function (response: any) {
+          try {
+            setErrorMessage(null);
+            const verifyRes = await api.orders.verify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (verifyRes?.success !== false) {
+              clearCart();
+              localStorage.removeItem("ignou_cart_promo");
+              setCheckoutSuccess(true);
+            } else {
+              setErrorMessage(verifyRes?.message || "Payment verification failed.");
+            }
+          } catch (verifyErr: any) {
+            setErrorMessage(verifyErr.message || "Payment verification failed.");
+          }
+        },
+        prefill: {
+          name: userName,
+          email: userEmail,
+          contact: shipping.phone,
+        },
+        theme: {
+          color: "#F97316", // orange
+        },
+        modal: {
+          ondismiss: function () {
+            console.log("Razorpay payment modal closed by user");
+          },
+        },
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.on("payment.failed", function (response: any) {
+        setErrorMessage(response.error?.description || "Payment failed. Please try again.");
+      });
+      rzp.open();
+    } catch (err: any) {
+      setErrorMessage(err.message || "Failed to initiate payment. Please try again.");
+    }
   };
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);

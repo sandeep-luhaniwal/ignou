@@ -28,7 +28,7 @@ export const UploadBox: React.FC<UploadBoxProps> = ({ label, subtext, accept = "
         {fileName ? (
           <div className="flex flex-col items-center gap-1">
             <span className="text-xs font-bold text-center truncate max-w-50" style={{ color: "var(--orange)" }}>{fileName}</span>
-            <span className="text-2xs" style={{ color: "var(--gray)" }}>Click to replace</span>
+            <span className="text-sm" style={{ color: "var(--gray)" }}>Click to replace</span>
           </div>
         ) : (
           <>

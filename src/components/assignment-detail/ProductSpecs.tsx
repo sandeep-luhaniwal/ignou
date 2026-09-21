@@ -30,11 +30,11 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
             alt={title}
             className="w-full h-full object-cover"
           />
-          <span className="absolute top-4 left-4 bg-main-black text-white text-2xs font-black px-3 py-1 rounded-lg tracking-wider">
+          <span className="absolute top-4 left-4 bg-main-black text-white text-sm font-black px-3 py-1 rounded-lg tracking-wider">
             {category}
           </span>
           {discount > 0 && (
-            <span className="absolute top-4 right-4 bg-red text-white text-2xs font-black px-3 py-1 rounded-lg tracking-wider animate-pulse">
+            <span className="absolute top-4 right-4 bg-red text-white text-sm font-black px-3 py-1 rounded-lg tracking-wider animate-pulse">
               {discount}% OFF
             </span>
           )}

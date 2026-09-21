@@ -12,7 +12,7 @@ const Footer = () => {
             <div className="bg-white text-primary p-2 rounded-xl font-bold text-2xl">IP</div>
             <div className="flex flex-col leading-tight">
               <span className="font-heading font-bold text-xl tracking-tight">IGNOU POWER</span>
-              <span className="text-2xs text-accent font-bold tracking-widest uppercase">Student Support</span>
+              <span className="text-sm text-accent font-bold tracking-widest uppercase">Student Support</span>
             </div>
           </div>
           <p className="text-white/80 leading-relaxed text-sm">

@@ -389,6 +389,14 @@ export const api = {
       });
       return await handleResponse(response);
     },
+
+    downloadItem: async (orderId: string, itemId: string) => {
+      const response = await fetch(`${API_BASE_URL}/orders/${orderId}/download/${itemId}`, {
+        method: "GET",
+        headers: getHeaders(),
+      });
+      return await handleResponse(response);
+    },
   },
 
   comments: {

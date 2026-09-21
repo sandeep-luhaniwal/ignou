@@ -175,10 +175,10 @@ export default function ProjectGrid() {
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="text-2xs font-bold text-cta uppercase bg-light-orange/30 px-2 py-0.5 rounded-md">
+                    <span className="text-sm font-bold text-cta uppercase bg-light-orange/30 px-2 py-0.5 rounded-md">
                       {project.category}
                     </span>
-                    <Badge orange roundedfull className="font-extrabold text-2xs px-2 py-0.5 shadow-xs">
+                    <Badge orange roundedfull className="font-extrabold text-sm px-2 py-0.5 shadow-xs">
                       {project.approvalRate} Approval
                     </Badge>
                   </div>
@@ -203,7 +203,7 @@ export default function ProjectGrid() {
 
                 <div className="flex items-center justify-between border-t border-border-white pt-4 mt-auto">
                   <div>
-                    <span className="text-2xs uppercase font-bold text-gray block">Start Price</span>
+                    <span className="text-sm uppercase font-bold text-gray block">Start Price</span>
                     <span className="text-lg font-black text-main-black">{project.price}</span>
                   </div>
                   <MainButton

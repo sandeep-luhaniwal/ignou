@@ -170,7 +170,7 @@ export default function ProjectOrderForm() {
                 <div className="flex flex-col gap-0.5">
                   <div className="flex items-center gap-1.5">
                     <h5 className="text-xs font-bold text-main-black">Viva-Voce Questions Guide</h5>
-                    <Badge xs className="font-extrabold text-2xs tracking-wider uppercase">Free</Badge>
+                    <Badge xs className="font-extrabold text-sm tracking-wider uppercase">Free</Badge>
                   </div>
                   <p className="text-xs text-gray">Comprehensive viva prep booklet</p>
                 </div>

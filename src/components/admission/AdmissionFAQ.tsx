@@ -51,7 +51,7 @@ export default function AdmissionFAQ() {
     <section className="py-20 px-6 bg-white">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <Badge orange roundedfull className="mb-3 px-3 py-1 font-bold uppercase tracking-wider text-2xs">
+          <Badge orange roundedfull className="mb-3 px-3 py-1 font-bold uppercase tracking-wider text-sm">
             FAQs
           </Badge>
           <Heading level={2} bold mainblack className="text-2xl md:text-3xl tracking-tight mb-3">
@@ -77,9 +77,8 @@ export default function AdmissionFAQ() {
                   <span className="text-sm md:text-base pr-4">{faq.question}</span>
                   <ChevronDown
                     size={18}
-                    className={`text-main-gray transition-transform duration-300 shrink-0 ${
-                      isOpen ? "rotate-180 text-cta" : ""
-                    }`}
+                    className={`text-main-gray transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180 text-cta" : ""
+                      }`}
                   />
                 </button>
 

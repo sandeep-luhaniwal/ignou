@@ -27,6 +27,27 @@ export const slugify = (text: string): string => {
     .replace(/^-+|-+$/g, "");
 };
 
+export const isObjectId = (str?: string): boolean => {
+  return Boolean(str && /^[0-9a-fA-F]{24}$/i.test(str.trim()));
+};
+
+export const extractCourseCode = (rawCode?: string, title?: string): string => {
+  if (rawCode && !isObjectId(rawCode)) {
+    return rawCode.trim();
+  }
+  if (title) {
+    const match = title.match(/^([A-Za-z]{2,8}[-\s]?[0-9]{2,4}[A-Za-z]?)/);
+    if (match && !isObjectId(match[1])) {
+      return match[1].replace(/\s+/, "-").toUpperCase();
+    }
+    const colonMatch = title.split(":")[0]?.trim();
+    if (colonMatch && !isObjectId(colonMatch) && colonMatch.length <= 12) {
+      return colonMatch.toUpperCase();
+    }
+  }
+  return "";
+};
+
 export const normalizeProduct = (item: any) => {
   if (!item) return null;
   const categoryName = 
@@ -37,14 +58,14 @@ export const normalizeProduct = (item: any) => {
       : item.program || "IGNOU";
 
   const title = item.title || "";
-  const code = item.code || (title ? title.split(":")[0].trim() : "");
+  const code = extractCourseCode(item.code, title);
   const id = String(item._id || item.id || "");
 
   return {
     id,
     _id: id,
     title,
-    slug: item.slug || slugify(title || code || id),
+    slug: item.slug || slugify(code || title || id),
     category: categoryName,
     price: Number(item.price || 0),
     oldPrice: item.oldPrice ? Number(item.oldPrice) : undefined,

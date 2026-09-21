@@ -10,11 +10,18 @@ interface CartItemRowProps {
   onRemove: (id: string) => void;
 }
 
+const isHexId = (str?: string) => Boolean(str && /^[0-9a-fA-F]{24}$/i.test(str.trim()));
+
 export const CartItemRow: React.FC<CartItemRowProps> = ({
   item,
   onQuantityChange,
   onRemove,
 }) => {
+  const displayCode =
+    item.code && !isHexId(item.code)
+      ? item.code
+      : item.title?.match(/^([A-Za-z]{2,8}[-\s]?[0-9]{2,4}[A-Za-z]?)/)?.[1]?.replace(/\s+/, "-")?.toUpperCase() || "";
+
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-5 bg-white border border-gray-100 rounded-2xl shadow-xs hover:border-gray-150 transition-all gap-4">
       {/* Product Image & Details */}
@@ -27,9 +34,11 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
           />
         </div>
         <div className="flex-1 min-w-0 text-left">
-          <span className="inline-block text-2xs font-bold text-orange bg-orange/5 px-2 py-0.5 rounded-md uppercase tracking-wider mb-1.5">
-            {item.code}
-          </span>
+          {displayCode && (
+            <span className="inline-block text-sm font-bold text-orange bg-orange/5 px-2 py-0.5 rounded-md uppercase tracking-wider mb-1.5">
+              {displayCode}
+            </span>
+          )}
           <h4 className="text-sm sm:text-base font-bold text-main-black line-clamp-2 leading-snug">
             {item.title}
           </h4>

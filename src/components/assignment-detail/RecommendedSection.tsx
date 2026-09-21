@@ -9,6 +9,7 @@ import Heading from "@/components/ui/Heading";
 
 interface RecommendationItem {
   id: string;
+  code?: string;
   title: string;
   category: string;
   price: number;
@@ -53,6 +54,7 @@ export const RecommendedSection: React.FC<RecommendedSectionProps> = ({ recommen
           <ProductCard
             key={item.id}
             id={item.id}
+            code={item.code}
             title={item.title}
             category={item.category}
             price={item.price}

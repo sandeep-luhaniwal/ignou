@@ -55,17 +55,40 @@ export default function DashboardPage() {
     }
     : null;
 
-  const purchasedAssignments = orders.flatMap((order: any) =>
-    order.items.map((item: any) => ({
-      id: item._id || item.code.toLowerCase(),
-      code: item.code,
-      title: item.title,
-      purchaseDate: new Date(order.createdAt).toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      }),
-    }))
+  const purchasedAssignments = (orders || []).flatMap((order: any) =>
+    (order.items || []).map((item: any) => {
+      const orderDate = order.createdAt ? new Date(order.createdAt) : null;
+      return {
+        id: item._id || item.id || item.code?.toLowerCase(),
+        itemId: item._id || item.id,
+        orderId: order._id || order.id,
+        code: item.code,
+        title: item.title,
+        price:
+          item.price !== undefined && item.price !== null
+            ? item.price
+            : order.items?.length === 1
+            ? order.grandTotal
+            : undefined,
+        fileUrl: item.fileUrl,
+        paymentStatus: order.paymentStatus,
+        deliveryType: order.deliveryType,
+        purchaseDate: orderDate
+          ? orderDate.toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+            })
+          : "Recent",
+        purchaseTime: orderDate
+          ? orderDate.toLocaleTimeString("en-IN", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            })
+          : "",
+      };
+    })
   );
 
   const loading = authLoading || ordersLoading || !profile;

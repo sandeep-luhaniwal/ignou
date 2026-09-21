@@ -38,10 +38,12 @@ export default function RootLayout({
       <body className="">
         <StoreProvider>
           <CartProvider>
-            <NavBar />
+           <div className="overflow-clip">
+             <NavBar />
             {children}
             <Footer />
             <Toaster position="top-right" />
+           </div>
           </CartProvider>
         </StoreProvider>
       </body>

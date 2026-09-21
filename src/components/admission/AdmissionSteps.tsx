@@ -12,7 +12,7 @@ export default function AdmissionSteps() {
     <section className="py-20 px-6 bg-white border-b border-border-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <Badge orange roundedfull className="mb-3 px-3 py-1 font-bold uppercase tracking-wider text-2xs">
+          <Badge orange roundedfull className="mb-3 px-3 py-1 font-bold uppercase tracking-wider text-sm">
             The Process
           </Badge>
           <Heading level={2} bold mainblack className="text-2xl md:text-3xl tracking-tight mb-3">

@@ -15,9 +15,9 @@ export const AssignmentHero: React.FC<AssignmentHeroProps> = ({
 }) => {
   return (
     <section className="px-4 md:px-8 py-8 md:py-10 bg-transparent relative">
-      <div 
+      <div
         className="max-w-300 mx-auto rounded-lg border overflow-hidden relative p-8 md:p-12 text-left"
-        style={{ 
+        style={{
           background: "linear-gradient(135deg, #FF7C00 0%, #FF5100 100%)",
           borderColor: "rgba(255, 255, 255, 0.15)",
           boxShadow: "0 10px 30px rgba(255, 106, 0, 0.12)"
@@ -35,11 +35,11 @@ export const AssignmentHero: React.FC<AssignmentHeroProps> = ({
             </Paragraph>
           </div>
           <div className="lg:col-span-4 flex justify-start lg:justify-end">
-            <div 
+            <div
               className="px-6 py-4 rounded-lg border backdrop-blur-md flex flex-col gap-1 w-full max-w-65 text-left"
               style={{ backgroundColor: "rgba(255,255,255,0.1)", borderColor: "rgba(255,255,255,0.15)" }}
             >
-              <span className="text-2xs uppercase font-bold tracking-wider opacity-75 text-white">Instant Access</span>
+              <span className="text-sm uppercase font-bold tracking-wider opacity-75 text-white">Instant Access</span>
               <span className="text-lg font-black text-white" style={{ color: "var(--main-black, #141B2C)" }}>100% Solved PDF</span>
               <span className="text-xs opacity-90 font-medium text-white">Prepared by IGNOU Experts</span>
             </div>

@@ -17,6 +17,8 @@ interface ProductInfoProps {
   onAddToCart: () => void;
 }
 
+const isHexId = (str?: string) => Boolean(str && /^[0-9a-fA-F]{24}$/i.test(str.trim()));
+
 export const ProductInfo: React.FC<ProductInfoProps> = ({
   code,
   title,
@@ -30,13 +32,18 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
   const [activeTab, setActiveTab] = useState<"description" | "guidelines" | "faqs">("description");
   const saveAmt = oldPrice ? oldPrice - price : 0;
 
+  const cleanCode =
+    code && !isHexId(code)
+      ? code
+      : title?.match(/^([A-Za-z]{2,8}[-\s]?[0-9]{2,4}[A-Za-z]?)/)?.[1]?.replace(/\s+/, "-")?.toUpperCase() || "";
+
   return (
     <div className="flex flex-col gap-6">
       {/* Header info card */}
       <Card border className="flex flex-col gap-5 shadow-sm">
         <div>
-          <span className="bg-orange/10 text-orange text-2xs font-black px-2.5 py-1 rounded-lg border border-orange/10 uppercase tracking-wider">
-            Course Code: {code}
+          <span className="bg-orange/10 text-orange text-sm font-black px-2.5 py-1 rounded-lg border border-orange/10 uppercase tracking-wider">
+            {cleanCode ? `Course Code: ${cleanCode}` : "IGNOU Solved Assignment"}
           </span>
           <Heading level={1} mainblack bold small className="mt-3.5 leading-snug">
             {title}

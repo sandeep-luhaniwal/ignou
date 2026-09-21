@@ -80,6 +80,7 @@ const FeaturedAssignments = () => {
               </div>
               <ProductCard
                 id={product.id}
+                code={product.code}
                 title={product.title}
                 category={product.category}
                 price={product.price}

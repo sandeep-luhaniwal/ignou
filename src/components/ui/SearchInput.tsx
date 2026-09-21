@@ -47,7 +47,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           w-full border rounded-lg ps-9 pe-4 py-2.5
           outline-none transition-all duration-300
           border-off-white focus:border-orange placeholder:text-gray
-          ${xs ? "text-2xs" : sm ? "text-xs" : "text-sm"}
+          ${xs ? "text-sm" : sm ? "text-xs" : "text-sm"}
           ${lightwhite ? "bg-light-white" : "bg-dark-white"}
           ${inputClassName}
         `}
