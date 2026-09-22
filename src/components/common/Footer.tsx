@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -8,15 +9,14 @@ const Footer = () => {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           {/* Col 1 */}
           <div className="max-w-sm">
-            <div className="flex items-center gap-2.5">
-              <span className="grid size-8 place-items-center rounded-lg bg-linear-to-br from-rose to-azure text-xs font-bold text-white ">
-                IP
-              </span>
-              <span className="font-bold text-foreground">IGNOU Power</span>
-            </div>
-            <p className="mt-3 text-sm leading-relaxed text-ink/55">
-              Solved assignments, project guidance and admission support for distance-learning students.
-            </p>
+            <Image
+              src="/images/svg/main-logo.svg"
+              alt="IGNOU Power Logo"
+              width={140}
+              height={48}
+              className="h-9.5 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+              priority
+            />
           </div>
 
           {/* Col 2 */}
