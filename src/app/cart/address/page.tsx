@@ -24,7 +24,14 @@ const AddressPage = () => {
   const [deliveryType, setDeliveryType] = useState<"PDF" | "Handwritten">("Handwritten");
   const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
-  const [shipping, setShipping] = useState({ name: "", phone: "", address: "", pincode: "" });
+  const [shipping, setShipping] = useState({
+    name: "",
+    phone: "",
+    state: "",
+    district: "",
+    address: "",
+    pincode: "",
+  });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { success: orderSuccess, error: orderError } = useAppSelector((state) => state.orders);
@@ -98,18 +105,25 @@ const AddressPage = () => {
   const handleCheckout = async () => {
     setErrorMessage(null);
 
-    if (!shipping.name.trim() || !shipping.phone.trim() || !shipping.address.trim() || !shipping.pincode.trim()) {
-      setErrorMessage("Please fill in all the shipping details to proceed.");
+    if (
+      !shipping.name.trim() ||
+      !shipping.phone.trim() ||
+      !shipping.address.trim() ||
+      !shipping.pincode.trim() ||
+      !shipping.state.trim() ||
+      !shipping.district.trim()
+    ) {
+      setErrorMessage("Please fill in all shipping details, including State & District.");
+      return;
+    }
+
+    if (shipping.phone.trim().length < 10) {
+      setErrorMessage("Please enter a valid 10-digit WhatsApp Phone Number.");
       return;
     }
 
     if (shipping.pincode.trim().length !== 6 || isNaN(Number(shipping.pincode))) {
       setErrorMessage("Please enter a valid 6-digit Pincode.");
-      return;
-    }
-
-    if (shipping.phone.trim().length < 10) {
-      setErrorMessage("Please enter a valid WhatsApp Phone Number.");
       return;
     }
 
@@ -132,7 +146,9 @@ const AddressPage = () => {
         shippingAddress: {
           name: shipping.name.trim(),
           phone: shipping.phone.trim(),
-          address: shipping.address.trim(),
+          state: shipping.state.trim(),
+          district: shipping.district.trim(),
+          address: `${shipping.address.trim()}, ${shipping.district.trim()}, ${shipping.state.trim()} - ${shipping.pincode.trim()}`,
           pincode: shipping.pincode.trim(),
         },
         subtotal,
@@ -206,67 +222,68 @@ const AddressPage = () => {
   const grandTotal = Math.max(0, subtotal + shippingFee - discount);
 
   return (
-    <div className="bg-dark-white min-h-screen flex flex-col relative overflow-hidden">
-      <div className="absolute -top-10 -right-10 w-150 h-150 bg-orange/5 rounded-full blur-3xl pointer-events-none" />
-      <main className="grow max-w-300 mx-auto w-full px-4 xl:px-0 py-10 lg:py-16 relative z-10">
-        {checkoutSuccess ? (
-          <CheckoutSuccess />
-        ) : (
-          <div className="flex flex-col gap-6">
-            {/* Header back navigation */}
-            <div className="flex items-center gap-3">
-              <Link
-                href="/cart"
-                className="w-10 h-10 rounded-xl bg-white border border-gray-150 flex items-center justify-center text-gray-500 hover:text-orange hover:border-orange transition-all shadow-sm"
-              >
-                <ArrowLeft size={18} />
-              </Link>
-              <div>
-                <Heading mainblack bold className="text-left">
-                  Delivery Address
-                </Heading>
-                <Paragraph gray sm className="text-left leading-relaxed">
-                  Provide your details for handwritten solved assignment delivery.
-                </Paragraph>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-4">
-              <div className="lg:col-span-8 flex flex-col gap-6">
-                {errorMessage && (
-                  <div className="flex items-center gap-2.5 text-xs text-red font-semibold bg-red/5 p-3.5 rounded-2xl border border-red/10 text-left">
-                    <AlertCircle size={16} />
-                    <span>{errorMessage}</span>
-                  </div>
-                )}
-
-                <ShippingForm
-                  name={shipping.name}
-                  phone={shipping.phone}
-                  address={shipping.address}
-                  pincode={shipping.pincode}
-                  onChange={(f, v) => setShipping((prev) => ({ ...prev, [f]: v }))}
-                />
-              </div>
-
-              {cartItems.length > 0 && (
-                <div className="lg:col-span-4">
-                  <OrderSummary
-                    subtotal={subtotal}
-                    shippingFee={shippingFee}
-                    discount={discount}
-                    grandTotal={grandTotal}
-                    appliedPromo={appliedPromo}
-                    onApplyPromo={handleApplyPromo}
-                    onRemovePromo={handleRemovePromo}
-                    onCheckout={handleCheckout}
-                  />
-                </div>
-              )}
+    <div className="mx-auto max-w-7xl px-4 py-8 relative z-30">
+      {checkoutSuccess ? (
+        <div className="w-full max-w-lg mx-auto">
+          <CheckoutSuccess deliveryType="Handwritten" />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-6">
+          {/* Header back navigation */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/cart"
+              className="w-10 h-10 rounded-lg bg-surface-strong ring-1 ring-border flex items-center justify-center text-ink/70 hover:text-azure-deep hover:bg-glass transition-all shadow-xs"
+            >
+              <ArrowLeft className="size-4" />
+            </Link>
+            <div>
+              <h2 className="text-2xl font-bold text-foreground text-left">
+                Delivery Address
+              </h2>
+              <p className="text-xs sm:text-sm text-ink/65 text-left">
+                Provide your details for handwritten solved assignment delivery.
+              </p>
             </div>
           </div>
-        )}
-      </main>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-2">
+            <div className="lg:col-span-8 flex flex-col gap-6">
+              {errorMessage && (
+                <div className="flex items-center gap-2.5 text-xs text-rose-deep font-semibold bg-rose-soft/20 p-3.5 rounded-lg ring-1 ring-rose-deep/20 text-left">
+                  <AlertCircle className="size-4" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              <ShippingForm
+                name={shipping.name}
+                phone={shipping.phone}
+                state={shipping.state}
+                district={shipping.district}
+                address={shipping.address}
+                pincode={shipping.pincode}
+                onChange={(f, v) => setShipping((prev) => ({ ...prev, [f]: v }))}
+              />
+            </div>
+
+            {cartItems.length > 0 && (
+              <div className="lg:col-span-4 sticky top-20">
+                <OrderSummary
+                  subtotal={subtotal}
+                  shippingFee={shippingFee}
+                  discount={discount}
+                  grandTotal={grandTotal}
+                  appliedPromo={appliedPromo}
+                  onApplyPromo={handleApplyPromo}
+                  onRemovePromo={handleRemovePromo}
+                  onCheckout={handleCheckout}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

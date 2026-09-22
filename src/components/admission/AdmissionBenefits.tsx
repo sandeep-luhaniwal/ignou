@@ -41,7 +41,7 @@ export default function AdmissionBenefits() {
 
         {/* Right Side (WhatsApp support card) */}
         <div className="lg:col-span-5 w-full">
-          <Card border className="p-8 md:p-10 bg-white hover:shadow-lg transition-all duration-300 rounded-4xl border-border-white flex flex-col justify-between min-h-88">
+          <Card border className="p-8 md:p-10 bg-white  transition-all duration-300 rounded-4xl border-border-white flex flex-col justify-between min-h-88">
             <div>
               <div className="w-14 h-14 bg-light-orange text-cta rounded-xl flex items-center justify-center mb-6">
                 <Award size={24} />
@@ -57,7 +57,7 @@ export default function AdmissionBenefits() {
               href="https://wa.me/919876543210?text=Hello%20IGNOU%20HELPING,%20I%20need%20urgent%20admission%20help."
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 bg-accent text-primary py-4 rounded-xl font-extrabold hover:bg-accent/90 transition-all text-xs uppercase tracking-wider shadow-sm"
+              className="w-full flex items-center justify-center gap-2 bg-accent text-primary py-4 rounded-xl font-extrabold hover:bg-accent/90 transition-all text-xs uppercase tracking-wider "
             >
               <MessageCircle size={16} fill="currentColor" /> Chat on WhatsApp
             </a>

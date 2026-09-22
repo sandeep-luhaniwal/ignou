@@ -75,7 +75,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div
-      className="group relative rounded-lg overflow-hidden border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+      className="group relative rounded-lg overflow-hidden border  hover:shadow-xl transition-all duration-300 flex flex-col h-full"
       style={{ backgroundColor: "var(--card-bg, #ffffff)", borderColor: "var(--border-color, #EEF2F6)" }}
     >
       {/* Product Image & Badges */}
@@ -83,7 +83,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover group- transition-transform duration-500"
           loading="lazy"
         />
         {/* Category Badge */}

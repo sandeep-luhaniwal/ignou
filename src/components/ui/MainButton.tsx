@@ -33,7 +33,7 @@ const MainButton: React.FC<MainButtonProps> = ({ children, onClick, url, target 
         <>
             {url ? (
                 <Link href={url} target={target}
-                    className={`border-2 text-nowrap duration-300 rounded-lg group/button cursor-pointer px-2.5 md:px-4 lg:px-5 lg:rounded-xl flex items-center gap-1.5 lg:gap-2
+                    className={`border-2 text-nowrap duration-300 rounded-lg group/button cursor-pointer px-2.5 md:px-4 lg:px-5 flex items-center gap-1.5 lg:gap-2
                            ${className} ${ptwo ? "py-2" : "py-2.5"} ${sora ? "font-sora" : ""}
                             ${medium ? "font-medium" : light ? "font-light" : normal ? "font-normal" : bold ? "font-bold" : extrabold ? "font-extrabold" : "font-semibold"}
                             ${xs ? 'text-xs' : base ? 'text-base' : ten ? "text-sm" : 'text-sm'}
@@ -48,7 +48,7 @@ const MainButton: React.FC<MainButtonProps> = ({ children, onClick, url, target 
                     <button
                         type={type}
                         onClick={!disabled ? onClick : undefined}
-                        disabled={disabled} className={`border-2 text-nowrap duration-300 rounded-lg group/button cursor-pointer px-2.5 md:px-4 lg:px-5 lg:rounded-xl flex items-center gap-1.5 lg:gap-2
+                        disabled={disabled} className={`border-2 text-nowrap duration-300 rounded-lg group/button cursor-pointer px-2.5 md:px-4 lg:px-5 flex items-center gap-1.5 lg:gap-2
                            ${className} ${ptwo ? "py-2" : "py-2.5"} ${sora ? "font-sora" : ""}
                             ${medium ? "font-medium" : light ? "font-light" : normal ? "font-normal" : bold ? "font-bold" : extrabold ? "font-extrabold" : "font-semibold"}
                             ${xs ? 'text-xs' : base ? 'text-base' : ten ? "text-sm" : 'text-sm'}

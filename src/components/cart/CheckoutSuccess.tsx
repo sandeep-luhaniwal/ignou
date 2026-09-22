@@ -1,12 +1,9 @@
 "use client";
 
 import React from "react";
-import Heading from "@/components/ui/Heading";
-import Paragraph from "@/components/ui/Paragraph";
-import MainButton from "@/components/ui/MainButton";
 import { Check, Download, FileText, ArrowRight } from "lucide-react";
-import Card from "@/components/ui/Card";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export interface VerifiedDownload {
   productId?: string;
@@ -25,31 +22,31 @@ export const CheckoutSuccess: React.FC<CheckoutSuccessProps> = ({
   deliveryType = "PDF",
 }) => {
   return (
-    <Card border className="max-w-lg mx-auto p-6 md:p-8 text-center shadow-xl my-6 bg-white border-gray-150">
-      <div className="w-16 h-16 bg-green/10 text-green rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-xs">
-        <Check size={32} className="stroke-[2.5]" />
+    <div className="max-w-lg mx-auto p-6 md:p-8 text-center  my-6 rounded-lg bg-glass ring-1 ring-glass-edge backdrop-blur-xl">
+      <div className="w-16 h-16 bg-azure-soft/30 text-azure-deep rounded-full flex items-center justify-center mx-auto mb-5 ring-1 ring-azure-deep/20 shadow-xs">
+        <Check className="size-8 stroke-[2.5]" />
       </div>
 
-      <span className="text-sm uppercase tracking-wider font-extrabold bg-green/10 text-green px-3 py-1 rounded-full inline-block mb-3">
+      <span className="text-xs uppercase tracking-wider font-bold bg-azure-soft/30 text-azure-deep px-3 py-1 rounded-full inline-block mb-3 ring-1 ring-azure-deep/20">
         Payment Verified
       </span>
 
-      <Heading mainblack bold center className="mb-2 text-xl md:text-2xl">
+      <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">
         Order Placed Successfully!
-      </Heading>
+      </h2>
 
-      <Paragraph gray sm center className="mb-6 leading-relaxed">
+      <p className="text-sm text-ink/70 mb-6 leading-relaxed">
         {deliveryType === "Handwritten"
           ? "Thank you for your order. We have received your delivery details and our team will dispatch your handwritten assignment soon."
           : "Thank you for your purchase! Your solved reference PDFs are ready for instant download below and also saved to your account."}
-      </Paragraph>
+      </p>
 
       {/* Verified Download Links (PDF Delivery) */}
       {deliveryType === "PDF" && downloads.length > 0 && (
         <div className="mb-6 flex flex-col gap-3 text-left">
-          <Paragraph mainblack bold xs className="uppercase tracking-wider">
+          <p className="text-xs font-bold text-foreground uppercase tracking-wider">
             Your Downloadable Files ({downloads.length})
-          </Paragraph>
+          </p>
           <div className="flex flex-col gap-2.5">
             {downloads.map((item, idx) => {
               const isHex = (str?: string) => Boolean(str && /^[0-9a-fA-F]{24}$/i.test(str.trim()));
@@ -64,18 +61,18 @@ export const CheckoutSuccess: React.FC<CheckoutSuccessProps> = ({
               return (
                 <div
                   key={item.productId || idx}
-                  className="p-3.5 rounded-xl border border-gray-150 bg-dark-white/50 flex items-center justify-between gap-3 hover:border-orange/30 transition-all"
+                  className="p-3.5 rounded-lg bg-surface-strong ring-1 ring-border flex items-center justify-between gap-3 hover:ring-azure-deep/40 transition-all shadow-xs"
                 >
                   <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="w-9 h-9 rounded-lg bg-orange/10 text-orange flex items-center justify-center shrink-0">
-                      <FileText size={18} />
+                    <div className="w-9 h-9 rounded-lg bg-azure-soft/30 text-azure-deep flex items-center justify-center shrink-0">
+                      <FileText className="size-4.5" />
                     </div>
                     <div className="truncate">
-                      <p className="text-xs font-bold text-main-black truncate">
+                      <p className="text-xs font-bold text-foreground truncate">
                         {safeCode ? `${safeCode} - ` : ""}
                         {safeTitle}
                       </p>
-                      <span className="text-sm text-gray">Verified & Ready</span>
+                      <span className="text-xs text-ink/50 font-medium">Verified & Ready</span>
                     </div>
                   </div>
 
@@ -84,9 +81,9 @@ export const CheckoutSuccess: React.FC<CheckoutSuccessProps> = ({
                       href={item.fileUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-orange hover:bg-orange/90 text-white px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 shrink-0 shadow-xs active:scale-95 transition-all"
+                      className="bg-linear-to-r from-rose to-azure hover:opacity-95 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shrink-0 shadow-xs hover:shadow-md  active:scale-95 transition-all duration-200"
                     >
-                      <Download size={13} />
+                      <Download className="size-3.5" />
                       <span>Download</span>
                     </a>
                   )}
@@ -98,20 +95,20 @@ export const CheckoutSuccess: React.FC<CheckoutSuccessProps> = ({
       )}
 
       <div className="flex flex-col sm:flex-row gap-3 mt-4">
-        <Link
-          href="/dashboard"
-          className="flex-1 bg-main-black hover:bg-black text-white text-xs font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm"
-        >
-          <span>Go to Download Center</span>
-          <ArrowRight size={14} />
-        </Link>
-        <MainButton url="/" gray className="flex-1 justify-center text-xs">
-          Continue Browsing
-        </MainButton>
+        <Button asChild variant="gradient" className="flex-1 font-bold rounded-lg shadow-md  transition-all duration-300 hover:scale-[1.02] active:scale-95">
+          <Link href="/dashboard" className="flex items-center justify-center gap-2">
+            <span>Go to Download Center</span>
+            <ArrowRight className="size-4" />
+          </Link>
+        </Button>
+        <Button asChild variant="glass" className="flex-1 font-bold rounded-lg hover:bg-surface-strong transition-all">
+          <Link href="/assignments">Continue Browsing</Link>
+        </Button>
       </div>
-    </Card>
+    </div>
   );
 };
 
 export default CheckoutSuccess;
+
 

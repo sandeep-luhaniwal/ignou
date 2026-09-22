@@ -69,6 +69,15 @@ const authSlice = createSlice({
       state.token = null;
       state.loading = false;
       state.error = null;
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("ignou_logged_in");
+        localStorage.removeItem("ignou_token");
+        localStorage.removeItem("ignou_user_email");
+        localStorage.removeItem("ignou_user_name");
+        localStorage.removeItem("ignou_user_enrolment");
+        localStorage.removeItem("ignou_user_program");
+        localStorage.removeItem("ignou_user_session");
+      }
     },
   },
 });

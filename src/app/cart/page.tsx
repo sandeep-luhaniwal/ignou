@@ -198,40 +198,37 @@ const ShoppingCartPage = () => {
   const grandTotal = Math.max(0, subtotal + shippingFee - discount);
 
   return (
-    <div className="bg-dark-white min-h-screen flex flex-col relative overflow-hidden">
-      <div className="absolute -top-10 -right-10 w-150 h-150 bg-orange/5 rounded-full blur-3xl pointer-events-none" />
-      <main className="grow max-w-300 mx-auto w-full px-4 xl:px-0 py-10 lg:py-16 relative z-10 flex flex-col justify-center items-center">
-        {checkoutSuccess ? (
-          <div className="w-full max-w-lg">
-            <CheckoutSuccess downloads={verifiedDownloads} deliveryType={deliveryType} />
-          </div>
-        ) : cartItems.length === 0 ? (
-          <div className="w-full flex justify-center items-center py-6 md:py-10">
+    <div className="mx-auto max-w-7xl px-4 py-8 relative z-10">
+      {checkoutSuccess ? (
+        <div className="w-full max-w-lg mx-auto">
+          <CheckoutSuccess downloads={verifiedDownloads} deliveryType={deliveryType} />
+        </div>
+      ) : cartItems.length === 0 ? (
+        <div className="w-full flex justify-center items-center py-6 md:py-12">
+          <CartItemsList items={cartItems} onQuantityChange={updateQuantity} onRemove={removeFromCart} />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
+          <div className="lg:col-span-8 flex flex-col gap-6">
             <CartItemsList items={cartItems} onQuantityChange={updateQuantity} onRemove={removeFromCart} />
+            {cartItems.length > 0 && <DeliverySelector deliveryType={deliveryType} onChange={setDeliveryType} />}
           </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
-            <div className="lg:col-span-8 flex flex-col gap-8">
-              <CartItemsList items={cartItems} onQuantityChange={updateQuantity} onRemove={removeFromCart} />
-              {cartItems.length > 0 && <DeliverySelector deliveryType={deliveryType} onChange={setDeliveryType} />}
+          {cartItems.length > 0 && (
+            <div className="lg:col-span-4 sticky top-20 self-start w-full">
+              <OrderSummary
+                subtotal={subtotal}
+                shippingFee={shippingFee}
+                discount={discount}
+                grandTotal={grandTotal}
+                appliedPromo={appliedPromo}
+                onApplyPromo={handleApplyPromo}
+                onRemovePromo={() => setAppliedPromo(null)}
+                onCheckout={handleCheckout}
+              />
             </div>
-            {cartItems.length > 0 && (
-              <div className="lg:col-span-4">
-                <OrderSummary
-                  subtotal={subtotal}
-                  shippingFee={shippingFee}
-                  discount={discount}
-                  grandTotal={grandTotal}
-                  appliedPromo={appliedPromo}
-                  onApplyPromo={handleApplyPromo}
-                  onRemovePromo={() => setAppliedPromo(null)}
-                  onCheckout={handleCheckout}
-                />
-              </div>
-            )}
-          </div>
-        )}
-      </main>
+          )}
+        </div>
+      )}
     </div>
   );
 };

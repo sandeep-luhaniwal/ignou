@@ -1,54 +1,61 @@
 "use client";
 
 import React from "react";
-import { Trophy, Clock, FileText } from "lucide-react";
-import Card from "@/components/ui/Card";
-import Paragraph from "@/components/ui/Paragraph";
+import { Trophy, Clock, CheckCircle2 } from "lucide-react";
 
 export const CourseProgress: React.FC = () => {
   return (
-    <Card
-      border
-      className="border-gray-100! shadow-sm text-left flex flex-col gap-5 hover:shadow-xl hover:border-gray-150! transition-all duration-300"
-    >
-      <div className="flex items-center justify-between pb-3 border-b border-gray-100">
-        <div className="flex items-center gap-2">
-          <Trophy size={16} className="text-orange" />
-          <Paragraph mainblack bold sm className="uppercase tracking-wide">
+    <div className="rounded-xl bg-glass p-5 ring-1 ring-glass-edge  backdrop-blur-xl text-left flex flex-col gap-4 hover:ring-azure/40 transition-all duration-300">
+      {/* Header */}
+      <div className="flex items-center justify-between pb-3 border-b border-border/70">
+        <div className="flex items-center gap-2.5">
+          <div className="size-8 rounded-lg bg-linear-to-br from-rose/25 to-azure/20 text-rose-deep flex items-center justify-center ring-1 ring-rose/25">
+            <Trophy className="size-4.5" />
+          </div>
+          <h3 className="font-bold text-xs uppercase tracking-wider text-foreground">
             Course Progress
-          </Paragraph>
+          </h3>
         </div>
-        <Paragraph orange xs bold>
-          60%
-        </Paragraph>
+        <span className="text-xs font-black text-azure-deep bg-azure-soft/40 px-2.5 py-0.5 rounded-full ring-1 ring-azure/25">
+          60% Completed
+        </span>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3.5">
         {/* Progress bar */}
-        <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden p-0.5">
-          <div className="h-full bg-orange rounded-full" style={{ width: "60%" }}></div>
+        <div className="w-full h-3 bg-surface-strong ring-1 ring-border/80 rounded-full overflow-hidden p-0.5">
+          <div
+            className="h-full bg-linear-to-r from-rose via-purple-500 to-azure rounded-full transition-all duration-500 shadow-xs"
+            style={{ width: "60%" }}
+          />
         </div>
 
         {/* Progress Details List */}
-        <div className="flex flex-col gap-2.5 text-xs font-medium text-gray mt-1">
-          <div className="flex justify-between items-center p-2.5 rounded-xl bg-gray-50/50">
-            <span className="flex items-center gap-1.5">
-              <Clock size={12} className="text-orange" /> 
-              <Paragraph gray xs medium>Term End Exam preparation</Paragraph>
+        <div className="flex flex-col gap-2 text-xs font-medium text-ink/75">
+          <div className="flex justify-between items-center p-2.5 rounded-lg bg-surface-strong/70 ring-1 ring-border/60">
+            <span className="flex items-center gap-2">
+              <Clock className="size-3.5 text-azure-deep" />
+              <span>Term End Exam Prep</span>
             </span>
-            <Paragraph mainblack xs bold>Standard</Paragraph>
+            <span className="font-bold text-foreground bg-paper px-2 py-0.5 rounded-md ring-1 ring-border text-[11px]">
+              In Progress
+            </span>
           </div>
-          <div className="flex justify-between items-center p-2.5 rounded-xl bg-gray-50/50">
-            <span className="flex items-center gap-1.5">
-              <FileText size={12} className="text-orange" /> 
-              <Paragraph gray xs medium>Solved Assignments</Paragraph>
+          <div className="flex justify-between items-center p-2.5 rounded-lg bg-surface-strong/70 ring-1 ring-border/60">
+            <span className="flex items-center gap-2">
+              <CheckCircle2 className="size-3.5 text-emerald-600" />
+              <span>Solved Assignments</span>
             </span>
-            <Paragraph green xs bold>Downloaded (2)</Paragraph>
+            <span className="font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md ring-1 ring-emerald-500/20 text-[11px]">
+              Ready & Downloaded
+            </span>
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 
 export default CourseProgress;
+
+

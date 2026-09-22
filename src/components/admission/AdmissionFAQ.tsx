@@ -48,8 +48,8 @@ export default function AdmissionFAQ() {
   }, [activeFaq]);
 
   return (
-    <section className="py-20 px-6 bg-white">
-      <div className="max-w-4xl mx-auto">
+    <section className="py-20 px-4 sm:px-6 bg-white">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <Badge orange roundedfull className="mb-3 px-3 py-1 font-bold uppercase tracking-wider text-sm">
             FAQs

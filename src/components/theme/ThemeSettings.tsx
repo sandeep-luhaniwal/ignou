@@ -12,8 +12,8 @@ export const ThemeSettings: React.FC = () => {
   const [active, setActive] = useState(true);
 
   return (
-    <div 
-      className="w-full max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-lg border shadow-sm flex flex-col gap-8"
+    <div
+      className="w-full max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-lg border  flex flex-col gap-8"
       style={{ borderColor: "var(--border-color, #EEF2F6)", fontFamily: "sans-serif" }}
     >
       <div className="flex items-center gap-2 border-b pb-4" style={{ borderColor: "rgba(0,0,0,0.03)" }}>
@@ -34,7 +34,7 @@ export const ThemeSettings: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end">
         <div className="flex flex-col gap-2 w-full text-left">
           <label className="text-sm font-bold" style={{ color: "var(--main-black, #141B2C)" }}>Default Language</label>
-          <select 
+          <select
             value={lang} onChange={(e) => setLang(e.target.value)}
             className="w-full text-sm font-bold bg-transparent border rounded-lg px-3 py-3 outline-none cursor-pointer"
             style={{ borderColor: "var(--border-color, #EEF2F6)", color: "var(--main-black, #141B2C)" }}
@@ -46,7 +46,7 @@ export const ThemeSettings: React.FC = () => {
         </div>
         <div className="flex flex-col gap-2 w-full text-left">
           <label className="text-sm font-bold" style={{ color: "var(--main-black, #141B2C)" }}>Theme Mode</label>
-          <div 
+          <div
             className="flex p-1 rounded-lg border w-full max-w-70"
             style={{ backgroundColor: "var(--background, #F5F7FA)", borderColor: "var(--border-color, #EEF2F6)" }}
           >
@@ -54,7 +54,7 @@ export const ThemeSettings: React.FC = () => {
               <button
                 key={m} onClick={() => setMode(m)}
                 className="flex-1 py-2 text-sm font-bold rounded-md border-none cursor-pointer transition-all"
-                style={{ 
+                style={{
                   backgroundColor: mode === m ? "#ffffff" : "transparent",
                   color: mode === m ? "var(--main-black)" : "var(--gray)",
                   boxShadow: mode === m ? "0 1px 3px rgba(0,0,0,0.1)" : "none"
@@ -73,12 +73,12 @@ export const ThemeSettings: React.FC = () => {
         </div>
         <div className="flex items-center gap-3">
           <span className="text-sm font-bold" style={{ color: "var(--gray)" }}>Draft</span>
-          <button 
+          <button
             onClick={() => setActive(!active)}
             className="w-12 h-6 rounded-full cursor-pointer relative transition-all duration-300 border-none outline-none"
             style={{ backgroundColor: active ? "var(--orange)" : "#E2E8F0" }}
           >
-            <div 
+            <div
               className="w-5 h-5 bg-white rounded-full absolute top-0.5 transition-all duration-300 shadow-xs"
               style={{ left: active ? "26px" : "2px" }}
             />

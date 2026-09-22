@@ -71,7 +71,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
       </Card>
 
       {/* Quick Guarantees Box */}
-      <Card border className="flex flex-col gap-4 text-xs font-semibold text-gray shadow-sm">
+      <Card border className="flex flex-col gap-4 text-xs font-semibold text-gray ">
         <div className="flex gap-3 items-start text-left">
           <div className="w-8 h-8 rounded-xl bg-orange/10 text-orange flex items-center justify-center shrink-0">
             <ShieldCheck size={16} />

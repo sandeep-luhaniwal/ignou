@@ -1,22 +1,24 @@
-"use client";
+import { HomeHero } from "@/components/home/HomeHero";
+import { PopularAssignmentsSection } from "@/components/home/PopularAssignmentsSection";
+import { HandwrittenSection } from "@/components/home/HandwrittenSection";
+import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
+import { ExploreGuidesSection } from "@/components/home/ExploreGuidesSection";
+import { HomeFaqSection } from "@/components/home/HomeFaqSection";
+import { SupportBand } from "@/components/page-kit";
 
-import React from "react";
-import Hero from "@/components/home/Hero";
-import Features from "@/components/home/Features";
-import Stats from "@/components/home/Stats";
-import FeaturedAssignments from "@/components/home/FeaturedAssignments";
-import AboutUs from "@/components/home/AboutUs";
-import FAQ from "@/components/home/FAQ";
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="grow bg-dark-white">
-      <Hero />
-      <Features />
-      <Stats />
-      <FeaturedAssignments />
-      <AboutUs />
-      <FAQ />
+    <main className="min-h-screen bg-background text-foreground pb-12">
+      <HomeHero />
+      <PopularAssignmentsSection />
+      <HandwrittenSection />
+      <WhyChooseUsSection />
+      <ExploreGuidesSection />
+      <HomeFaqSection />
+      <SupportBand
+        title="Not sure which course code you need?"
+        text="Our support team will help confirm your programme, session and the exact assignment set."
+      />
     </main>
   );
 }

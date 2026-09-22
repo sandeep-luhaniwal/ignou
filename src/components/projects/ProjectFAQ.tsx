@@ -53,7 +53,7 @@ export default function ProjectFAQ() {
 
   return (
     <section className="py-12 bg-white border-t border-border-white">
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
           <div className="w-12 h-12 bg-light-orange text-cta rounded-full flex items-center justify-center mx-auto mb-4">
             <HelpCircle size={22} />

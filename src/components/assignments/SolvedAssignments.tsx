@@ -114,7 +114,7 @@ export const SolvedAssignments: React.FC = () => {
       <section className="max-w-7xl mx-auto w-full px-4 xl:px-0 py-10 flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <aside
-            className="hidden lg:flex lg:col-span-3 flex-col p-6 rounded-lg border sticky top-28 shadow-sm"
+            className="hidden lg:flex lg:col-span-3 flex-col p-6 rounded-lg border sticky top-28 "
             style={{
               backgroundColor: "var(--card-bg, #ffffff)",
               borderColor: "var(--border-color, #EEF2F6)",
@@ -152,7 +152,7 @@ export const SolvedAssignments: React.FC = () => {
           </aside>
           <div className="lg:col-span-9 flex flex-col gap-6 w-full">
             <div
-              className="p-4 rounded-lg border flex flex-col sm:flex-row gap-4 items-center justify-between shadow-sm"
+              className="p-4 rounded-lg border flex flex-col sm:flex-row gap-4 items-center justify-between "
               style={{ backgroundColor: "var(--card-bg, #ffffff)", borderColor: "var(--border-color, #EEF2F6)" }}
             >
               <div className="w-full sm:w-auto flex flex-1 items-center gap-4 justify-between lg:justify-start">
@@ -202,7 +202,7 @@ export const SolvedAssignments: React.FC = () => {
               handleResetFilters={handleResetFilters}
             />
             {loading && products.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 bg-white border border-gray-100 rounded-2xl shadow-sm">
+              <div className="flex flex-col items-center justify-center py-20 bg-white border border-gray-100 rounded-2xl ">
                 <div className="w-8 h-8 border-3 border-orange border-t-transparent rounded-full animate-spin mb-3"></div>
                 <p className="text-sm font-bold text-gray">Fetching solved assignments...</p>
               </div>
@@ -213,7 +213,7 @@ export const SolvedAssignments: React.FC = () => {
             ) : (
               <>
                 <AssignmentsGrid products={products} handleResetFilters={handleResetFilters} />
-                
+
                 {/* Load More Section */}
                 {products.length > 0 && (
                   <div className="flex flex-col items-center justify-center pt-8 pb-4 gap-3">

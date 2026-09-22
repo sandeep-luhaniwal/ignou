@@ -69,10 +69,10 @@ export default function ContactForm() {
       {/* Decorative Gradient Blob */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-orange/5 rounded-full blur-2xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-40 h-40 bg-blue/5 rounded-full blur-2xl pointer-events-none" />
-      
+
       {success ? (
         <div className="text-center py-12 flex flex-col items-center justify-center relative z-10">
-          <div className="w-16 h-16 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-emerald-100 animate-bounce">
+          <div className="w-16 h-16 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mb-6  border border-emerald-100 animate-bounce">
             <SuccessCheckIcon />
           </div>
           <Heading level={3} bold mainblack className="mb-3 text-2xl tracking-tight">
@@ -101,7 +101,7 @@ export default function ContactForm() {
           <Paragraph sm gray className="mb-7 leading-relaxed text-xs sm:text-sm">
             Fill in your course details below and our team will get back to you with custom guidance.
           </Paragraph>
-          
+
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <InputWithLabel
@@ -119,7 +119,12 @@ export default function ContactForm() {
                 placeholder="e.g. 9876543210"
                 type="tel"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    phone: e.target.value.replace(/\D/g, "").slice(0, 10),
+                  })
+                }
                 required
                 labelmedium
                 lightwhite
@@ -165,7 +170,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2.5 py-4 px-6 rounded-xl font-bold text-sm sm:text-base text-white bg-orange hover:bg-orange/90 active:scale-98 transition-all shadow-lg shadow-orange/20 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed border-none mt-2"
+              className="w-full flex items-center justify-center gap-2.5 py-4 px-6 rounded-xl font-bold text-sm sm:text-base text-white bg-orange hover:bg-orange/90 active:scale-98 transition-all  shadow-orange/20 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed border-none mt-2"
             >
               {loading ? (
                 <>

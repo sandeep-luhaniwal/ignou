@@ -187,7 +187,7 @@ export default function AdmissionHero() {
                 />
 
                 <div className="pt-2">
-                  <MainButton type="submit" className="w-full justify-center py-4 text-base font-bold shadow-md hover:shadow-lg transition-all">
+                  <MainButton type="submit" className="w-full justify-center py-4 text-base font-bold shadow-md  transition-all">
                     Book Free Consultation
                   </MainButton>
                 </div>

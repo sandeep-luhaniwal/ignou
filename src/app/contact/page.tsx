@@ -1,30 +1,26 @@
-"use client";
+import type { Metadata } from "next";
+import { ContactPageView } from "@/components/contact/ContactPageView";
 
-import React from "react";
-import ContactHero from "@/components/contact/ContactHero";
-import ContactInfo from "@/components/contact/ContactInfo";
-import ContactForm from "@/components/contact/ContactForm";
+export const metadata: Metadata = {
+  title: "Contact Student Support — IGNOU Power",
+  description:
+    "Contact IGNOU Power for assignment, project and admission support.",
+  openGraph: {
+    title: "Contact IGNOU Power",
+    description: "Talk to the IGNOU Power student support desk.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact IGNOU Power",
+    description: "Talk to the IGNOU Power student support desk.",
+  },
+};
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-dark-white flex flex-col">
-      {/* Light Theme Hero */}
-      <ContactHero />
-
-      {/* Grid Content Section */}
-      <section className="py-12 md:py-14 lg:py-16 px-6 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left: Contact Info Info Cards */}
-          <div className="lg:col-span-5 w-full">
-            <ContactInfo />
-          </div>
-
-          {/* Right: Contact Form */}
-          <div className="lg:col-span-7 w-full">
-            <ContactForm />
-          </div>
-        </div>
-      </section>
+    <main className="min-h-screen bg-background text-foreground pb-12">
+      <ContactPageView />
     </main>
   );
 }

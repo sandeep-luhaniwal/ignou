@@ -105,7 +105,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       {/* Dynamic Floating Toast Component */}
       {toast.show && (
-        <div className="fixed bottom-6 right-6 z-50 max-w-sm w-full bg-white border border-gray-100 rounded-2xl p-4 shadow-2xl animate-in slide-in-from-bottom duration-300 flex flex-col gap-1 text-left">
+        <div className="fixed bottom-6 right-6 z-50 max-w-sm w-full bg-white border border-gray-100 rounded-lg p-4 shadow-2xl animate-in slide-in-from-bottom duration-300 flex flex-col gap-1 text-left">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-orange animate-ping" />
             <h5 className="font-bold text-sm text-main-black">{toast.title}</h5>

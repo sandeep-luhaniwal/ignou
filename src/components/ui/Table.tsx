@@ -49,7 +49,7 @@ const Table: React.FC<TableProps> = ({
 
   return (
     <div
-      className={`w-full border border-border-white rounded-lg lg:rounded-xl bg-white overflow-hidden ${containerClassName}`}
+      className={`w-full border border-border-white rounded-lg bg-white overflow-hidden ${containerClassName}`}
     >
       {title && (
         <div className="px-5 py-4 border-b border-border-white">

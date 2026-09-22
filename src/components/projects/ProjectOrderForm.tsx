@@ -35,7 +35,12 @@ export default function ProjectOrderForm() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "phone") {
+      const numeric = value.replace(/\D/g, "").slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: numeric }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleOrder = (e: React.FormEvent) => {
@@ -182,7 +187,7 @@ export default function ProjectOrderForm() {
           <div className="mt-8 pt-6 border-t border-border-white">
             <MainButton
               type="submit"
-              className="w-full justify-center py-4 text-base font-bold shadow-md hover:shadow-lg transition-all"
+              className="w-full justify-center py-4 text-base font-bold shadow-md  transition-all"
             >
               Get Project Estimate
             </MainButton>

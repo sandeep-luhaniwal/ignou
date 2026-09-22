@@ -14,7 +14,6 @@ import RecommendedSection from "@/components/assignment-detail/RecommendedSectio
 import { useAppDispatch, useAppSelector } from "@/store";
 import { fetchAssignmentDetailRequest, fetchAssignmentsRequest } from "@/store/slices/assignmentsSlice";
 import { useCart } from "@/context/CartContext";
-import { ALL_ASSIGNMENTS } from "@/components/assignments/data";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -26,7 +25,7 @@ export default function AssignmentDetailPage({ params }: PageProps) {
   const { addToCart } = useCart();
 
   const dispatch = useAppDispatch();
-  const { detail: fetchedProduct, list: allProducts, loading: reduxLoading, error: reduxError } = useAppSelector((state) => state.assignments);
+  const { detail: product, list: allProducts, loading, error: reduxError } = useAppSelector((state) => state.assignments);
 
   // Fetch product detail on mount/id change
   useEffect(() => {
@@ -34,12 +33,6 @@ export default function AssignmentDetailPage({ params }: PageProps) {
       dispatch(fetchAssignmentDetailRequest(id));
     }
   }, [id, dispatch]);
-
-  const fallbackProduct = ALL_ASSIGNMENTS.find(
-    (item) => item.id === id || item.code?.toLowerCase() === id?.toLowerCase()
-  );
-
-  const product = fetchedProduct || fallbackProduct;
 
   // Sync browser URL to friendly slug if an ID was used
   useEffect(() => {
@@ -60,12 +53,9 @@ export default function AssignmentDetailPage({ params }: PageProps) {
   }, [product?.category, dispatch]);
 
   // Filter recommendations: items in the same category, excluding current product
-  const safeProducts = Array.isArray(allProducts) && allProducts.length > 0 ? allProducts : ALL_ASSIGNMENTS;
-  const recommendations = safeProducts
+  const recommendations = (Array.isArray(allProducts) ? allProducts : [])
     .filter((item: any) => item?.id !== product?.id && item?.code !== product?.code)
     .slice(0, 3);
-
-  const loading = reduxLoading && !fallbackProduct;
 
   if (loading) {
     return (
@@ -81,7 +71,7 @@ export default function AssignmentDetailPage({ params }: PageProps) {
   if (!product) {
     return (
       <main className="grow flex items-center justify-center p-6 bg-dark-white min-h-screen">
-        <Card border className="max-w-md text-center p-8 shadow-lg">
+        <Card border className="max-w-md text-center p-8 ">
           <div className="w-16 h-16 bg-red/10 text-red rounded-full flex items-center justify-center mx-auto mb-6">
             <HelpCircle size={32} />
           </div>
