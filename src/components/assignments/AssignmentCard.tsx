@@ -69,7 +69,7 @@ export function AssignmentCard({ item }: { item: AssignmentItemProps }) {
   const productUrl = `/assignments/${item.id}`;
 
   return (
-    <article className="group flex flex-col justify-between h-full rounded-lg bg-glass ring-1 ring-glass-edge shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-azure-deep/30 overflow-hidden">
+    <article className="group flex flex-col justify-between h-full rounded-lg bg-glass border border-border ring-1 ring-glass-edge/80 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-azure-deep/50 hover:ring-azure-deep/30 overflow-hidden">
       {/* Card Thumbnail / Header with Badges */}
       <Link href={productUrl} className="relative block h-40 w-full bg-surface-strong overflow-hidden cursor-pointer">
         <Image

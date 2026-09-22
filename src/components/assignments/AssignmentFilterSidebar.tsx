@@ -1,5 +1,17 @@
 import React from "react";
-import { SlidersHorizontal, RotateCcw, Search, X } from "lucide-react";
+import { SlidersHorizontal, RotateCcw } from "lucide-react";
+
+export interface FilterCategoryItem {
+  code: string;
+  label: string;
+  count?: number;
+}
+
+export interface FilterSessionItem {
+  year: string;
+  label?: string;
+  count?: number;
+}
 
 interface FilterSidebarProps {
   selectedCategories: string[];
@@ -8,9 +20,10 @@ interface FilterSidebarProps {
   toggleSession: (sess: string) => void;
   priceRange: "all" | "under50" | "50to60" | "over60";
   setPriceRange: (val: "all" | "under50" | "50to60" | "over60") => void;
-  categoriesList: { code: string; label: string }[];
-  sessionsList: string[];
-  categoryCounts: Record<string, number>;
+  categoriesList: FilterCategoryItem[];
+  sessionsList: FilterSessionItem[] | string[];
+  categoryCounts?: Record<string, number>;
+  sessionCounts?: Record<string, number>;
   hasActiveFilters: boolean;
   resetFilters: () => void;
 }
@@ -24,7 +37,8 @@ export function AssignmentFilterSidebar({
   setPriceRange,
   categoriesList,
   sessionsList,
-  categoryCounts,
+  categoryCounts = {},
+  sessionCounts = {},
   hasActiveFilters,
   resetFilters,
 }: FilterSidebarProps) {
@@ -52,14 +66,29 @@ export function AssignmentFilterSidebar({
         <label className="block text-xs font-bold uppercase tracking-wider text-ink/80 mb-2.5">
           PROGRAM / CATEGORY
         </label>
-        <div className="space-y-1.5">
+        <div className="space-y-1.5 max-h-72 overflow-y-auto pr-1">
           {categoriesList.map((cat) => {
-            const count = categoryCounts[cat.code] || 0;
-            const isChecked = selectedCategories.includes(cat.code);
+            const isChecked =
+              selectedCategories.includes(cat.code) ||
+              selectedCategories.includes(cat.code.toLowerCase()) ||
+              selectedCategories.includes(cat.code.toUpperCase());
+
+            const count =
+              typeof cat.count === "number"
+                ? cat.count
+                : categoryCounts[cat.code] ??
+                  categoryCounts[cat.code.toLowerCase()] ??
+                  categoryCounts[cat.code.toUpperCase()] ??
+                  0;
+
             return (
               <label
                 key={cat.code}
-                className="flex items-center justify-between py-1 px-1.5 rounded-lg text-sm text-ink/80 hover:text-foreground hover:bg-surface-strong/60 cursor-pointer transition-colors select-none"
+                className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-sm transition-all cursor-pointer select-none ${
+                  isChecked
+                    ? "bg-azure-soft/25 text-azure-deep font-semibold"
+                    : "text-ink/80 hover:text-foreground hover:bg-surface-strong/60"
+                }`}
               >
                 <div className="flex items-center gap-2.5">
                   <input
@@ -68,13 +97,15 @@ export function AssignmentFilterSidebar({
                     onChange={() => toggleCategory(cat.code)}
                     className="size-4 rounded border-border text-azure-deep focus:ring-azure-deep cursor-pointer"
                   />
-                  <span className="font-medium text-[13.5px]">{cat.label}</span>
+                  <span className="text-[13.5px] leading-tight">{cat.label}</span>
                 </div>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full font-bold ${
+                  className={`text-xs px-2 py-0.5 rounded-full font-bold transition-colors ${
                     isChecked
-                      ? "bg-azure-soft/40 text-azure-deep"
-                      : "bg-surface-strong text-ink/50"
+                      ? "bg-azure text-white"
+                      : count > 0
+                      ? "bg-azure-soft/30 text-azure-deep"
+                      : "bg-surface-strong text-ink/40"
                   }`}
                 >
                   {count}
@@ -90,21 +121,42 @@ export function AssignmentFilterSidebar({
         <label className="block text-xs font-bold uppercase tracking-wider text-ink/80 mb-2.5">
           SESSION / YEAR
         </label>
-        <div className="space-y-2">
-          {sessionsList.map((sess) => {
-            const isChecked = selectedSessions.includes(sess);
+        <div className="space-y-1.5">
+          {sessionsList.map((item) => {
+            const sessYear = typeof item === "string" ? item : item.year;
+            const sessLabel = typeof item === "string" ? `${item} Session` : item.label || `${item.year} Session`;
+            const sessCount = typeof item === "string" ? (sessionCounts[sessYear] ?? 0) : item.count ?? sessionCounts[sessYear] ?? 0;
+
+            const isChecked = selectedSessions.includes(sessYear);
             return (
               <label
-                key={sess}
-                className="flex items-center gap-2.5 py-1 px-1 rounded-lg text-sm text-ink/80 hover:text-foreground cursor-pointer transition-colors select-none"
+                key={sessYear}
+                className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-sm transition-all cursor-pointer select-none ${
+                  isChecked
+                    ? "bg-rose-soft/25 text-rose-deep font-semibold"
+                    : "text-ink/80 hover:text-foreground hover:bg-surface-strong/60"
+                }`}
               >
-                <input
-                  type="checkbox"
-                  checked={isChecked}
-                  onChange={() => toggleSession(sess)}
-                  className="size-4 rounded border-border text-azure-deep focus:ring-azure-deep cursor-pointer"
-                />
-                <span className="font-medium text-[13.5px]">{sess} Session</span>
+                <div className="flex items-center gap-2.5">
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => toggleSession(sessYear)}
+                    className="size-4 rounded border-border text-rose-deep focus:ring-rose cursor-pointer"
+                  />
+                  <span className="text-[13.5px] leading-tight">{sessLabel}</span>
+                </div>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full font-bold transition-colors ${
+                    isChecked
+                      ? "bg-rose text-white"
+                      : sessCount > 0
+                      ? "bg-rose-soft/30 text-rose-deep"
+                      : "bg-surface-strong text-ink/40"
+                  }`}
+                >
+                  {sessCount}
+                </span>
               </label>
             );
           })}

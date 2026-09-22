@@ -135,7 +135,7 @@ export function PopularAssignmentsSection() {
             return (
               <article
                 key={item.id}
-                className="flex flex-col justify-between rounded-lg bg-glass p-5 ring-1 ring-glass-edge backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:ring-azure-deep/30"
+                className="flex flex-col justify-between rounded-lg bg-glass p-5 border border-border ring-1 ring-glass-edge/80 shadow-xs backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-azure-deep/50 hover:shadow-md"
               >
                 <div>
                   <div className="flex items-center justify-between">

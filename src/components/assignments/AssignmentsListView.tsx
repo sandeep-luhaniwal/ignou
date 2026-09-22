@@ -51,26 +51,89 @@ export function AssignmentsListView() {
   const [sortBy, setSortBy] = useState<"popular" | "price-asc" | "price-desc">("popular");
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const [dynamicCategories, setDynamicCategories] = useState<{ code: string; label: string }[]>(DEFAULT_CATEGORIES);
+  const [dynamicCategories, setDynamicCategories] = useState<
+    { code: string; label: string; count?: number }[]
+  >(DEFAULT_CATEGORIES);
+  const [dynamicSessions, setDynamicSessions] = useState<
+    { year: string; label?: string; count?: number }[]
+  >(SESSIONS_LIST.map((year) => ({ year, label: `${year} Session`, count: 0 })));
 
-  // Fetch categories list from API on mount
+  // Fetch filter metadata (programs, categories, sessions with real counts) from API on mount
   useEffect(() => {
-    async function loadCategories() {
+    async function loadFilters() {
       try {
-        const res = await api.categories.all();
-        const cats = Array.isArray(res?.data) ? res.data : Array.isArray(res) ? res : [];
-        if (cats.length > 0) {
-          const mapped = cats.map((c: any) => ({
-            code: c.code || c.name || c._id,
-            label: c.name || c.code || "Program",
-          }));
-          setDynamicCategories(mapped);
+        const res = await api.categories.filters();
+        if (res) {
+          let list: { code: string; label: string; count?: number }[] = [];
+
+          // 1. Add programs (BCA, MCA, MBA, BAG, BCOMG, etc.)
+          if (Array.isArray(res.programs) && res.programs.length > 0) {
+            const mappedPrograms = res.programs.map((p: any) => ({
+              code: p.code,
+              label: p.name || `${p.code} Programs`,
+              count: typeof p.count === "number" ? p.count : 0,
+            }));
+            list = [...list, ...mappedPrograms];
+          }
+
+          // 2. Add main categories (Bachelor Degree, Master Degree, etc.) if present and not duplicated
+          if (Array.isArray(res.categories) && res.categories.length > 0) {
+            res.categories.forEach((c: any) => {
+              const code = c.name || c._id;
+              const displayName = c.displayName || (c.name ? c.name.charAt(0).toUpperCase() + c.name.slice(1) : "Degree");
+              const exists = list.some((item) => item.code.toLowerCase() === code.toLowerCase());
+              if (!exists && code) {
+                list.push({
+                  code: code,
+                  label: displayName,
+                  count: typeof c.count === "number" ? c.count : 0,
+                });
+              }
+            });
+          }
+
+          if (list.length > 0) {
+            setDynamicCategories(list);
+          }
+
+          // 3. Set real sessions with counts from API
+          if (Array.isArray(res.sessions) && res.sessions.length > 0) {
+            const mappedSessions = res.sessions.map((s: any) => ({
+              year: s.year,
+              label: s.label || `${s.year} Session`,
+              count: typeof s.count === "number" ? s.count : 0,
+            }));
+            setDynamicSessions(mappedSessions);
+          }
         }
       } catch {
-        // Use default categories list if API not reachable
+        // Fallback: try api.categories.all()
+        try {
+          const allRes = await api.categories.all();
+          const cats = Array.isArray(allRes?.data) ? allRes.data : Array.isArray(allRes) ? allRes : [];
+          if (cats.length > 0) {
+            const mapped = cats.map((c: any) => {
+              const rawName = c.name || c.code || "";
+              const formattedLabel =
+                rawName.length <= 6 && !rawName.includes(" ")
+                  ? rawName.toUpperCase() + " Programs"
+                  : rawName
+                      .split(" ")
+                      .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+                      .join(" ");
+              return {
+                code: c.code || c.name || c._id,
+                label: formattedLabel,
+              };
+            });
+            setDynamicCategories(mapped);
+          }
+        } catch {
+          // Keep default categories
+        }
       }
     }
-    loadCategories();
+    loadFilters();
   }, []);
 
   // Sync url search query
@@ -156,7 +219,7 @@ export function AssignmentsListView() {
         degreeType,
         category: cat,
         categoryLabel: `${cat} Programs`,
-        session: item.year || item.session || "2025-26",
+        session: item.year || item.session || "2024-25",
         price: Number(item.price) || 49,
         oldPrice: item.oldPrice ? Number(item.oldPrice) : Number(item.price ? item.price * 2 : 99),
         rating: typeof item.rating === "number" ? item.rating : 5,
@@ -166,10 +229,23 @@ export function AssignmentsListView() {
     });
   }, [apiAssignments]);
 
+  // Dynamic fallback counts from current items if needed
   const categoryCounts = useMemo(() => {
     const map: Record<string, number> = {};
     assignmentItems.forEach((item) => {
+      const catKey = (item.category || "").toLowerCase();
+      map[catKey] = (map[catKey] || 0) + 1;
       map[item.category] = (map[item.category] || 0) + 1;
+    });
+    return map;
+  }, [assignmentItems]);
+
+  const sessionCounts = useMemo(() => {
+    const map: Record<string, number> = {};
+    assignmentItems.forEach((item) => {
+      if (item.session) {
+        map[item.session] = (map[item.session] || 0) + 1;
+      }
     });
     return map;
   }, [assignmentItems]);
@@ -224,8 +300,9 @@ export function AssignmentsListView() {
     priceRange,
     setPriceRange,
     categoriesList: dynamicCategories,
-    sessionsList: SESSIONS_LIST,
+    sessionsList: dynamicSessions,
     categoryCounts,
+    sessionCounts,
     hasActiveFilters,
     resetFilters,
   };
