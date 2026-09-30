@@ -94,7 +94,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = "hidden";
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
@@ -152,6 +152,26 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
     <div className="flex flex-col gap-6">
       {/* Product Image & Specs Card */}
       <Card border className="p-0! overflow-hidden shadow-md group">
+        {/* Top Badges Bar - Shown separately so it does not block question paper text */}
+        <div className="px-3.5 py-2 bg-slate-100/90 border-b border-gray-200 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-md bg-white text-slate-800 border border-slate-300 shadow-2xs uppercase tracking-wide">
+              {category}
+            </span>
+            {code && (
+              <span className="text-[10px] sm:text-[11px] font-extrabold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 uppercase">
+                {code}
+              </span>
+            )}
+          </div>
+
+          {discount > 0 && (
+            <span className="text-[10px] sm:text-[11px] font-extrabold px-2 py-0.5 rounded-md bg-rose-500 text-white shadow-xs tracking-wider">
+              {discount}% OFF
+            </span>
+          )}
+        </div>
+
         {/* Clickable Image Container */}
         <div
           onClick={() => {
@@ -169,18 +189,6 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
               (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop";
             }}
           />
-
-          {/* Category Badge */}
-          <span className="absolute top-4 left-4 bg-main-black/90 backdrop-blur-md text-white text-xs sm:text-sm font-black px-3 py-1 rounded-lg tracking-wider shadow-sm z-10">
-            {category}
-          </span>
-
-          {/* Discount Badge */}
-          {discount > 0 && (
-            <span className="absolute top-4 right-4 bg-red text-white text-xs sm:text-sm font-black px-3 py-1 rounded-lg tracking-wider animate-pulse shadow-sm z-10">
-              {discount}% OFF
-            </span>
-          )}
 
           {/* Hover Overlay with Preview & Zoom CTA */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 z-10">
