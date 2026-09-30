@@ -12,7 +12,6 @@ import {
   ZoomOut,
   RotateCcw,
   X,
-  ExternalLink,
   Eye,
   Loader2,
   Sparkles,
@@ -193,7 +192,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
 
             <div className="flex items-center justify-center">
               <div className="flex items-center gap-2 bg-white text-main-black font-bold text-xs sm:text-sm px-4 py-2 rounded-xl shadow-xl transform translate-y-2 group-hover/img:translate-y-0 transition-transform duration-300">
-                <Eye size={16} className="text-orange" />
+                <Eye size={16} className="text-blue-600" />
                 <span>Click to View Full Question Paper</span>
               </div>
             </div>
@@ -215,7 +214,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
               sm
               className="uppercase tracking-wider flex items-center gap-1.5"
             >
-              <Sparkles size={14} className="text-orange" />
+              <Sparkles size={14} className="text-blue-600" />
               Document Specifications
             </Paragraph>
 
@@ -225,7 +224,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
                 setZoom(1);
                 setIsModalOpen(true);
               }}
-              className="text-xs font-bold text-orange hover:text-orange/80 flex items-center gap-1 transition-colors cursor-pointer"
+              className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 transition-colors cursor-pointer"
             >
               <Maximize2 size={12} /> Full Preview
             </button>
@@ -237,7 +236,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
                 File Format
               </Paragraph>
               <Paragraph mainblack sm bold className="flex items-center gap-1.5">
-                <FileText size={14} className="text-orange shrink-0" />
+                <FileText size={14} className="text-blue-600 shrink-0" />
                 <span>High-Quality PDF</span>
               </Paragraph>
             </div>
@@ -281,7 +280,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
               type="button"
               onClick={handleDownloadPdf}
               disabled={isDownloading}
-              className="w-full py-3.5 px-5 bg-gradient-to-r from-[#FF6A00] via-[#FF4500] to-[#E11D48] hover:from-[#FF7B1A] hover:via-[#FF551A] hover:to-[#F43F5E] text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed group"
+              className="w-full py-3.5 px-5 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:via-indigo-700 hover:to-blue-800 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed group"
             >
               {isDownloading ? (
                 <>
@@ -305,7 +304,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
       {/* Quick Guarantees Box */}
       <Card border className="flex flex-col gap-4 text-xs font-semibold text-gray">
         <div className="flex gap-3 items-start text-left">
-          <div className="w-8 h-8 rounded-xl bg-orange/10 text-orange flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center shrink-0">
             <ShieldCheck size={16} />
           </div>
           <div>
@@ -319,7 +318,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
         </div>
 
         <div className="flex gap-3 items-start text-left">
-          <div className="w-8 h-8 rounded-xl bg-orange/10 text-orange flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center shrink-0">
             <Clock size={16} />
           </div>
           <div>
@@ -338,159 +337,81 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 transition-all duration-300 animate-in fade-in"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6 transition-all duration-300 animate-in fade-in"
           onClick={() => setIsModalOpen(false)}
         >
+          {/* Top Right Close Button */}
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(false)}
+            title="Close (Esc)"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2.5 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full transition-all duration-200 cursor-pointer shadow-lg z-50 group active:scale-95"
+          >
+            <X size={22} className="transition-transform group-hover:scale-110" />
+          </button>
+
+          {/* Modal Body - Image Only */}
           <div
-            className="relative w-full max-w-5xl max-h-[92vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-gray-200 text-left"
+            className="relative flex-1 w-full flex items-center justify-center overflow-auto select-none"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
-            <div className="px-4 py-3 sm:px-6 sm:py-4 bg-white border-b border-gray-100 flex items-center justify-between gap-2 shrink-0">
-              <div className="flex items-center gap-2 overflow-hidden">
-                <span className="bg-orange/10 text-orange text-xs font-black px-2.5 py-1 rounded-lg border border-orange/20 uppercase tracking-wider shrink-0">
-                  {code || category || "IGNOU"}
-                </span>
-                <h3 className="text-sm sm:text-base font-bold text-main-black truncate">
-                  {title} - Question Paper Preview
-                </h3>
-              </div>
-
-              {/* Header Action Controls */}
-              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                {/* Zoom Controls */}
-                <div className="hidden sm:flex items-center bg-gray-100 rounded-lg p-0.5 border border-gray-200 text-main-black">
-                  <button
-                    type="button"
-                    onClick={handleZoomOut}
-                    title="Zoom Out (-)"
-                    className="p-1.5 hover:bg-white rounded-md transition-colors text-gray-700 hover:text-black cursor-pointer"
-                  >
-                    <ZoomOut size={15} />
-                  </button>
-                  <span className="px-2 text-xs font-bold text-gray-700 select-none min-w-[42px] text-center">
-                    {Math.round(zoom * 100)}%
-                  </span>
-                  <button
-                    type="button"
-                    onClick={handleZoomIn}
-                    title="Zoom In (+)"
-                    className="p-1.5 hover:bg-white rounded-md transition-colors text-gray-700 hover:text-black cursor-pointer"
-                  >
-                    <ZoomIn size={15} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleResetZoom}
-                    title="Reset Zoom (100%)"
-                    className="p-1.5 hover:bg-white rounded-md transition-colors text-gray-500 hover:text-black border-l border-gray-200 ml-0.5 cursor-pointer"
-                  >
-                    <RotateCcw size={13} />
-                  </button>
-                </div>
-
-                {/* Download PDF Button */}
-                {effectivePdfUrl && (
-                  <button
-                    type="button"
-                    onClick={handleDownloadPdf}
-                    disabled={isDownloading}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-[#FF6A00] to-[#E11D48] hover:from-[#FF7B1A] hover:to-[#F43F5E] text-white rounded-lg text-xs font-bold shadow-sm shadow-orange-500/20 hover:shadow-md hover:shadow-orange-500/35 active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-60 group/btn"
-                    title="Download Question Paper PDF"
-                  >
-                    {isDownloading ? (
-                      <Loader2 size={14} className="animate-spin" />
-                    ) : (
-                      <Download size={14} className="transition-transform group-hover/btn:translate-y-0.5" />
-                    )}
-                    <span className="hidden md:inline">Download PDF</span>
-                  </button>
-                )}
-
-                {/* Open in New Window */}
-                {effectivePdfUrl && (
-                  <a
-                    href={effectivePdfUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="Open PDF in new tab"
-                    className="p-2 text-gray-500 hover:text-black hover:bg-gray-100 rounded-lg transition-colors"
-                  >
-                    <ExternalLink size={16} />
-                  </a>
-                )}
-
-                {/* Close Button */}
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  title="Close (Esc)"
-                  className="p-2 text-gray-500 hover:text-red hover:bg-red/10 rounded-lg transition-colors cursor-pointer"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-            </div>
-
-            {/* Modal Body - Zoomable & Scrollable View */}
-            <div className="relative flex-1 overflow-auto bg-slate-950 p-4 sm:p-8 flex items-center justify-center min-h-[300px] sm:min-h-[500px]">
-              <div
-                className="transition-transform duration-200 ease-out origin-top flex items-center justify-center max-w-full"
-                style={{
-                  transform: `scale(${zoom})`,
-                  cursor: zoom > 1 ? "zoom-out" : "zoom-in",
+            <div
+              className="transition-transform duration-200 ease-out origin-center flex items-center justify-center max-w-full max-h-full p-2"
+              style={{
+                transform: `scale(${zoom})`,
+                cursor: zoom > 1 ? "zoom-out" : "zoom-in",
+              }}
+              onClick={() => {
+                if (zoom === 1) setZoom(1.5);
+                else setZoom(1);
+              }}
+              title={zoom === 1 ? "Click to zoom in" : "Click to zoom out"}
+            >
+              <img
+                src={modalImageUrl}
+                alt={title}
+                className="max-w-[90vw] max-h-[80vh] object-contain rounded-xl shadow-2xl select-none"
+                draggable={false}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop";
                 }}
-                onClick={() => {
-                  if (zoom === 1) setZoom(1.5);
-                  else setZoom(1);
-                }}
-                title={zoom === 1 ? "Click to zoom in" : "Click to zoom out"}
-              >
-                <img
-                  src={modalImageUrl}
-                  alt={title}
-                  className="max-w-full max-h-[75vh] object-contain object-top rounded-lg shadow-2xl select-none"
-                  draggable={false}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop";
-                  }}
-                />
-              </div>
+              />
             </div>
+          </div>
 
-            {/* Modal Footer */}
-            <div className="px-4 py-3 sm:px-6 sm:py-3.5 bg-gray-50 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-              <div className="flex items-center gap-2 text-xs text-gray-600">
-                <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
-                <span>
-                  Official IGNOU Question Booklet • Verified by Subject Specialists
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <button
-                  type="button"
-                  onClick={handleDownloadPdf}
-                  disabled={isDownloading}
-                  className="flex-1 sm:flex-initial py-2.5 px-5 bg-gradient-to-r from-[#FF6A00] via-[#FF4500] to-[#E11D48] hover:from-[#FF7B1A] hover:via-[#FF551A] hover:to-[#F43F5E] text-white rounded-xl text-xs sm:text-sm font-extrabold shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 group/fbtn"
-                >
-                  {isDownloading ? (
-                    <Loader2 size={15} className="animate-spin" />
-                  ) : (
-                    <Download size={15} className="transition-transform group-hover/fbtn:translate-y-0.5" />
-                  )}
-                  <span>Download Question PDF</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="py-2.5 px-4 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
+          {/* Bottom Zoom Controls */}
+          <div
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/75 backdrop-blur-xl border border-white/20 px-4 py-2 rounded-full shadow-2xl text-white z-50"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={handleZoomOut}
+              title="Zoom Out (-)"
+              className="p-1.5 hover:bg-white/20 rounded-full transition-colors text-white/80 hover:text-white cursor-pointer active:scale-90"
+            >
+              <ZoomOut size={18} />
+            </button>
+            <span className="px-2 text-xs font-bold text-white select-none min-w-[48px] text-center">
+              {Math.round(zoom * 100)}%
+            </span>
+            <button
+              type="button"
+              onClick={handleZoomIn}
+              title="Zoom In (+)"
+              className="p-1.5 hover:bg-white/20 rounded-full transition-colors text-white/80 hover:text-white cursor-pointer active:scale-90"
+            >
+              <ZoomIn size={18} />
+            </button>
+            <div className="w-[1px] h-4 bg-white/20 mx-0.5" />
+            <button
+              type="button"
+              onClick={handleResetZoom}
+              title="Reset Zoom (100%)"
+              className="p-1.5 hover:bg-white/20 rounded-full transition-colors text-white/70 hover:text-white cursor-pointer active:scale-90"
+            >
+              <RotateCcw size={15} />
+            </button>
           </div>
         </div>
       )}
