@@ -94,11 +94,11 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "auto";
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "auto";
     };
   }, [isModalOpen]);
 
