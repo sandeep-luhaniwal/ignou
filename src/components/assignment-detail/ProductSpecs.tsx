@@ -281,7 +281,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
               type="button"
               onClick={handleDownloadPdf}
               disabled={isDownloading}
-              className="w-full py-3 px-4 bg-orange/10 hover:bg-orange/20 border border-orange/30 hover:border-orange text-orange font-bold text-xs sm:text-sm rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-xs active:scale-[0.99] cursor-pointer disabled:opacity-60"
+              className="w-full py-3.5 px-5 bg-gradient-to-r from-[#FF6A00] via-[#FF4500] to-[#E11D48] hover:from-[#FF7B1A] hover:via-[#FF551A] hover:to-[#F43F5E] text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed group"
             >
               {isDownloading ? (
                 <>
@@ -290,7 +290,10 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
                 </>
               ) : (
                 <>
-                  <Download size={16} />
+                  <Download
+                    size={17}
+                    className="transition-transform duration-300 group-hover:translate-y-0.5"
+                  />
                   <span>Download Question Paper (PDF)</span>
                 </>
               )}
@@ -392,13 +395,13 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
                     type="button"
                     onClick={handleDownloadPdf}
                     disabled={isDownloading}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-orange text-white rounded-lg text-xs font-bold hover:bg-orange/90 transition-all shadow-xs cursor-pointer disabled:opacity-60"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-[#FF6A00] to-[#E11D48] hover:from-[#FF7B1A] hover:to-[#F43F5E] text-white rounded-lg text-xs font-bold shadow-sm shadow-orange-500/20 hover:shadow-md hover:shadow-orange-500/35 active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-60 group/btn"
                     title="Download Question Paper PDF"
                   >
                     {isDownloading ? (
                       <Loader2 size={14} className="animate-spin" />
                     ) : (
-                      <Download size={14} />
+                      <Download size={14} className="transition-transform group-hover/btn:translate-y-0.5" />
                     )}
                     <span className="hidden md:inline">Download PDF</span>
                   </button>
@@ -469,12 +472,12 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
                   type="button"
                   onClick={handleDownloadPdf}
                   disabled={isDownloading}
-                  className="flex-1 sm:flex-initial py-2 px-4 bg-orange hover:bg-orange/90 text-white rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer disabled:opacity-60"
+                  className="flex-1 sm:flex-initial py-2.5 px-5 bg-gradient-to-r from-[#FF6A00] via-[#FF4500] to-[#E11D48] hover:from-[#FF7B1A] hover:via-[#FF551A] hover:to-[#F43F5E] text-white rounded-xl text-xs sm:text-sm font-extrabold shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 group/fbtn"
                 >
                   {isDownloading ? (
-                    <Loader2 size={14} className="animate-spin" />
+                    <Loader2 size={15} className="animate-spin" />
                   ) : (
-                    <Download size={14} />
+                    <Download size={15} className="transition-transform group-hover/fbtn:translate-y-0.5" />
                   )}
                   <span>Download Question PDF</span>
                 </button>
@@ -482,7 +485,7 @@ export const ProductSpecs: React.FC<ProductSpecsProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="py-2 px-4 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-lg text-xs font-bold transition-colors cursor-pointer"
+                  className="py-2.5 px-4 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
                 >
                   Close
                 </button>

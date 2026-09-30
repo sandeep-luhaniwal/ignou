@@ -187,21 +187,19 @@ export function AssignmentsListView() {
     if (!Array.isArray(apiAssignments)) return [];
     return apiAssignments.map((item: any) => {
       const code = item.code || item.title?.split(/[:\s]/)[0] || "IGNOU";
-      const cat = typeof item.category === "string" ? item.category : item.category?.name || item.program || "IGNOU";
-      
-      let degreeType: "MASTER DEGREE" | "BACHELOR DEGREE" | "DIPLOMA" = "BACHELOR DEGREE";
-      const upper = (cat + " " + (item.title || "")).toUpperCase();
-      if (upper.includes("MASTER") || upper.includes("MBA") || upper.includes("MCA") || upper.includes("M.COM") || upper.includes("MA ")) {
-        degreeType = "MASTER DEGREE";
-      } else if (upper.includes("DIPLOMA") || upper.includes("DECE") || upper.includes("PGD")) {
-        degreeType = "DIPLOMA";
-      }
+      const rawCat =
+        typeof item.category === "object" && item.category?.name
+          ? item.category.name
+          : typeof item.category === "string" && item.category.trim()
+          ? item.category.trim()
+          : item.program || "IGNOU";
+      const cat = rawCat.toUpperCase();
 
       return {
         id: item._id || item.id || item.code || String(Math.random()),
         code: code,
         title: item.title || "",
-        degreeType,
+        degreeType: cat,
         category: cat,
         categoryLabel: `${cat} Programs`,
         session: item.year || item.session || "2024-25",

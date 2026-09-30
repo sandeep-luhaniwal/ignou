@@ -26,9 +26,9 @@ export interface AssignmentItemProps {
   id: string;
   code: string;
   title: string;
-  degreeType: "MASTER DEGREE" | "BACHELOR DEGREE" | "DIPLOMA";
+  degreeType?: string;
   category: string;
-  categoryLabel: string;
+  categoryLabel?: string;
   session: string;
   price: number;
   oldPrice: number;
@@ -93,10 +93,10 @@ export function AssignmentCard({ item }: { item: AssignmentItemProps }) {
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
 
-        {/* Top Left Badges matching Screenshot */}
+        {/* Top Left Badges */}
         <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5 z-10">
           <span className="rounded-md bg-ink text-white font-extrabold text-[10px] tracking-wider uppercase px-2.5 py-1 shadow-md">
-            {item.degreeType}
+            {(item.category || "IGNOU").toUpperCase()}
           </span>
           <span className="rounded-md bg-[#FFBB00] text-black font-extrabold text-xs px-2.5 py-0.5 shadow-md">
             {item.session}
