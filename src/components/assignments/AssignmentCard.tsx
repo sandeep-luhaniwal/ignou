@@ -67,19 +67,31 @@ export function AssignmentCard({ item }: { item: AssignmentItemProps }) {
   };
 
   const productUrl = `/assignments/${item.id}`;
+  const DEFAULT_FALLBACK = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop";
+
+  const getCleanImageUrl = (url?: string) => {
+    if (!url) return DEFAULT_FALLBACK;
+    if (url.includes("cloudinary.com") && url.toLowerCase().includes(".pdf")) {
+      return url.replace(/\.pdf(\?.*)?$/i, ".jpg$1");
+    }
+    return url;
+  };
+
+  const imageSrc = getCleanImageUrl(item.image);
 
   return (
     <article className="group flex flex-col justify-between h-full rounded-lg bg-glass border border-border ring-1 ring-glass-edge/80 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-azure-deep/50 hover:ring-azure-deep/30 overflow-hidden">
       {/* Card Thumbnail / Header with Badges */}
       <Link href={productUrl} className="relative block h-40 w-full bg-surface-strong overflow-hidden cursor-pointer">
-        <Image
-          src={item.image}
+        <img
+          src={imageSrc}
           alt={item.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105 opacity-90"
+          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105 opacity-95"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = DEFAULT_FALLBACK;
+          }}
         />
-        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
 
         {/* Top Left Badges matching Screenshot */}
         <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5 z-10">

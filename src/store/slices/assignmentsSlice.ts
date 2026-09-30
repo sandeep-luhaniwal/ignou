@@ -48,6 +48,14 @@ export const extractCourseCode = (rawCode?: string, title?: string): string => {
   return "";
 };
 
+export const getPreviewImageUrl = (url?: string): string => {
+  if (!url) return "";
+  if (url.includes("cloudinary.com") && url.toLowerCase().includes(".pdf")) {
+    return url.replace(/\.pdf(\?.*)?$/i, ".jpg$1");
+  }
+  return url;
+};
+
 export const normalizeProduct = (item: any) => {
   if (!item) return null;
   const categoryName = 
@@ -60,6 +68,8 @@ export const normalizeProduct = (item: any) => {
   const title = item.title || "";
   const code = extractCourseCode(item.code, title);
   const id = String(item._id || item.id || "");
+  const rawImg = item.image || item.questionPageUrl || item.questionPaperUrl || item.questionPaper || "";
+  const image = getPreviewImageUrl(rawImg) || DEFAULT_IMAGE;
 
   return {
     id,
@@ -69,18 +79,27 @@ export const normalizeProduct = (item: any) => {
     category: categoryName,
     price: Number(item.price || 0),
     oldPrice: item.oldPrice ? Number(item.oldPrice) : undefined,
-    image: item.image || DEFAULT_IMAGE,
+    image,
     rating: typeof item.rating === "number" ? item.rating : 5,
     reviews: typeof item.reviews === "number" ? item.reviews : 0,
     year: item.year || item.session || "2025-26",
     code,
     description: item.description || "",
     fileUrl: item.fileUrl || "",
+    questionPageUrl:
+      item.questionPageUrl ||
+      item.questionPaperUrl ||
+      item.questionPaper ||
+      item.questionPdfUrl ||
+      item.questionUrl ||
+      item.questionFileUrl ||
+      "",
     productType: item.productType || "assignment",
     inStock: item.inStock !== false,
     isFeatured: Boolean(item.isFeatured),
     semester: item.semester || "",
     program: item.program || categoryName,
+    language: item.language || item.medium || "English Medium",
   };
 };
 

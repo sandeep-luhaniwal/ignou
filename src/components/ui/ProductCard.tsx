@@ -73,6 +73,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
     });
   };
 
+  const DEFAULT_FALLBACK = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop";
+  const imageSrc =
+    image && image.includes("cloudinary.com") && image.toLowerCase().includes(".pdf")
+      ? image.replace(/\.pdf(\?.*)?$/i, ".jpg$1")
+      : image || DEFAULT_FALLBACK;
+
   return (
     <div
       className="group relative rounded-lg overflow-hidden border  hover:shadow-xl transition-all duration-300 flex flex-col h-full"
@@ -81,10 +87,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
       {/* Product Image & Badges */}
       <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
         <img
-          src={image}
+          src={imageSrc}
           alt={title}
-          className="w-full h-full object-cover group- transition-transform duration-500"
+          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = DEFAULT_FALLBACK;
+          }}
         />
         {/* Category Badge */}
         <span

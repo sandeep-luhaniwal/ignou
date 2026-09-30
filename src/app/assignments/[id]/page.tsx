@@ -125,6 +125,10 @@ export default function AssignmentDetailPage({ params }: PageProps) {
             category={product.category}
             year={product.year}
             discount={discount}
+            questionPageUrl={product.questionPageUrl}
+            fileUrl={product.fileUrl}
+            language={product.language}
+            code={product.code}
           />
         </div>
 

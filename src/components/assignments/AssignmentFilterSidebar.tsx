@@ -62,106 +62,160 @@ export function AssignmentFilterSidebar({
       </div>
 
       {/* PROGRAM / CATEGORY */}
-      <div>
-        <label className="block text-xs font-bold uppercase tracking-wider text-ink/80 mb-2.5">
-          PROGRAM / CATEGORY
-        </label>
-        <div className="space-y-1.5 max-h-72 overflow-y-auto pr-1">
-          {categoriesList.map((cat) => {
-            const isChecked =
-              selectedCategories.includes(cat.code) ||
-              selectedCategories.includes(cat.code.toLowerCase()) ||
-              selectedCategories.includes(cat.code.toUpperCase());
+      {categoriesList.filter((cat) => {
+        const count =
+          typeof cat.count === "number"
+            ? cat.count
+            : categoryCounts[cat.code] ??
+              categoryCounts[cat.code.toLowerCase()] ??
+              categoryCounts[cat.code.toUpperCase()] ??
+              0;
+        const isChecked =
+          selectedCategories.includes(cat.code) ||
+          selectedCategories.includes(cat.code.toLowerCase()) ||
+          selectedCategories.includes(cat.code.toUpperCase());
+        return count > 0 || isChecked;
+      }).length > 0 && (
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-ink/80 mb-2.5">
+            PROGRAM / CATEGORY
+          </label>
+          <div className="space-y-1.5 max-h-72 overflow-y-auto pr-1">
+            {categoriesList
+              .filter((cat) => {
+                const count =
+                  typeof cat.count === "number"
+                    ? cat.count
+                    : categoryCounts[cat.code] ??
+                      categoryCounts[cat.code.toLowerCase()] ??
+                      categoryCounts[cat.code.toUpperCase()] ??
+                      0;
+                const isChecked =
+                  selectedCategories.includes(cat.code) ||
+                  selectedCategories.includes(cat.code.toLowerCase()) ||
+                  selectedCategories.includes(cat.code.toUpperCase());
+                return count > 0 || isChecked;
+              })
+              .map((cat) => {
+                const isChecked =
+                  selectedCategories.includes(cat.code) ||
+                  selectedCategories.includes(cat.code.toLowerCase()) ||
+                  selectedCategories.includes(cat.code.toUpperCase());
 
-            const count =
-              typeof cat.count === "number"
-                ? cat.count
-                : categoryCounts[cat.code] ??
-                  categoryCounts[cat.code.toLowerCase()] ??
-                  categoryCounts[cat.code.toUpperCase()] ??
-                  0;
+                const count =
+                  typeof cat.count === "number"
+                    ? cat.count
+                    : categoryCounts[cat.code] ??
+                      categoryCounts[cat.code.toLowerCase()] ??
+                      categoryCounts[cat.code.toUpperCase()] ??
+                      0;
 
-            return (
-              <label
-                key={cat.code}
-                className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-sm transition-all cursor-pointer select-none ${
-                  isChecked
-                    ? "bg-azure-soft/25 text-azure-deep font-semibold"
-                    : "text-ink/80 hover:text-foreground hover:bg-surface-strong/60"
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={() => toggleCategory(cat.code)}
-                    className="size-4 rounded border-border text-azure-deep focus:ring-azure-deep cursor-pointer"
-                  />
-                  <span className="text-[13.5px] leading-tight">{cat.label}</span>
-                </div>
-                <span
-                  className={`text-xs px-2 py-0.5 rounded-full font-bold transition-colors ${
-                    isChecked
-                      ? "bg-azure text-white"
-                      : count > 0
-                      ? "bg-azure-soft/30 text-azure-deep"
-                      : "bg-surface-strong text-ink/40"
-                  }`}
-                >
-                  {count}
-                </span>
-              </label>
-            );
-          })}
+                return (
+                  <label
+                    key={cat.code}
+                    className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-sm transition-all cursor-pointer select-none ${
+                      isChecked
+                        ? "bg-azure-soft/25 text-azure-deep font-semibold"
+                        : "text-ink/80 hover:text-foreground hover:bg-surface-strong/60"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => toggleCategory(cat.code)}
+                        className="size-4 rounded border-border text-azure-deep focus:ring-azure-deep cursor-pointer"
+                      />
+                      <span className="text-[13.5px] leading-tight">{cat.label}</span>
+                    </div>
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full font-bold transition-colors ${
+                        isChecked
+                          ? "bg-azure text-white"
+                          : count > 0
+                          ? "bg-azure-soft/30 text-azure-deep"
+                          : "bg-surface-strong text-ink/40"
+                      }`}
+                    >
+                      {count}
+                    </span>
+                  </label>
+                );
+              })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* SESSION / YEAR */}
-      <div className="pt-2 border-t border-border/70">
-        <label className="block text-xs font-bold uppercase tracking-wider text-ink/80 mb-2.5">
-          SESSION / YEAR
-        </label>
-        <div className="space-y-1.5">
-          {sessionsList.map((item) => {
-            const sessYear = typeof item === "string" ? item : item.year;
-            const sessLabel = typeof item === "string" ? `${item} Session` : item.label || `${item.year} Session`;
-            const sessCount = typeof item === "string" ? (sessionCounts[sessYear] ?? 0) : item.count ?? sessionCounts[sessYear] ?? 0;
+      {sessionsList.filter((item) => {
+        const sessYear = typeof item === "string" ? item : item.year;
+        const sessCount =
+          typeof item === "string"
+            ? (sessionCounts[sessYear] ?? 0)
+            : item.count ?? sessionCounts[sessYear] ?? 0;
+        const isChecked = selectedSessions.includes(sessYear);
+        return sessCount > 0 || isChecked;
+      }).length > 0 && (
+        <div className="pt-2 border-t border-border/70">
+          <label className="block text-xs font-bold uppercase tracking-wider text-ink/80 mb-2.5">
+            SESSION / YEAR
+          </label>
+          <div className="space-y-1.5">
+            {sessionsList
+              .filter((item) => {
+                const sessYear = typeof item === "string" ? item : item.year;
+                const sessCount =
+                  typeof item === "string"
+                    ? (sessionCounts[sessYear] ?? 0)
+                    : item.count ?? sessionCounts[sessYear] ?? 0;
+                const isChecked = selectedSessions.includes(sessYear);
+                return sessCount > 0 || isChecked;
+              })
+              .map((item) => {
+                const sessYear = typeof item === "string" ? item : item.year;
+                const sessLabel =
+                  typeof item === "string" ? `${item} Session` : item.label || `${item.year} Session`;
+                const sessCount =
+                  typeof item === "string"
+                    ? (sessionCounts[sessYear] ?? 0)
+                    : item.count ?? sessionCounts[sessYear] ?? 0;
 
-            const isChecked = selectedSessions.includes(sessYear);
-            return (
-              <label
-                key={sessYear}
-                className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-sm transition-all cursor-pointer select-none ${
-                  isChecked
-                    ? "bg-rose-soft/25 text-rose-deep font-semibold"
-                    : "text-ink/80 hover:text-foreground hover:bg-surface-strong/60"
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={() => toggleSession(sessYear)}
-                    className="size-4 rounded border-border text-rose-deep focus:ring-rose cursor-pointer"
-                  />
-                  <span className="text-[13.5px] leading-tight">{sessLabel}</span>
-                </div>
-                <span
-                  className={`text-xs px-2 py-0.5 rounded-full font-bold transition-colors ${
-                    isChecked
-                      ? "bg-rose text-white"
-                      : sessCount > 0
-                      ? "bg-rose-soft/30 text-rose-deep"
-                      : "bg-surface-strong text-ink/40"
-                  }`}
-                >
-                  {sessCount}
-                </span>
-              </label>
-            );
-          })}
+                const isChecked = selectedSessions.includes(sessYear);
+                return (
+                  <label
+                    key={sessYear}
+                    className={`flex items-center justify-between py-1.5 px-2 rounded-lg text-sm transition-all cursor-pointer select-none ${
+                      isChecked
+                        ? "bg-rose-soft/25 text-rose-deep font-semibold"
+                        : "text-ink/80 hover:text-foreground hover:bg-surface-strong/60"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => toggleSession(sessYear)}
+                        className="size-4 rounded border-border text-rose-deep focus:ring-rose cursor-pointer"
+                      />
+                      <span className="text-[13.5px] leading-tight">{sessLabel}</span>
+                    </div>
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full font-bold transition-colors ${
+                        isChecked
+                          ? "bg-rose text-white"
+                          : sessCount > 0
+                          ? "bg-rose-soft/30 text-rose-deep"
+                          : "bg-surface-strong text-ink/40"
+                      }`}
+                    >
+                      {sessCount}
+                    </span>
+                  </label>
+                );
+              })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* PRICE RANGE */}
       <div className="pt-2 border-t border-border/70">

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowRight, Check, AlertCircle, Sparkles, ShieldCheck, Zap, Lock } from "lucide-react";
+import { ArrowRight, Check, AlertCircle, Sparkles, ShieldCheck, Zap, Lock, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface SummaryProps {
@@ -10,9 +10,10 @@ interface SummaryProps {
   discount: number;
   grandTotal: number;
   appliedPromo: string | null;
-  onApplyPromo: (code: string) => boolean;
+  onApplyPromo: (code: string) => Promise<{ success: boolean; message?: string }> | { success: boolean; message?: string } | boolean;
   onRemovePromo: () => void;
   onCheckout: () => void;
+  availablePromos?: Array<{ code: string; label: string }>;
 }
 
 export const OrderSummary: React.FC<SummaryProps> = ({
@@ -24,12 +25,19 @@ export const OrderSummary: React.FC<SummaryProps> = ({
   onApplyPromo,
   onRemovePromo,
   onCheckout,
+  availablePromos = [
+    { code: "IGNOU10", label: "IGNOU10 (10% OFF)" },
+    { code: "IGNOU20", label: "IGNOU20 (20% OFF)" },
+    { code: "FLAT100", label: "FLAT100 (₹100 OFF)" },
+    { code: "WELCOME50", label: "WELCOME50 (₹50 OFF)" },
+  ],
 }) => {
   const [promoInput, setPromoInput] = useState("");
   const [promoError, setPromoError] = useState<string | null>(null);
   const [promoSuccess, setPromoSuccess] = useState<string | null>(null);
+  const [isApplying, setIsApplying] = useState(false);
 
-  const applyCode = (codeToApply: string) => {
+  const applyCode = async (codeToApply: string) => {
     setPromoError(null);
     setPromoSuccess(null);
 
@@ -39,12 +47,26 @@ export const OrderSummary: React.FC<SummaryProps> = ({
       return;
     }
 
-    if (onApplyPromo(code)) {
-      const desc = code === "IGNOU10" ? "10% discount applied!" : "Flat ₹50 discount applied!";
-      setPromoSuccess(`Promo '${code}' active — ${desc}`);
-      setPromoInput("");
-    } else {
-      setPromoError("Invalid code. Try 'IGNOU10' or 'WELCOME50'.");
+    setIsApplying(true);
+    try {
+      const result = await onApplyPromo(code);
+      if (typeof result === "boolean") {
+        if (result) {
+          setPromoSuccess(`Promo '${code}' active!`);
+          setPromoInput("");
+        } else {
+          setPromoError("Invalid promo code.");
+        }
+      } else if (result && result.success) {
+        setPromoSuccess(result.message || `Promo '${code}' active!`);
+        setPromoInput("");
+      } else {
+        setPromoError(result?.message || "Invalid or expired promo code.");
+      }
+    } catch (err: any) {
+      setPromoError(err?.message || "Failed to validate promo code.");
+    } finally {
+      setIsApplying(false);
     }
   };
 
@@ -136,36 +158,44 @@ export const OrderSummary: React.FC<SummaryProps> = ({
                 type="text"
                 placeholder="PROMO CODE"
                 value={promoInput}
+                disabled={isApplying}
                 onChange={(e) => setPromoInput(e.target.value)}
-                className="h-9.5 grow px-3.5 rounded-lg ring-1 ring-border text-xs font-bold uppercase tracking-wider bg-surface-strong focus:outline-none focus:ring-2 focus:ring-azure-deep/50 text-foreground transition-all placeholder:text-ink/35"
+                className="h-9.5 grow px-3.5 rounded-lg ring-1 ring-border text-xs font-bold uppercase tracking-wider bg-surface-strong focus:outline-none focus:ring-2 focus:ring-azure-deep/50 text-foreground transition-all placeholder:text-ink/35 disabled:opacity-60"
               />
               <Button
                 type="submit"
                 variant="gradient"
-                className="h-9.5 rounded-lg font-bold px-5 text-xs  hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-95 cursor-pointer shrink-0"
+                disabled={isApplying}
+                className="h-9.5 rounded-lg font-bold px-4 text-xs hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-95 cursor-pointer shrink-0 disabled:opacity-60 flex items-center gap-1.5"
               >
-                Apply
+                {isApplying ? (
+                  <>
+                    <Loader2 className="size-3.5 animate-spin" />
+                    <span>Checking...</span>
+                  </>
+                ) : (
+                  <span>Apply</span>
+                )}
               </Button>
             </form>
 
             {/* Quick Promo Chips */}
-            <div className="flex items-center gap-1.5 text-[11px]">
-              <span className="text-ink/45 font-medium">Offers:</span>
-              <button
-                type="button"
-                onClick={() => applyCode("IGNOU10")}
-                className="px-2 py-0.5 rounded bg-surface-strong ring-1 ring-border hover:ring-azure-deep/40 text-azure-deep font-bold cursor-pointer transition-all hover:bg-glass"
-              >
-                IGNOU10 (10% OFF)
-              </button>
-              <button
-                type="button"
-                onClick={() => applyCode("WELCOME50")}
-                className="px-2 py-0.5 rounded bg-surface-strong ring-1 ring-border hover:ring-rose-deep/40 text-rose-deep font-bold cursor-pointer transition-all hover:bg-glass"
-              >
-                WELCOME50 (₹50 OFF)
-              </button>
-            </div>
+            {availablePromos.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                <span className="text-ink/45 font-medium">Offers:</span>
+                {availablePromos.map((p) => (
+                  <button
+                    key={p.code}
+                    type="button"
+                    disabled={isApplying}
+                    onClick={() => applyCode(p.code)}
+                    className="px-2 py-0.5 rounded bg-surface-strong ring-1 ring-border hover:ring-azure-deep/40 text-azure-deep font-bold cursor-pointer transition-all hover:bg-glass disabled:opacity-50"
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

@@ -23,6 +23,13 @@ const AddressPage = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [deliveryType, setDeliveryType] = useState<"PDF" | "Handwritten">("Handwritten");
   const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
+  const [promoInfo, setPromoInfo] = useState<{
+    code: string;
+    discountType?: string;
+    discountValue?: number;
+    discount?: number;
+    message?: string;
+  } | null>(null);
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
   const [shipping, setShipping] = useState({
     name: "",
@@ -84,21 +91,55 @@ const AddressPage = () => {
     }
 
     if (savedPromo) {
-      setAppliedPromo(savedPromo);
+      try {
+        const parsed = JSON.parse(savedPromo);
+        if (parsed && typeof parsed === "object" && parsed.code) {
+          setAppliedPromo(parsed.code);
+          setPromoInfo(parsed);
+        } else if (typeof savedPromo === "string") {
+          setAppliedPromo(savedPromo);
+        }
+      } catch {
+        setAppliedPromo(savedPromo);
+      }
     }
   }, [router]);
 
-  const handleApplyPromo = (code: string): boolean => {
-    if (code === "IGNOU10" || code === "WELCOME50") {
-      setAppliedPromo(code);
-      localStorage.setItem("ignou_cart_promo", code);
-      return true;
+  const handleApplyPromo = async (code: string): Promise<{ success: boolean; message?: string }> => {
+    try {
+      const res = await api.promos.validate(code, subtotal);
+      if (res && (res.valid || res.success)) {
+        const promoData = {
+          code: res.code || code.toUpperCase(),
+          discountType: res.discountType,
+          discountValue: Number(res.discountValue) || 0,
+          discount: Number(res.discount) || 0,
+          message: res.message,
+        };
+        setAppliedPromo(promoData.code);
+        setPromoInfo(promoData);
+        localStorage.setItem("ignou_cart_promo", JSON.stringify(promoData));
+        return {
+          success: true,
+          message: res.message || `Promo '${promoData.code}' applied successfully!`,
+        };
+      } else {
+        return {
+          success: false,
+          message: res?.message || "Invalid promo code.",
+        };
+      }
+    } catch (err: any) {
+      return {
+        success: false,
+        message: err?.message || "Failed to validate promo code.",
+      };
     }
-    return false;
   };
 
   const handleRemovePromo = () => {
     setAppliedPromo(null);
+    setPromoInfo(null);
     localStorage.removeItem("ignou_cart_promo");
   };
 
@@ -155,6 +196,8 @@ const AddressPage = () => {
         shippingFee,
         discount,
         grandTotal,
+        appliedPromo: appliedPromo || undefined,
+        promoCode: appliedPromo || undefined,
       };
 
       const orderRes = await api.orders.create(orderPayload);
@@ -218,7 +261,27 @@ const AddressPage = () => {
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const shippingFee = cartItems.reduce((acc, item) => acc + 60 * item.quantity, 0);
-  const discount = appliedPromo === "IGNOU10" ? Math.round(subtotal * 0.1) : appliedPromo === "WELCOME50" ? Math.min(50, subtotal) : 0;
+  
+  const discount = React.useMemo(() => {
+    if (!appliedPromo) return 0;
+    if (promoInfo) {
+      if (promoInfo.discountType === "percentage" && promoInfo.discountValue) {
+        return Math.round((subtotal * promoInfo.discountValue) / 100);
+      }
+      if (promoInfo.discountType === "flat" && promoInfo.discountValue) {
+        return Math.min(promoInfo.discountValue, subtotal);
+      }
+      if (promoInfo.discount) {
+        return Math.min(promoInfo.discount, subtotal);
+      }
+    }
+    if (appliedPromo === "IGNOU10") return Math.round(subtotal * 0.1);
+    if (appliedPromo === "IGNOU20") return Math.round(subtotal * 0.2);
+    if (appliedPromo === "FLAT100") return Math.min(100, subtotal);
+    if (appliedPromo === "WELCOME50") return Math.min(50, subtotal);
+    return 0;
+  }, [appliedPromo, promoInfo, subtotal]);
+
   const grandTotal = Math.max(0, subtotal + shippingFee - discount);
 
   return (

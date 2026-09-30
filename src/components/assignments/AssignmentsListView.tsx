@@ -20,21 +20,6 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { fetchAssignmentsRequest } from "@/store/slices/assignmentsSlice";
 import { api } from "@/lib/api";
 
-const DEFAULT_CATEGORIES = [
-  { code: "BCA", label: "BCA Programs" },
-  { code: "MCA", label: "MCA Programs" },
-  { code: "MBA", label: "MBA Programs" },
-  { code: "BA", label: "BA Programs" },
-  { code: "B.Com", label: "B.Com Programs" },
-  { code: "B.Sc", label: "B.Sc Programs" },
-  { code: "M.Com", label: "M.Com Programs" },
-  { code: "MA English", label: "MA English Programs" },
-  { code: "PGDCA", label: "PGDCA Programs" },
-  { code: "DECE", label: "DECE Diploma" },
-];
-
-const SESSIONS_LIST = ["2025-26", "2024-25", "2023-24"];
-
 export function AssignmentsListView() {
   const searchParams = useSearchParams();
   const urlSearch = searchParams.get("search") ?? "";
@@ -53,10 +38,10 @@ export function AssignmentsListView() {
   const [page, setPage] = useState(1);
   const [dynamicCategories, setDynamicCategories] = useState<
     { code: string; label: string; count?: number }[]
-  >(DEFAULT_CATEGORIES);
+  >([]);
   const [dynamicSessions, setDynamicSessions] = useState<
     { year: string; label?: string; count?: number }[]
-  >(SESSIONS_LIST.map((year) => ({ year, label: `${year} Session`, count: 0 })));
+  >([]);
 
   // Fetch filter metadata (programs, categories, sessions with real counts) from API on mount
   useEffect(() => {
@@ -292,6 +277,65 @@ export function AssignmentsListView() {
     selectedSessions.length > 0 ||
     priceRange !== "all";
 
+  // Only show categories that have items (> 0) or are currently selected
+  const activeFilterCategories = useMemo(() => {
+    const list: { code: string; label: string; count?: number }[] = [];
+    const seen = new Set<string>();
+
+    // 1. From API filters
+    dynamicCategories.forEach((c) => {
+      const key = c.code.toLowerCase();
+      const count = typeof c.count === "number" ? c.count : (categoryCounts[c.code] ?? 0);
+      if ((count > 0 || selectedCategories.includes(c.code)) && !seen.has(key)) {
+        seen.add(key);
+        list.push({ ...c, count });
+      }
+    });
+
+    // 2. From actual current loaded items
+    assignmentItems.forEach((item) => {
+      const cat = item.category || "";
+      const key = cat.toLowerCase();
+      if (cat && !seen.has(key)) {
+        seen.add(key);
+        list.push({
+          code: cat,
+          label: item.categoryLabel || `${cat} Programs`,
+          count: categoryCounts[cat] || categoryCounts[key] || 1,
+        });
+      }
+    });
+
+    return list;
+  }, [dynamicCategories, assignmentItems, categoryCounts, selectedCategories]);
+
+  // Only show sessions that have items (> 0) or are currently selected
+  const activeFilterSessions = useMemo(() => {
+    const list: { year: string; label?: string; count?: number }[] = [];
+    const seen = new Set<string>();
+
+    dynamicSessions.forEach((s) => {
+      const count = typeof s.count === "number" ? s.count : (sessionCounts[s.year] ?? 0);
+      if ((count > 0 || selectedSessions.includes(s.year)) && !seen.has(s.year)) {
+        seen.add(s.year);
+        list.push({ ...s, count });
+      }
+    });
+
+    assignmentItems.forEach((item) => {
+      if (item.session && !seen.has(item.session)) {
+        seen.add(item.session);
+        list.push({
+          year: item.session,
+          label: `${item.session} Session`,
+          count: sessionCounts[item.session] || 1,
+        });
+      }
+    });
+
+    return list;
+  }, [dynamicSessions, assignmentItems, sessionCounts, selectedSessions]);
+
   const filterSidebarProps = {
     selectedCategories,
     toggleCategory,
@@ -299,8 +343,8 @@ export function AssignmentsListView() {
     toggleSession,
     priceRange,
     setPriceRange,
-    categoriesList: dynamicCategories,
-    sessionsList: dynamicSessions,
+    categoriesList: activeFilterCategories,
+    sessionsList: activeFilterSessions,
     categoryCounts,
     sessionCounts,
     hasActiveFilters,

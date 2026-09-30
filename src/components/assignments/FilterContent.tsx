@@ -24,19 +24,6 @@ interface SessionOption {
   count?: number;
 }
 
-const DEFAULT_PROGRAMS: ProgramOption[] = [
-  { code: "BCA", name: "BCA Programs" },
-  { code: "MCA", name: "MCA Programs" },
-  { code: "MBA", name: "MBA Programs" },
-  { code: "BA", name: "BA Programs" },
-];
-
-const DEFAULT_SESSIONS: SessionOption[] = [
-  { year: "2025-26", label: "2025-26 Session" },
-  { year: "2024-25", label: "2024-25 Session" },
-  { year: "2023-24", label: "2023-24 Session" },
-];
-
 const OPTS = [
   { value: "all", label: "All Prices" },
   { value: "under100", label: "Under ₹100" },
@@ -50,8 +37,8 @@ export const FilterContent: React.FC<FilterProps> = ({
   selectedYears, handleYearToggle, pricePreset, setPricePreset, minPrice, setMinPrice, maxPrice, setMaxPrice,
   hideSearch = false,
 }) => {
-  const [programs, setPrograms] = useState<ProgramOption[]>(DEFAULT_PROGRAMS);
-  const [sessions, setSessions] = useState<SessionOption[]>(DEFAULT_SESSIONS);
+  const [programs, setPrograms] = useState<ProgramOption[]>([]);
+  const [sessions, setSessions] = useState<SessionOption[]>([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -60,14 +47,14 @@ export const FilterContent: React.FC<FilterProps> = ({
         const data = await api.categories.filters();
         if (isMounted && data) {
           if (Array.isArray(data.programs) && data.programs.length > 0) {
-            setPrograms(data.programs);
+            setPrograms(data.programs.filter((p: any) => (typeof p.count === "number" ? p.count > 0 : true)));
           }
           if (Array.isArray(data.sessions) && data.sessions.length > 0) {
-            setSessions(data.sessions);
+            setSessions(data.sessions.filter((s: any) => (typeof s.count === "number" ? s.count > 0 : true)));
           }
         }
       } catch (e) {
-        // Use defaults if fetch fails
+        // Safe fallback
       }
     };
     fetchOptions();

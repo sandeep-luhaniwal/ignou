@@ -333,6 +333,25 @@ export const api = {
     },
   },
 
+  promos: {
+    validate: async (code: string, subtotal: number) => {
+      const response = await fetch(`${API_BASE_URL}/promos/validate`, {
+        method: "POST",
+        headers: getHeaders(),
+        body: JSON.stringify({ code: code.trim().toUpperCase(), subtotal }),
+      });
+      return await handleResponse(response);
+    },
+
+    list: async () => {
+      const response = await fetch(`${API_BASE_URL}/promos/admin/all`, {
+        method: "GET",
+        headers: getHeaders(),
+      });
+      return await handleResponse(response);
+    },
+  },
+
   orders: {
     create: async (orderData: {
       items: Array<{ id: string; code: string; price: number; quantity: number }>;
@@ -347,6 +366,8 @@ export const api = {
       shippingFee: number;
       discount: number;
       grandTotal: number;
+      appliedPromo?: string;
+      promoCode?: string;
     }) => {
       const response = await fetch(`${API_BASE_URL}/orders`, {
         method: "POST",
